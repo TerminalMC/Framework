@@ -2,5 +2,7 @@
   "screen.${mod_id}.title.default": "NotRyken MLT",
   "config.${mod_id}.options": "Main Options",
   "config.${mod_id}.options.val1": "Example value 1",
-  "config.${mod_id}.options.val2": "Example value 2"
+  "config.${mod_id}.options.val2": "Example value 2",
+  "keygroup.${mod_id}.main":  "NotRyken MLT",
+  "key.${mod_id}.main.example": "Example Key"
 }
