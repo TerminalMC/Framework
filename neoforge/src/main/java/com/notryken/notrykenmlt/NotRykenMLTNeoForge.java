@@ -1,7 +1,7 @@
 package com.notryken.notrykenmlt;
 
 import com.notryken.notrykenmlt.command.Commands;
-import com.notryken.notrykenmlt.gui.screen.ConfigScreen;
+import com.notryken.notrykenmlt.gui.screen.ConfigScreenProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.neoforged.api.distmarker.Dist;
@@ -21,7 +21,7 @@ public class NotRykenMLTNeoForge {
         // Config screen
         ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class,
                 () -> new ConfigScreenHandler.ConfigScreenFactory(
-                        (mc, parent) -> ConfigScreen.getConfigScreen(parent))
+                        (mc, parent) -> ConfigScreenProvider.getConfigScreen(parent))
                 );
 
         // Main initialization

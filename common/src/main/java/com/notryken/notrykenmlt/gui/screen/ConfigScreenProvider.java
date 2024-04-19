@@ -8,7 +8,7 @@ import net.minecraft.client.gui.screens.Screen;
 
 import static com.notryken.notrykenmlt.util.Localization.localized;
 
-public class ConfigScreen {
+public class ConfigScreenProvider {
     public static Screen getConfigScreen(Screen parent) {
         Config.Options options = Config.get().options;
 
