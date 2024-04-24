@@ -90,8 +90,8 @@ public class Config {
             Path file = DIR_PATH.resolve(FILE_NAME);
             Path tempFile = file.resolveSibling(file.getFileName() + ".tmp");
 
-            try (FileWriter fileWriter = new FileWriter(tempFile.toFile())) {
-                fileWriter.write(GSON.toJson(instance));
+            try (FileWriter writer = new FileWriter(tempFile.toFile())) {
+                writer.write(GSON.toJson(instance));
             }
             catch (IOException e) {
                 throw new IOException(e);

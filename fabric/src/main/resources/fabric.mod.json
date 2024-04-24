@@ -28,15 +28,15 @@
     "accessWidener": "${mod_id}.accesswidener",
 
     "depends": {
-        "java": "${java_versions_fabric}",
-        "minecraft": "${minecraft_versions_fabric}",
-        "fabricloader": "${fabric_loader_versions}",
-        "fabric-api": "${fabric_api_versions}"
+        "java": [$java_versions_fabric_list],
+        "minecraft": [$minecraft_versions_fabric_list],
+        "fabricloader": [$fabric_loader_versions_list],
+        "fabric-api": [$fabric_api_versions_list]
     },
 
     "recommends": {
-        "modmenu": "${modmenu_versions}",
-        "cloth-config": "${clothconfig_versions_fabric}"
+        "modmenu": [$modmenu_versions_list],
+        "cloth-config": [$clothconfig_versions_fabric_list]
     },
 
     "suggests": {},
