@@ -133,7 +133,7 @@ subprojects {
                 projectId = modrinth_id
                 versionNumber = mod_version
                 versionType = release_type
-                versionName = "[${capsLoader(name)}] ${mod_name} ${mod_version} for ${minecraft_version}"
+                versionName = "v${mod_version} for ${capsLoader(name)} ${minecraft_version}"
                 changelog = rootProject.file("changelog.md").text
                 uploadFile = name == "fabric" ? remapJar : jar
                 loaders = project.property("release_mod_loaders_${name}").split(",") as List
