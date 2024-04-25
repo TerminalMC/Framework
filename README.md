@@ -1,4 +1,4 @@
-<div align="center">
+<div align="center"><center>
 
 ## NotRyken MultiLoader Template
 
@@ -13,7 +13,7 @@
 
 Based on [Jaredlll08's MultiLoader Template](https://github.com/jaredlll08/MultiLoader-Template).
 
-</div>
+</center></div>
 
 ### Features
 
