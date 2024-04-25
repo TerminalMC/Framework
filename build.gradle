@@ -133,7 +133,7 @@ subprojects {
                 projectId = modrinth_id
                 versionNumber = mod_version
                 versionType = release_type
-                versionName = "v${mod_version} for ${capsLoader(name)} ${minecraft_version}"
+                versionName = "v${mod_version}-${capsLoader(name)}-${minecraft_version}"
                 changelog = rootProject.file("changelog.md").text
                 uploadFile = name == "fabric" ? remapJar : jar
                 loaders = project.property("release_mod_loaders_${name}").split(",") as List
@@ -157,9 +157,8 @@ subprojects {
                 }
                 dependencies = deps
             }
-            tasks.named("modrinth") {
-                dependsOn build
-            }
+            tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
+            tasks.modrinth.dependsOn(build)
             githubRelease {
                 def githubToken = dotenv().get("GITHUB_TOKEN")
                 if (githubToken == null) {
@@ -170,17 +169,15 @@ subprojects {
                 token = githubToken
                 owner = github_repo_owner
                 repo = github_repo
-                tagName = "v${mod_version}-${minecraft_version}-${name}"
+                tagName = "v${mod_version}-${name}-${minecraft_version}"
                 prerelease = release_type == "alpha" || release_type == "beta"
-                releaseName = "v${mod_version} for ${capsLoader(name)} ${minecraft_version}"
+                releaseName = "v${mod_version}-${capsLoader(name)}-${minecraft_version}"
                 body = rootProject.file("changelog.md").text
                 targetCommitish = grgitService.service.get().grgit.branch.current().name
                 overwrite = true
                 releaseAssets = jar.destinationDirectory.asFileTree.files
             }
-            tasks.named("githubRelease") {
-                dependsOn build
-            }
+            tasks.githubRelease.dependsOn(build)
         }
     }
 }
