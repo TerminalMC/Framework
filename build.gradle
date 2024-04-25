@@ -156,6 +156,7 @@ subprojects {
                     }
                 }
                 dependencies = deps
+                syncBodyFrom = rootProject.file("README.md").text
             }
             tasks.modrinth.dependsOn(tasks.modrinthSyncBody)
             tasks.modrinth.dependsOn(build)
