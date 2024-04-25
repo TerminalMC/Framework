@@ -49,8 +49,7 @@ common `build.gradle` for usage by the common subproject.
 
 ### License
 
-Except where otherwise stated, source files of NotRykenMLT are provided under the terms of the CC0 1.0 Universal 
-license. For more information, refer to the provided LICENSE file.
+[CC0-1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/legalcode)
 
 ### Contact
 
