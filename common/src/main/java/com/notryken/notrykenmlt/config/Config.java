@@ -75,7 +75,7 @@ public class Config {
     private static @Nullable Config load(Path file, Gson gson) {
         try (FileReader reader = new FileReader(file.toFile())) {
             return gson.fromJson(reader, Config.class);
-        } catch (IOException e) {
+        } catch (Exception e) {
             NotRykenMLT.LOG.error("Unable to load config.", e);
             return null;
         }
