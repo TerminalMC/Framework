@@ -1,29 +1,29 @@
-plugins {
-    id "java"
-    id "java-library"
-    id "idea"
-    id "maven-publish"
-    id "org.jetbrains.gradle.plugin.idea-ext" version "${ideaext_version}" // Required for NeoGradle
-    id "com.modrinth.minotaur" version "${minotaur_version}"
-    id "com.github.breadmoirai.github-release" version "${githubrelease_version}"
-    id "org.ajoberstar.grgit.service" version "${grgitservice_version}"
-}
-
 import com.modrinth.minotaur.dependencies.ModDependency
+
+plugins {
+    id("java")
+    id("java-library")
+    id("idea")
+    id("maven-publish")
+    id("org.jetbrains.gradle.plugin.idea-ext") version("${ideaext_version}") // Required for NeoGradle
+    id("com.modrinth.minotaur") version("${minotaur_version}")
+    id("com.github.breadmoirai.github-release") version("${githubrelease_version}")
+    id("org.ajoberstar.grgit.service") version("${grgitservice_version}")
+}
 
 subprojects {
     version = mod_version
     group = mod_group
 
-    apply plugin: "java"
-    apply plugin: "java-library"
-    apply plugin: "idea"
-    apply plugin: "maven-publish"
+    apply(plugin: "java")
+    apply(plugin: "java-library")
+    apply(plugin: "idea")
+    apply(plugin: "maven-publish")
 
     if (project.name != "common") {
-        apply plugin: "com.modrinth.minotaur"
-        apply plugin: "com.github.breadmoirai.github-release"
-        apply plugin: "org.ajoberstar.grgit.service"
+        apply(plugin: "com.modrinth.minotaur")
+        apply(plugin: "com.github.breadmoirai.github-release")
+        apply(plugin: "org.ajoberstar.grgit.service")
     }
 
     java.toolchain.languageVersion = JavaLanguageVersion.of(Integer.valueOf(java_version))

@@ -1,35 +1,57 @@
 package com.notryken.notrykenmlt.gui.screen;
 
-import com.notryken.notrykenmlt.config.Config;
-import me.shedaniel.clothconfig2.api.ConfigBuilder;
-import me.shedaniel.clothconfig2.api.ConfigCategory;
-import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.MultiLineTextWidget;
+import net.minecraft.client.gui.screens.ConfirmLinkScreen;
+import net.minecraft.client.gui.screens.OptionsSubScreen;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.CommonComponents;
 
 import static com.notryken.notrykenmlt.util.Localization.localized;
 
 public class ConfigScreenProvider {
     public static Screen getConfigScreen(Screen parent) {
-        Config.Options options = Config.get().options;
+        return ClothConfigScreenProvider.getConfigScreen(parent);
+    }
 
-        ConfigBuilder builder = ConfigBuilder.create()
-                .setParentScreen(parent)
-                .setTitle(localized("screen", "title.default"))
-                .setSavingRunnable(Config::save);
+    public static Screen getBackupScreen(Screen parent) {
+        return new BackupScreen(parent);
+    }
 
-        ConfigEntryBuilder eb = builder.entryBuilder();
-        ConfigCategory modSettings = builder.getOrCreateCategory(localized("config", "options"));
+    static class BackupScreen extends OptionsSubScreen {
+        public BackupScreen(Screen parent) {
+            super(parent, Minecraft.getInstance().options, localized("screen", "title.default"));
+        }
 
-        modSettings.addEntry(eb.startIntSlider(localized("config", "options.val1"), options.val1, 0, 10)
-                .setDefaultValue(options.defaultVal1)
-                .setSaveConsumer(val -> options.val1 = val)
-                .build());
+        @Override
+        public void init() {
+            MultiLineTextWidget messageWidget = new MultiLineTextWidget(
+                    width / 2 - 120, height / 2 - 40,
+                    localized("screen", "backup.message"),
+                    minecraft.font);
+            messageWidget.setMaxWidth(240);
+            messageWidget.setCentered(true);
+            addRenderableWidget(messageWidget);
 
-        modSettings.addEntry(eb.startStrField(localized("config", "options.val2"), options.val2)
-                .setDefaultValue(options.defaultVal2)
-                .setSaveConsumer(val -> options.val2 = val)
-                .build());
+            Button openLinkButton = Button.builder(localized("screen", "backup.openlink"),
+                            (button) -> minecraft.setScreen(new ConfirmLinkScreen(
+                                    (open) -> {
+                                        if (open) Util.getPlatform().openUri("https://modrinth.com/mod/9s6osm5g");
+                                        minecraft.setScreen(lastScreen);
+                                    }, "https://modrinth.com/mod/9s6osm5g", true)))
+                    .pos(width / 2 - 120, height / 2)
+                    .size(115, 20)
+                    .build();
+            addRenderableWidget(openLinkButton);
 
-        return builder.build();
+            Button exitButton = Button.builder(CommonComponents.GUI_OK,
+                            (button) -> onClose())
+                    .pos(width / 2 + 5, height / 2)
+                    .size(115, 20)
+                    .build();
+            addRenderableWidget(exitButton);
+        }
     }
 }

@@ -42,6 +42,7 @@ issueTrackerURL="${issues_url}" #optional:none
 
 [[dependencies.${mod_id}]]
   modId="cloth_config"
+  type="optional"
   versionRange="${clothconfig_versions_neoforge}"
   side="CLIENT"
 

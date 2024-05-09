@@ -1,5 +1,7 @@
 {
   "screen.${mod_id}.title.default": "NotRyken MLT",
+  "screen.${mod_id}.backup.message": "Install Cloth Config API to access mod options.",
+  "screen.${mod_id}.backup.openlink": "View on Modrinth",
   "config.${mod_id}.options": "Main Options",
   "config.${mod_id}.options.val1": "Example value 1",
   "config.${mod_id}.options.val2": "Example value 2",
