@@ -7,22 +7,21 @@ import net.minecraft.commands.CommandSourceStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.ConfigScreenHandler;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import net.neoforged.neoforge.event.TickEvent;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
 
 @Mod(NotRykenMLT.MOD_ID)
-@Mod.EventBusSubscriber(modid = NotRykenMLT.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = NotRykenMLT.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class NotRykenMLTNeoForge {
     public NotRykenMLTNeoForge() {
         // Config screen
-        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class,
-                () -> new ConfigScreenHandler.ConfigScreenFactory(
-                        (mc, parent) -> ConfigScreenProvider.getConfigScreen(parent))
-                );
+        ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class,
+                () -> (mc, parent) -> ConfigScreenProvider.getConfigScreen(parent));
 
         // Main initialization
         NotRykenMLT.init();
@@ -34,7 +33,7 @@ public class NotRykenMLTNeoForge {
         event.register(NotRykenMLT.EXAMPLE_KEY);
     }
 
-    @Mod.EventBusSubscriber(modid = NotRykenMLT.MOD_ID, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = NotRykenMLT.MOD_ID, value = Dist.CLIENT)
     static class ClientEventHandler {
         // Commands
         @SubscribeEvent
@@ -44,10 +43,8 @@ public class NotRykenMLTNeoForge {
 
         // Tick events
         @SubscribeEvent
-        public static void clientTickEvent(TickEvent.ClientTickEvent event) {
-            if(event.phase.equals(TickEvent.Phase.END)) {
-                NotRykenMLT.onEndTick(Minecraft.getInstance());
-            }
+        public static void clientTickEvent(ClientTickEvent.Post event) {
+            NotRykenMLT.onEndTick(Minecraft.getInstance());
         }
     }
 }

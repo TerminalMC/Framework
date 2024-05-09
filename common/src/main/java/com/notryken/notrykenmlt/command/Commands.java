@@ -11,8 +11,6 @@ import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.ColorArgument;
 import net.minecraft.commands.arguments.item.ItemArgument;
-import net.minecraft.commands.arguments.item.ItemParser;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.Item;
@@ -43,8 +41,6 @@ public class Commands<S> extends CommandDispatcher<S> {
                 .then(literal("name")
                         .then(literal("item")
                                 .then(argument("item", ItemArgument.item(buildContext))
-                                        .suggests((ctx, builder) -> ItemParser.fillSuggestions(
-                                                buildContext.holderLookup(Registries.ITEM), builder, false))
                                         .executes(ctx -> {
                                             Item item = ItemArgument.getItem(ctx, "item").getItem();
 
@@ -57,7 +53,6 @@ public class Commands<S> extends CommandDispatcher<S> {
                         )
                         .then(literal("color")
                                 .then(argument("color", ColorArgument.color())
-                                        .suggests((ctx, builder) -> ColorArgument.color().listSuggestions(ctx, builder))
                                         .executes(ctx -> {
                                             ChatFormatting color = ColorArgument.getColor(ctx, "color");
 
