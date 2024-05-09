@@ -36,7 +36,8 @@ public class Commands<S> extends CommandDispatcher<S> {
 
                                     mc.player.sendSystemMessage(msg);
                                     return Command.SINGLE_SUCCESS;
-                                }))
+                                })
+                        )
                 )
                 .then(literal("name")
                         .then(literal("item")
@@ -49,7 +50,8 @@ public class Commands<S> extends CommandDispatcher<S> {
 
                                             mc.player.sendSystemMessage(msg);
                                             return Command.SINGLE_SUCCESS;
-                                        }))
+                                        })
+                                )
                         )
                         .then(literal("color")
                                 .then(argument("color", ColorArgument.color())
@@ -61,7 +63,8 @@ public class Commands<S> extends CommandDispatcher<S> {
 
                                             mc.player.sendSystemMessage(msg);
                                             return Command.SINGLE_SUCCESS;
-                                        }))
+                                        })
+                                )
                         )
                 )
         );
