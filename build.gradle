@@ -199,16 +199,16 @@ static String capsLoader(String loader) {
 
 Map<String,String> dotenv() {
     def map = new HashMap<String,String>()
-    try {
         file(".env").readLines().each() {
-            if (!it.isBlank() && !it.startsWith("#")) {
-                def pos = it.indexOf("=")
-                def key = it.substring(0, pos)
-                def value = it.substring(pos + 1)
-                map.put(key, value)
+            try {
+                if (!it.isBlank() && !it.startsWith("#")) {
+                    def pos = it.indexOf("=")
+                    def key = it.substring(0, pos)
+                    def value = it.substring(pos + 1)
+                    map.put(key, value)
+                }
             }
+            catch (IOException ignored) {}
         }
-    }
-    catch (IOException ignored) {}
     return map
 }
