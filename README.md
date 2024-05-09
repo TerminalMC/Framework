@@ -10,7 +10,7 @@
 
 [![Modrinth Downloads](https://img.shields.io/modrinth/dt/<modrinth_id>?label=Modrinth%20Downloads&logo=modrinth&logoColor=%2300AF5C)](https://modrinth.com/mod/<modrinth_id>)
 
-A custom and relatively brittle adaptation of [Jaredlll08's MultiLoader Template](https://github.com/jaredlll08/MultiLoader-Template).
+A custom and relatively unstable adaptation of [Jaredlll08's MultiLoader Template](https://github.com/jaredlll08/MultiLoader-Template).
 
 </center></div>
 
