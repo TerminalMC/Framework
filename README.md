@@ -19,6 +19,7 @@ A custom and relatively unstable adaptation of [Jaredlll08's MultiLoader Templat
 - Configuration system using Cloth Config API
 - Example keybind registration
 - Example command registration
+- No IDE run configuration (i.e. slightly faster)
 
 ### Usage
 
