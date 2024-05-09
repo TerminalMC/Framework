@@ -9,6 +9,13 @@ import net.minecraft.client.gui.screens.Screen;
 import static com.notryken.notrykenmlt.util.Localization.localized;
 
 public class ClothConfigScreenProvider {
+    /**
+     * Builds and returns a Cloth Config options screen.
+     * @param parent the current screen.
+     * @return a new options {@link Screen}.
+     * @throws NoClassDefFoundError if the Cloth Config API mod is not
+     * available.
+     */
     static Screen getConfigScreen(Screen parent) {
         Config.Options options = Config.get().options;
 

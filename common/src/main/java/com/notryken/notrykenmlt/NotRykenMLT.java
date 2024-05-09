@@ -2,6 +2,7 @@ package com.notryken.notrykenmlt;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.notryken.notrykenmlt.config.Config;
+import com.notryken.notrykenmlt.gui.screen.ConfigScreenProvider;
 import com.notryken.notrykenmlt.util.ModLogger;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
@@ -29,9 +30,7 @@ public class NotRykenMLT {
 
     public static void onEndTick(Minecraft mc) {
         while (EXAMPLE_KEY.consumeClick()) {
-            if (mc.player != null) {
-                mc.player.sendSystemMessage(PREFIX.copy().append("But nothing happened."));
-            }
+            mc.setScreen(ConfigScreenProvider.getConfigScreen(mc.screen));
         }
     }
 }

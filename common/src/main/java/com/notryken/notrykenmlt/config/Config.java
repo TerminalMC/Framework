@@ -2,12 +2,15 @@ package com.notryken.notrykenmlt.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonParseException;
 import com.notryken.notrykenmlt.NotRykenMLT;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOError;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -76,6 +79,8 @@ public class Config {
         try (FileReader reader = new FileReader(file.toFile())) {
             return gson.fromJson(reader, Config.class);
         } catch (Exception e) {
+            // Catch Exception as errors in deserialization may not fall under
+            // IOException or JsonParseException, but should not crash the game.
             NotRykenMLT.LOG.error("Unable to load config.", e);
             return null;
         }

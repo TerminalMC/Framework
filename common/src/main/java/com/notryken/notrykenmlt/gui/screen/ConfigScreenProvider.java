@@ -11,13 +11,20 @@ import net.minecraft.network.chat.CommonComponents;
 
 import static com.notryken.notrykenmlt.util.Localization.localized;
 
+/**
+ * <p>Wraps {@link ClothConfigScreenProvider} and provides a backup screen for
+ * use when the Cloth Config mod is not loaded. This allows the dependency on
+ * Cloth Config to be defined as optional.</p>
+ */
 public class ConfigScreenProvider {
-    public static Screen getConfigScreen(Screen parent) {
-        return ClothConfigScreenProvider.getConfigScreen(parent);
-    }
 
-    public static Screen getBackupScreen(Screen parent) {
-        return new BackupScreen(parent);
+    public static Screen getConfigScreen(Screen parent) {
+        try {
+            return ClothConfigScreenProvider.getConfigScreen(parent);
+        }
+        catch (NoClassDefFoundError ignored) {
+            return new BackupScreen(parent);
+        }
     }
 
     static class BackupScreen extends OptionsSubScreen {

@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
@@ -22,12 +21,7 @@ public class NotRykenMLTNeoForge {
     public NotRykenMLTNeoForge() {
         // Config screen
         ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class,
-                () -> (mc, parent) -> {
-                    if (ModList.get().isLoaded("cloth_config")) {
-                        return ConfigScreenProvider.getConfigScreen(parent);
-                    }
-                    return ConfigScreenProvider.getBackupScreen(parent);
-                });
+                () -> (mc, parent) -> ConfigScreenProvider.getConfigScreen(parent));
 
         // Main initialization
         NotRykenMLT.init();
