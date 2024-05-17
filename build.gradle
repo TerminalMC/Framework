@@ -110,7 +110,7 @@ subprojects {
                 "contact_url": contact_url
         ]
 
-        filesMatching(["pack.mcmeta", "*.mod.json", "META-INF/*.mods.toml", "*.mixins.json", "assets/"+mod_id+"/lang/*.json"]) {
+        filesMatching(["pack.mcmeta", "*.mod.json", "META-INF/*mods.toml", "*.mixins.json", "assets/"+mod_id+"/lang/*.json"]) {
             expand expandProps
         }
         inputs.properties(expandProps)
@@ -176,7 +176,7 @@ subprojects {
                 body = rootProject.file("changelog.md").text
                 targetCommitish = grgitService.service.get().grgit.branch.current().name
                 overwrite = true
-                releaseAssets = jar.destinationDirectory.asFileTree.files
+                releaseAssets = List.of(name == "fabric" ? remapJar : jar, sourcesJar)
             }
             tasks.githubRelease.dependsOn(build)
         }
