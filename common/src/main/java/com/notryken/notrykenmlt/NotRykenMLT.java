@@ -21,8 +21,8 @@ public class NotRykenMLT {
             .append(Component.literal("] ").withStyle(ChatFormatting.DARK_GRAY))
             .withStyle(ChatFormatting.GRAY);
     public static final KeyMapping EXAMPLE_KEY = new KeyMapping(
-            translationKey("key", "main.example"), InputConstants.Type.KEYSYM,
-            InputConstants.UNKNOWN.getValue(), translationKey("keygroup", "main"));
+            translationKey("key", "example"), InputConstants.Type.KEYSYM,
+            InputConstants.UNKNOWN.getValue(), translationKey("key_group"));
 
     public static void init() {
         Config.getAndSave();
@@ -32,5 +32,9 @@ public class NotRykenMLT {
         while (EXAMPLE_KEY.consumeClick()) {
             mc.setScreen(ConfigScreenProvider.getConfigScreen(mc.screen));
         }
+    }
+
+    public static void onConfigSaved(Config config) {
+        // If you are maintaining caches based on config values, update them here.
     }
 }

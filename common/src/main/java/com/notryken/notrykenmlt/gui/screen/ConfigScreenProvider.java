@@ -29,20 +29,20 @@ public class ConfigScreenProvider {
 
     static class BackupScreen extends OptionsSubScreen {
         public BackupScreen(Screen parent) {
-            super(parent, Minecraft.getInstance().options, localized("screen", "title.default"));
+            super(parent, Minecraft.getInstance().options, localized("screen", "default"));
         }
 
         @Override
         public void init() {
             MultiLineTextWidget messageWidget = new MultiLineTextWidget(
                     width / 2 - 120, height / 2 - 40,
-                    localized("screen", "backup.message"),
+                    localized("message", "install_cloth"),
                     minecraft.font);
             messageWidget.setMaxWidth(240);
             messageWidget.setCentered(true);
             addRenderableWidget(messageWidget);
 
-            Button openLinkButton = Button.builder(localized("screen", "backup.openlink"),
+            Button openLinkButton = Button.builder(localized("message", "go_modrinth"),
                             (button) -> minecraft.setScreen(new ConfirmLinkScreen(
                                     (open) -> {
                                         if (open) Util.getPlatform().openUri("https://modrinth.com/mod/9s6osm5g");
