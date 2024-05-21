@@ -23,26 +23,31 @@ A custom and relatively unstable adaptation of [Jaredlll08's MultiLoader Templat
 
 ### Usage
 
-This template is provided as-is, without any warranty or guarantee of support or maintenance. If you choose to use this
-template, you do so at your own risk.
+This template is provided as-is, without any warranty or guarantee of support or maintenance. If 
+you choose to use this template, you do so at your own risk.
 
 <img src="" width="500" alt="Example Image">
 
-#### Changing Project Name (IntelliJ IDEA)
+#### Changing Project Details (IntelliJ IDEA)
 
 1. Change the root directory name, and `rootProject.name` in `settings.gradle`, then
 2. `SHIFT`+`F6` to rename files (and classes), then
-3. `CTRL`+`SHIFT`+`R` with scope `In Project` for `NotRykenMLT`, `notrykenmlt` and `<modrinth_id>`.
+3. `CTRL`+`SHIFT`+`R` with scope `In Project` for 
+   - `NotRykenMLT`
+   - `notrykenmlt`
+   - `<modrinth_id>`
+   - `<discord_id>`
 
 #### Dependencies
 
-- Mod dependencies must be specified in the loader-specific `build.gradle`. API mods may also be specified in the 
-common `build.gradle` for usage by the common subproject.
+- Mod dependencies must be specified in the loader-specific `build.gradle`. API mods may also be 
+specified in the common `build.gradle` for usage by the common subproject.
 
 - Dependency repositories must be specified in the root `build.gradle`.
 
-- Dependency version and compatible version ranges must be added to `gradle.properties` and the root `build.gradle` 
-`expandProps` map, to allow importing by `fabric.mod.json` and `mods.toml`.
+- Dependency version and compatible version ranges must be added to `gradle.properties` and the
+root `build.gradle` `expandProps` map, to allow importing by `fabric.mod.json` and 
+`neoforge.mods.toml`.
 
 - This template depends on [ModMenu](https://modrinth.com/mod/mOgUt4GM/) (Fabric) and 
 [Cloth Config API](https://modrinth.com/mod/9s6osm5g/) (Fabric and NeoForge) by default.
@@ -60,6 +65,6 @@ common `build.gradle` for usage by the common subproject.
 
 ### Contact
 
-[![Discord](https://img.shields.io/discord/1103153365216669797?logo=discord&label=Discord&color=%235865F2)](https://discord.gg/sSgQ9AF4mU)
+[![Discord](https://img.shields.io/discord/1103153365216669797?logo=discord&label=Discord&color=%235865F2)](https://discord.gg/<discord_id>)
 
 [![GitHub Issues](https://img.shields.io/github/issues/NotRyken/NotRykenMLT?logo=github&label=Issues)](https://github.com/NotRyken/NotRykenMLT/issues)
