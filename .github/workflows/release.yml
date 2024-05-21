@@ -1,4 +1,5 @@
-name: release
+# Builds the project and publishes the artifacts to GitHub and Modrinth
+name: Release
 
 on: [workflow_dispatch]
 
@@ -7,7 +8,7 @@ jobs:
     strategy:
       matrix:
         java: [21]
-        os: [ubuntu-22.04]
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
@@ -30,7 +31,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_API_KEY }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
       - name: Capture build artifacts
-        if: ${{ runner.os == 'Linux' && matrix.java == '21' }} # Only upload artifacts built from LTS java on one OS
+        if: ${{ runner.os == 'Linux' && matrix.java == '21' }}
         uses: actions/upload-artifact@v4
         with:
           name: Artifacts

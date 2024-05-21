@@ -1,3 +1,4 @@
+# Builds the project on Linux and Windows as a partial defence against bad commits
 name: Check Build
 
 on: [push, pull_request, workflow_dispatch]
@@ -7,7 +8,7 @@ jobs:
     strategy:
       matrix:
         java: [21]
-        os: [ubuntu-22.04, windows-2022]
+        os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
@@ -27,7 +28,7 @@ jobs:
       - name: Build
         run: ./gradlew build --stacktrace --parallel
       - name: Capture build artifacts
-        if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from LTS java on one OS
+        if: ${{ runner.os == 'Linux' && matrix.java == '21' }}
         uses: actions/upload-artifact@v4
         with:
           name: Artifacts
