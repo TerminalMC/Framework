@@ -1,4 +1,4 @@
-name: sync-labels
+name: Sync Labels
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   sync:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       LABEL_SYNC_TOKEN: ${{ secrets.LABEL_SYNC_TOKEN }}
     steps:
