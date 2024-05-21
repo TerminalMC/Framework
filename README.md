@@ -24,14 +24,15 @@ A custom and relatively unstable template mod, built on [Jaredlll08's MultiLoade
 
 ### Usage
 
-This template is provided as-is, without any warranty or guarantee of support or maintenance. If 
-you choose to use this template, you do so at your own risk.
+This project was created and is maintained for my own use, so consider it provided as-is, without 
+any warranty or guarantee of support or maintenance. If you choose to use it, you do so at your own
+risk.
 
 <img src="" width="500" alt="Example Image">
 
 #### Changing Project Details (IntelliJ IDEA)
 
-1. Change the root directory name, and `rootProject.name` in `settings.gradle`, then
+1. Change the root directory name, then
 2. `SHIFT`+`F6` to rename packages, classes and files, then
 3. `CTRL`+`SHIFT`+`R` with scope `In Project` for 
    - `Framework`
