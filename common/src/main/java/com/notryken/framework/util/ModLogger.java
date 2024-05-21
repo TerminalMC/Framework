@@ -1,4 +1,4 @@
-package com.notryken.notrykenmlt.util;
+package com.notryken.framework.util;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;

@@ -1,9 +1,9 @@
-package com.notryken.notrykenmlt.config;
+package com.notryken.framework.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mojang.blaze3d.platform.InputConstants;
-import com.notryken.notrykenmlt.NotRykenMLT;
+import com.notryken.framework.Framework;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +19,7 @@ import java.util.List;
 
 public class Config {
     private static final Path DIR_PATH = Path.of("config");
-    private static final String FILE_NAME = NotRykenMLT.MOD_ID + ".json";
+    private static final String FILE_NAME = Framework.MOD_ID + ".json";
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     // Options
@@ -107,7 +107,7 @@ public class Config {
         } catch (Exception e) {
             // Catch Exception as errors in deserialization may not fall under
             // IOException or JsonParseException, but should not crash the game.
-            NotRykenMLT.LOG.error("Unable to load config.", e);
+            Framework.LOG.error("Unable to load config.", e);
             return null;
         }
     }
@@ -125,9 +125,9 @@ public class Config {
             }
             Files.move(tempFile, file, StandardCopyOption.ATOMIC_MOVE,
                     StandardCopyOption.REPLACE_EXISTING);
-            NotRykenMLT.onConfigSaved(instance);
+            Framework.onConfigSaved(instance);
         } catch (IOException e) {
-            NotRykenMLT.LOG.error("Unable to save config.", e);
+            Framework.LOG.error("Unable to save config.", e);
         }
     }
 }

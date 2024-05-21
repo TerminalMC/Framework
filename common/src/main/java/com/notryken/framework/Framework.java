@@ -1,19 +1,19 @@
-package com.notryken.notrykenmlt;
+package com.notryken.framework;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import com.notryken.notrykenmlt.config.Config;
-import com.notryken.notrykenmlt.gui.screen.ConfigScreenProvider;
-import com.notryken.notrykenmlt.util.ModLogger;
+import com.notryken.framework.config.Config;
+import com.notryken.framework.gui.screen.ConfigScreenProvider;
+import com.notryken.framework.util.ModLogger;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 
-import static com.notryken.notrykenmlt.util.Localization.translationKey;
+import static com.notryken.framework.util.Localization.translationKey;
 
-public class NotRykenMLT {
-    public static final String MOD_ID = "notrykenmlt";
-    public static final String MOD_NAME = "NotRykenMLT";
+public class Framework {
+    public static final String MOD_ID = "framework";
+    public static final String MOD_NAME = "Framework";
     public static final ModLogger LOG = new ModLogger(MOD_NAME);
     public static final Component PREFIX = Component.empty()
             .append(Component.literal("[").withStyle(ChatFormatting.DARK_GRAY))

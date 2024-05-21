@@ -1,6 +1,6 @@
-package com.notryken.notrykenmlt.mixin;
+package com.notryken.framework.mixin;
 
-import com.notryken.notrykenmlt.NotRykenMLT;
+import com.notryken.framework.Framework;
 import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,7 +12,7 @@ public class MixinMinecraft {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void init(CallbackInfo info) {
-        NotRykenMLT.LOG.info("This line is printed by an example mod common mixin!");
-        NotRykenMLT.LOG.info("MC Version: {}", Minecraft.getInstance().getVersionType());
+        Framework.LOG.info("This line is printed by an example mod common mixin!");
+        Framework.LOG.info("MC Version: {}", Minecraft.getInstance().getVersionType());
     }
 }

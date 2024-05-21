@@ -1,16 +1,16 @@
-package com.notryken.notrykenmlt.util;
+package com.notryken.framework.util;
 
-import com.notryken.notrykenmlt.NotRykenMLT;
+import com.notryken.framework.Framework;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
 public final class Localization {
     public static String translationKey(String path) {
-        return NotRykenMLT.MOD_ID + "." + path;
+        return Framework.MOD_ID + "." + path;
     }
 
     public static String translationKey(String domain, String path) {
-        return domain + "." + NotRykenMLT.MOD_ID + "." + path;
+        return domain + "." + Framework.MOD_ID + "." + path;
     }
 
     public static MutableComponent localized(String path, Object... args) {

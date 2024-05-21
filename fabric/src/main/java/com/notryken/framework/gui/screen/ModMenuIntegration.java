@@ -1,4 +1,4 @@
-package com.notryken.notrykenmlt.gui.screen;
+package com.notryken.framework.gui.screen;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;

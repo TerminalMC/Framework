@@ -1,8 +1,8 @@
-package com.notryken.notrykenmlt.gui.screen;
+package com.notryken.framework.gui.screen;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import com.notryken.notrykenmlt.NotRykenMLT;
-import com.notryken.notrykenmlt.config.Config;
+import com.notryken.framework.Framework;
+import com.notryken.framework.config.Config;
 import me.shedaniel.clothconfig2.api.*;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.client.gui.screens.Screen;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.notryken.notrykenmlt.util.Localization.localized;
+import static com.notryken.framework.util.Localization.localized;
 
 public class ClothConfigScreenProvider {
     /**
@@ -30,7 +30,7 @@ public class ClothConfigScreenProvider {
         ConfigBuilder builder = ConfigBuilder.create()
                 .setParentScreen(parent)
                 .setTitle(localized("screen", "options"))
-                .setSavingRunnable(() -> NotRykenMLT.onConfigSaved(Config.getAndSave()));
+                .setSavingRunnable(() -> Framework.onConfigSaved(Config.getAndSave()));
 
         ConfigEntryBuilder eb = builder.entryBuilder();
         ConfigCategory cat1 = builder.getOrCreateCategory(localized("option", "category.category1"));

@@ -1,4 +1,4 @@
-package com.notryken.notrykenmlt.gui.screen;
+package com.notryken.framework.gui.screen;
 
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -9,7 +9,7 @@ import net.minecraft.client.gui.screens.OptionsSubScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 
-import static com.notryken.notrykenmlt.util.Localization.localized;
+import static com.notryken.framework.util.Localization.localized;
 
 /**
  * <p>Wraps {@link ClothConfigScreenProvider} and provides a backup screen for

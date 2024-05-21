@@ -1,6 +1,6 @@
 <div align="center"><center>
 
-## NotRyken MultiLoader Template
+## Framework
 
 [![Environment](https://img.shields.io/badge/Environment-Client-purple)]()
 [![Latest Minecraft](https://img.shields.io/modrinth/game-versions/<modrinth_id>?label=Latest%20Minecraft&color=%2300AF5C)](https://modrinth.com/mod/<modrinth_id>/versions)
@@ -10,15 +10,16 @@
 
 [![Modrinth Downloads](https://img.shields.io/modrinth/dt/<modrinth_id>?label=Modrinth%20Downloads&logo=modrinth&logoColor=%2300AF5C)](https://modrinth.com/mod/<modrinth_id>)
 
-A custom and relatively unstable adaptation of [Jaredlll08's MultiLoader Template](https://github.com/jaredlll08/MultiLoader-Template).
+A custom and relatively unstable template mod, built on [Jaredlll08's MultiLoader Template](https://github.com/jaredlll08/MultiLoader-Template).
 
 </center></div>
 
 ### Features
 
 - Configuration system using Cloth Config API
-- Example keybind registration
-- Example command registration
+- Keybind registration
+- Command registration
+- GitHub and Modrinth publishing
 - No IDE run configuration (i.e. slightly faster)
 
 ### Usage
@@ -31,12 +32,19 @@ you choose to use this template, you do so at your own risk.
 #### Changing Project Details (IntelliJ IDEA)
 
 1. Change the root directory name, and `rootProject.name` in `settings.gradle`, then
-2. `SHIFT`+`F6` to rename files (and classes), then
+2. `SHIFT`+`F6` to rename packages, classes and files, then
 3. `CTRL`+`SHIFT`+`R` with scope `In Project` for 
-   - `NotRykenMLT`
-   - `notrykenmlt`
+   - `Framework`
+   - `framework`
    - `<modrinth_id>`
    - `<discord_id>`
+   - If you're not NotRyken
+     - `https://linktr.ee/notryken`
+     - `NotRyken`
+     - `notryken`
+4. Note that `NotRyken` is used for both the author's name and the GitHub repo owner, so if you 
+have two different names or are part of an organization you'll need to refine your replacing 
+searches accordingly.
 
 #### Dependencies
 
@@ -67,4 +75,4 @@ root `build.gradle` `expandProps` map, to allow importing by `fabric.mod.json` a
 
 [![Discord](https://img.shields.io/discord/1103153365216669797?logo=discord&label=Discord&color=%235865F2)](https://discord.gg/<discord_id>)
 
-[![GitHub Issues](https://img.shields.io/github/issues/NotRyken/NotRykenMLT?logo=github&label=Issues)](https://github.com/NotRyken/NotRykenMLT/issues)
+[![GitHub Issues](https://img.shields.io/github/issues/NotRyken/Framework?logo=github&label=Issues)](https://github.com/NotRyken/Framework/issues)

@@ -1,6 +1,6 @@
-package com.notryken.notrykenmlt.mixin;
+package com.notryken.framework.mixin;
 
-import com.notryken.notrykenmlt.NotRykenMLT;
+import com.notryken.framework.Framework;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.TitleScreen;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,7 +13,7 @@ public class MixinTitleScreen {
 
     @Inject(method = "init()V", at = @At("HEAD"))
     private void init(CallbackInfo info) {
-        NotRykenMLT.LOG.info("This line is printed by an example mod mixin from NeoForge!");
-        NotRykenMLT.LOG.info("MC Version: {}", Minecraft.getInstance().getVersionType());
+        Framework.LOG.info("This line is printed by an example mod mixin from NeoForge!");
+        Framework.LOG.info("MC Version: {}", Minecraft.getInstance().getVersionType());
     }
 }

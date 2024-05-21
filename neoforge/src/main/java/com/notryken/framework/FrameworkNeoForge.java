@@ -1,7 +1,7 @@
-package com.notryken.notrykenmlt;
+package com.notryken.framework;
 
-import com.notryken.notrykenmlt.command.Commands;
-import com.notryken.notrykenmlt.gui.screen.ConfigScreenProvider;
+import com.notryken.framework.command.Commands;
+import com.notryken.framework.gui.screen.ConfigScreenProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.neoforged.api.distmarker.Dist;
@@ -15,25 +15,25 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
 
-@Mod(NotRykenMLT.MOD_ID)
-@EventBusSubscriber(modid = NotRykenMLT.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class NotRykenMLTNeoForge {
-    public NotRykenMLTNeoForge() {
+@Mod(Framework.MOD_ID)
+@EventBusSubscriber(modid = Framework.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+public class FrameworkNeoForge {
+    public FrameworkNeoForge() {
         // Config screen
         ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class,
                 () -> (mc, parent) -> ConfigScreenProvider.getConfigScreen(parent));
 
         // Main initialization
-        NotRykenMLT.init();
+        Framework.init();
     }
 
     // Keybindings
     @SubscribeEvent
     static void registerKeyMappingsEvent(RegisterKeyMappingsEvent event) {
-        event.register(NotRykenMLT.EXAMPLE_KEY);
+        event.register(Framework.EXAMPLE_KEY);
     }
 
-    @EventBusSubscriber(modid = NotRykenMLT.MOD_ID, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = Framework.MOD_ID, value = Dist.CLIENT)
     static class ClientEventHandler {
         // Commands
         @SubscribeEvent
@@ -44,7 +44,7 @@ public class NotRykenMLTNeoForge {
         // Tick events
         @SubscribeEvent
         public static void clientTickEvent(ClientTickEvent.Post event) {
-            NotRykenMLT.onEndTick(Minecraft.getInstance());
+            Framework.onEndTick(Minecraft.getInstance());
         }
     }
 }
