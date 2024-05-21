@@ -28,7 +28,7 @@ body:
       description: >-
         Specify the version(s) of the mod in which you have identified this issue.
         
-        **Hint:** Example: `v1.2.0-Fabric-1.20.6`
+        **Example:** `v1.2.0-Fabric-1.20.6`
     validations:
       required: true
   - type: input
@@ -38,7 +38,7 @@ body:
       description: >-
         Specify the mod loader(s) in which you have identified this issue.
 
-        **Hint:** Example: `Fabric`
+        **Example:** `Fabric`
     validations:
       required: true
   - type: input
@@ -48,7 +48,7 @@ body:
       description: >-
         Specify the Minecraft version(s) in which you have identified this issue.
 
-        **Hint:** Example: `1.20.6`
+        **Example:** `1.20.6`
     validations:
       required: true
   - type: textarea
