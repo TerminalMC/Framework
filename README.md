@@ -42,9 +42,8 @@ you choose to use this template, you do so at your own risk.
      - `https://linktr.ee/notryken`
      - `NotRyken`
      - `notryken`
-4. Note that `NotRyken` is used for both the author's name and the GitHub repo owner, so if you 
-have two different names or are part of an organization you'll need to refine your replacing 
-searches accordingly.
+   - Note that `NotRyken` is used for both the author's name and the GitHub repo owner, so if you 
+   have two different names you'll need to refine your replacing searches accordingly.
 
 #### Dependencies
 
