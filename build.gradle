@@ -123,8 +123,7 @@ subprojects {
     afterEvaluate {
         if (name != "common") {
             modrinth {
-                if (!System.getenv().MODRINTH_TOKEN) return
-                token = System.getenv().MODRINTH_TOKEN
+                token = System.getenv().MODRINTH_TOKEN ? System.getenv().MODRINTH_TOKEN : "empty"
                 projectId = modrinth_id
                 versionNumber = mod_version
                 versionType = release_type
@@ -155,10 +154,10 @@ subprojects {
             }
             tasks.modrinth.onlyIf { System.getenv().MODRINTH_TOKEN }
             tasks.modrinth.dependsOn(build, tasks.modrinthSyncBody)
+            tasks.modrinthSyncBody.onlyIf { System.getenv().MODRINTH_TOKEN }
 
             githubRelease {
-                if (!System.getenv().GITHUB_TOKEN) return
-                token = System.getenv().GITHUB_TOKEN
+                token = System.getenv().GITHUB_TOKEN ? System.getenv().GITHUB_TOKEN : "empty"
                 owner = github_repo_owner
                 repo = github_repo
                 tagName = "v${mod_version}"
@@ -172,6 +171,7 @@ subprojects {
             }
             tasks.githubRelease.onlyIf { System.getenv().GITHUB_TOKEN }
             tasks.githubRelease.dependsOn(build)
+
         }
     }
 }
