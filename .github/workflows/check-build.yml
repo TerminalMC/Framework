@@ -1,7 +1,20 @@
 # Builds the project on Linux and Windows as a partial defence against bad commits
 name: Check Build
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    paths: [
+      '**src/**',
+      '**/*gradle*',
+      LICENSE
+    ]
+  pull_request:
+    paths: [
+      '**src/**',
+      '**/*gradle*',
+      LICENSE
+    ]
+  workflow_dispatch:
 
 jobs:
   build:
