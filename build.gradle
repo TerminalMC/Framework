@@ -163,7 +163,7 @@ subprojects {
                 repo = github_repo
                 tagName = "v${mod_version}"
                 prerelease = release_type == "alpha" || release_type == "beta"
-                releaseName = "v${mod_version}"
+                releaseName = "v${mod_version} for ${minecraft_version}"
                 body = rootProject.file("changelog.md").text
                 targetCommitish = grgitService.service.get().grgit.branch.current().name
                 overwrite = false
