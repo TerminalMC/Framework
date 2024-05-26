@@ -1,11 +1,11 @@
 {
-  "screen.${mod_id}.default": "Foundation",
-  "screen.${mod_id}.options": "Foundation Options",
+  "screen.${mod_id}.default": "Framework",
+  "screen.${mod_id}.options": "Framework Options",
 
   "message.${mod_id}.install_cloth": "Install Cloth Config API to access mod options.",
   "message.${mod_id}.go_modrinth": "View on Modrinth",
 
-  "${mod_id}.key_group":  "Foundation",
+  "${mod_id}.key_group":  "Framework",
   "key.${mod_id}.example": "Example Key",
 
   "config.${mod_id}.options": "Main Options",
