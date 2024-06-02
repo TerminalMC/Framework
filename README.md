@@ -28,7 +28,7 @@ This project was created and is maintained for my own use, so consider it provid
 any warranty or guarantee of support or maintenance. If you choose to use it, you do so at your own
 risk.
 
-<img src="" width="500" alt="Example Image">
+<img src="https://github.com/NotRyken/Framework/blob/HEAD/common/src/main/resources/assets/framework/icon.png" width="100" alt="Example Image">
 
 #### Changing Project Details (IntelliJ IDEA)
 
