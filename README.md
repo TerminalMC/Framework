@@ -62,13 +62,6 @@ root `build.gradle` `expandProps` map, to allow importing by `fabric.mod.json` a
 - This template depends on [ModMenu](https://modrinth.com/mod/mOgUt4GM/) (Fabric) and 
 [Cloth Config API](https://modrinth.com/mod/9s6osm5g/) (Fabric and NeoForge) by default.
 
-## Compatibility
-
-- Fabric: Yes 
-- NeoForge: Yes
-- Quilt: Depends (on the phase of the moon)
-- Forge: No
-
 ## License
 
 [CC0-1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/legalcode)
