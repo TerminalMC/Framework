@@ -171,7 +171,6 @@ subprojects {
             }
             tasks.githubRelease.onlyIf { System.getenv().GITHUB_TOKEN }
             tasks.githubRelease.dependsOn(build)
-
         }
     }
 }

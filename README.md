@@ -26,9 +26,13 @@ A custom and relatively unstable template mod, built on [Jaredlll08's MultiLoade
 - GitHub and Modrinth publishing
 - No IDE run configuration (i.e. slightly faster)
 
+<img alt="Command Showcase" height=100 src="https://github.com/NotRyken/Framework/blob/HEAD/assets/images/showcase/command_01.png">
+<img alt="Config Showcase" height=100 src="https://github.com/NotRyken/Framework/blob/HEAD/assets/images/showcase/config_01.png">
+<img alt="Config Showcase" height=100 src="https://github.com/NotRyken/Framework/blob/HEAD/assets/images/showcase/config_02.png">
+
 ## Usage
 
-This project was created and is maintained for my own use, so consider it provided as-is, without 
+This project was created and is maintained for private use, so consider it provided as-is, without 
 any warranty or guarantee of support or maintenance. If you choose to use it, you do so at your own
 risk.
 
@@ -36,13 +40,14 @@ risk.
 
 1. Change the root directory name, then
 2. `SHIFT`+`F6` to rename packages, classes and files, then
-3. `CTRL`+`SHIFT`+`R` with scope `In Project` for 
-   - `Framework`
-   - `framework`
-   - `<modrinth_id>`
-   - `<discord_id>`
+3. `CTRL`+`SHIFT`+`R` case-sensitive with scope `In Project` to replace:
+   - `Framework` -> `Mod name`
+   - `framework` -> `Mod ID`
+   - `<modrinth_id>` -> `Modrinth project ID`
+   - `https://notryken.com/discord` -> `Discord invite link`
+   - `1103153365216669797` -> `Discord server ID`
    - If you're not NotRyken
-     - `https://linktr.ee/notryken`
+     - `https://notryken.com` -> `Contact link`
      - `NotRyken`
      - `notryken`
    - Note that `NotRyken` is used for both the author's name and the GitHub repo owner, so if you 
@@ -68,6 +73,6 @@ root `build.gradle` `expandProps` map, to allow importing by `fabric.mod.json` a
 
 ## Contact
 
-[![Discord](https://img.shields.io/discord/1103153365216669797?logo=discord&label=Discord%20Server&color=%235865F2)](https://discord.gg/<discord_id>)
+[![Discord](https://img.shields.io/discord/1103153365216669797?logo=discord&label=Discord%20Server&color=%235865F2)](https://notryken.com/discord)
 
 [![GitHub Issues](https://img.shields.io/github/issues/NotRyken/Framework?logo=github&label=GitHub%20Issues)](https://github.com/NotRyken/Framework/issues)
