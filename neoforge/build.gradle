@@ -6,11 +6,6 @@ base {
     archivesName = "${mod_name}-NeoForge-${minecraft_version}"
 }
 
-// Temporary workaround for a NeoGradle bug
-tasks.named("test").configure {
-    enabled = false
-}
-
 dependencies {
     compileOnly(project(":common"))
     implementation("net.neoforged:neoforge:${neoforge_version}")
