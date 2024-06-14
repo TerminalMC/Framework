@@ -14,6 +14,7 @@ public class FrameworkFabric implements ClientModInitializer {
         // Keybindings
         KeyBindingHelper.registerKeyBinding(Framework.EXAMPLE_KEY);
 
+        // Commands
         ClientCommandRegistrationCallback.EVENT.register(((dispatcher, buildContext) ->
                 new Commands<FabricClientCommandSource>().register(Minecraft.getInstance(), dispatcher, buildContext)));
 
