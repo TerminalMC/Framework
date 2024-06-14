@@ -26,11 +26,13 @@ A custom and relatively unstable template mod, built on [Jaredlll08's MultiLoade
 - GitHub and Modrinth publishing
 - No IDE run configuration (i.e. slightly faster)
 
-<p float="left">
-    <img alt="Command Showcase" width=200 src="https://raw.githubusercontent.com/NotRyken/Framework/HEAD/assets/images/showcase/command_01.png">
-    <img alt="Config Showcase" width=200 src="https://raw.githubusercontent.com/NotRyken/Framework/HEAD/assets/images/showcase/config_01.png">
-    <img alt="Config Showcase" width=200 src="https://raw.githubusercontent.com/NotRyken/Framework/HEAD/assets/images/showcase/config_02.png">
-</p>
+<table style="width:100%;">
+  <tr>
+    <td style="width:33%;"><img src="https://raw.githubusercontent.com/NotRyken/Framework/HEAD/assets/images/showcase/command_01.png" style="width:100%;"></td>
+    <td style="width:33%;"><img src="https://raw.githubusercontent.com/NotRyken/Framework/HEAD/assets/images/showcase/config_01.png" style="width:100%;"></td>
+    <td style="width:33%;"><img src="https://raw.githubusercontent.com/NotRyken/Framework/HEAD/assets/images/showcase/config_02.png" style="width:100%;"></td>
+  </tr>
+</table>
 
 ### Usage
 
