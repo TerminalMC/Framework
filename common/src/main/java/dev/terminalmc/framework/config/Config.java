@@ -62,7 +62,6 @@ public class Config {
         }
     }
 
-
     // Instance management
 
     private static Config instance = null;
@@ -85,7 +84,6 @@ public class Config {
         save();
         return instance;
     }
-
 
     // Load and save
 
@@ -113,6 +111,7 @@ public class Config {
     }
 
     public static void save() {
+        if (instance == null) return;
         try {
             if (!Files.isDirectory(DIR_PATH)) Files.createDirectories(DIR_PATH);
             Path file = DIR_PATH.resolve(FILE_NAME);
