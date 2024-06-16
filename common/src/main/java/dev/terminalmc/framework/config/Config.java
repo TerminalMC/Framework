@@ -62,6 +62,12 @@ public class Config {
         }
     }
 
+    // Cleanup
+
+    private void cleanup() {
+        // Called before config is saved
+    }
+
     // Instance management
 
     private static Config instance = null;
@@ -112,6 +118,7 @@ public class Config {
 
     public static void save() {
         if (instance == null) return;
+        instance.cleanup();
         try {
             if (!Files.isDirectory(DIR_PATH)) Files.createDirectories(DIR_PATH);
             Path file = DIR_PATH.resolve(FILE_NAME);
