@@ -30,7 +30,7 @@ public class ClothConfigScreenProvider {
         ConfigBuilder builder = ConfigBuilder.create()
                 .setParentScreen(parent)
                 .setTitle(localized("screen", "options"))
-                .setSavingRunnable(() -> Framework.onConfigSaved(Config.getAndSave()));
+                .setSavingRunnable(Config::getAndSave);
 
         ConfigEntryBuilder eb = builder.entryBuilder();
         ConfigCategory cat1 = builder.getOrCreateCategory(localized("option", "category.category1"));
