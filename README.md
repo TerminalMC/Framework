@@ -48,7 +48,7 @@ risk.
    - `Framework` -> `Mod name`
    - `framework` -> `Mod ID`
    - `raDGbHBr` -> `Modrinth project ID`
-   - `https://terminalmc.dev/discord` -> `Discord invite link`
+   - `https://discord.terminalmc.dev` -> `Discord invite link`
    - `1103153365216669797` -> `Discord server ID`
    - If you're not TerminalMC
      - `https://terminalmc.dev` -> `Contact link`
@@ -77,6 +77,6 @@ root `build.gradle` `expandProps` map, to allow importing by `fabric.mod.json` a
 
 ### Contact
 
-[![Discord Server](https://img.shields.io/discord/1103153365216669797?logo=discord&label=Discord%20Server&color=%235865F2)](https://terminalmc.dev/discord)
+[![Discord Server](https://img.shields.io/discord/1103153365216669797?logo=discord&label=Discord%20Server&color=%235865F2)](https://discord.terminalmc.dev)
 
 [![GitHub Issues](https://img.shields.io/github/issues/TerminalMC/Framework?logo=github&label=GitHub%20Issues)](https://github.com/TerminalMC/Framework/issues)
