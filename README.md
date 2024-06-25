@@ -48,6 +48,7 @@ risk.
    - `Framework` -> `Mod name`
    - `framework` -> `Mod ID`
    - `raDGbHBr` -> `Modrinth project ID`
+   - `833352` -> `CurseForge project ID`
    - `https://discord.terminalmc.dev` -> `Discord invite link`
    - `1103153365216669797` -> `Discord server ID`
    - If you're not TerminalMC
