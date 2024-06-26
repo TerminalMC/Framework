@@ -190,7 +190,7 @@ subprojects {
                     }
                 }
             }
-            tasks.modrinth.onlyIf { System.getenv().CURSEFORGE_TOKEN }
+            tasks.curseforge.onlyIf { System.getenv().CURSEFORGE_TOKEN }
             tasks.curseforge.dependsOn(build)
 
             githubRelease {
