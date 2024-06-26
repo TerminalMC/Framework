@@ -5,7 +5,7 @@ plugins {
     id("maven-publish")
     id("org.jetbrains.gradle.plugin.idea-ext") version("${ideaext_version}") // Required for NeoGradle
     id("com.modrinth.minotaur") version("${minotaur_version}")
-    id("net.darkhax.curseforgegradle") version("1.1.15")
+    id("net.darkhax.curseforgegradle") version("${curseforgegradle_version}")
     id("com.github.breadmoirai.github-release") version("${githubrelease_version}")
     id("org.ajoberstar.grgit.service") version("${grgitservice_version}")
 }
