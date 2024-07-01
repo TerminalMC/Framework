@@ -15,7 +15,7 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
 
-@Mod(Framework.MOD_ID)
+@Mod(value = Framework.MOD_ID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = Framework.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class FrameworkNeoForge {
     public FrameworkNeoForge() {
