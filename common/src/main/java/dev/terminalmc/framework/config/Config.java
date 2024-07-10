@@ -27,7 +27,7 @@ public class Config {
     public final Options options = new Options();
 
     public static class Options {
-        // Category 1
+        // First category
         public static final boolean defaultBooleanExample = true;
         public boolean booleanExample = defaultBooleanExample;
 
@@ -37,29 +37,41 @@ public class Config {
         public static final double defaultDoubleExample = 4.5;
         public double doubleExample = defaultDoubleExample;
 
-        public static final String defaultItemExample =
-                BuiltInRegistries.ITEM.getKey(Items.STONE).toString();
-        public String itemExample = defaultItemExample;
+        public static final String defaultLenientStringExample = "example";
+        public String lenientStringExample = defaultLenientStringExample;
 
-        public static final TriState defaultObjectExample1 = TriState.Value1;
-        public TriState objectExample1 = defaultObjectExample1;
+        public static final List<String> strictStringExampleValues = List.of("One", "Two", "Three");
+        public static final String defaultStrictStringExample = strictStringExampleValues.getFirst();
+        public String strictStringExample = defaultStrictStringExample;
 
-        public static final TriState defaultObjectExample2 = TriState.Value1;
-        public TriState objectExample2 = defaultObjectExample2;
+        public static final TriState defaultEnumExample = TriState.Value1;
+        public TriState enumExample = defaultEnumExample;
 
+        // Second category
+        public static final List<String> defaultStringListExample = List.of("One");
+        public static final String defaultStringListExampleValue = "One";
+        public List<String> stringListExample = defaultStringListExample;
+
+        // Third Category
+        public static final int defaultRgbExample = 16777215;
+        public int rgbExample = defaultRgbExample;
+
+        public static final int defaultArgbExample = -1;
+        public int argbExample = defaultArgbExample;
+
+        // Cloth Config only
         public static final int defaultKeyExample = InputConstants.KEY_J;
         public int keyExample = defaultKeyExample;
 
-        // Category 2
-        public static final List<String> defaultStringListExample = List.of("One");
-        public List<String> stringListExample = defaultStringListExample;
+        // YACL only
+        public static final String defaultItemExample = BuiltInRegistries.ITEM.getKey(Items.STONE).toString();
+        public String itemExample = defaultItemExample;
+    }
 
-
-        public enum TriState {
-            Value1,
-            Value2,
-            Value3
-        }
+    public enum TriState {
+        Value1,
+        Value2,
+        Value3
     }
 
     // Cleanup

@@ -21,8 +21,8 @@ public class Framework {
             .append(Component.literal("] ").withStyle(ChatFormatting.DARK_GRAY))
             .withStyle(ChatFormatting.GRAY);
     public static final KeyMapping EXAMPLE_KEY = new KeyMapping(
-            translationKey("key", "example"), InputConstants.Type.KEYSYM,
-            InputConstants.UNKNOWN.getValue(), translationKey("key_group"));
+            translationKey("key", "group.example"), InputConstants.Type.KEYSYM,
+            InputConstants.UNKNOWN.getValue(), translationKey("key", "group"));
 
     public static void init() {
         Config.getAndSave();
