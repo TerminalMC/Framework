@@ -32,11 +32,11 @@ public class YaclScreenProvider {
      * <ul>
      *     <li>{@code flags}, which tell YACL when to start using the new value.
      *     </li>
-     *     <li>{@code listeners}, which are notified of value changes (when the
-     *     new value is saved, unless {@code instant} is used.
+     *     <li>{@code listeners}, which are notified immediately when the option
+     *     value is changed.
      *     </li>
-     *     <li>{@code instant}, which tells YACL to notify listeners immediately,
-     *     rather than waiting for save.
+     *     <li>{@code instant}, which tells YACL to apply the new value
+     *     immediately, rather than waiting for save.
      *     </li>
      *     <li>{@code available}, which tells YACL whether to allow the user to
      *     change the option value.
