@@ -1,6 +1,9 @@
 {
   "framework.name": "Framework",
 
+  "modmenu.descriptionTranslation.framework": "A custom template mod.\nBased on Jaredlll08's MultiLoader Template.",
+  "fml.menu.mods.info.description.framework": "A custom template mod.\nBased on Jaredlll08's MultiLoader Template.",
+
   "key.framework.group": "Framework",
   "key.framework.group.example": "Example Key",
 
