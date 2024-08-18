@@ -11,29 +11,13 @@ subprojects {
     version = mod_version
     group = mod_group
 
-    if (project.name != "common") {
+    // Publishing
+    if (name != "common") {
         apply(plugin: "com.modrinth.minotaur")
         apply(plugin: "net.darkhax.curseforgegradle")
         apply(plugin: "com.github.breadmoirai.github-release")
         apply(plugin: "org.ajoberstar.grgit.service")
-    }
 
-    repositories {
-        maven {
-            name = "ParchmentMC"
-            url = "https://maven.parchmentmc.org/"
-        }
-        maven {
-            name = "Modrinth"
-            url = "https://api.modrinth.com/maven"
-        }
-        maven {
-            name = "Shedaniel"
-            url = "https://maven.shedaniel.me/"
-        }
-    }
-
-    if (name != "common") {
         afterEvaluate {
             modrinth {
                 token = System.getenv().MODRINTH_TOKEN ? System.getenv().MODRINTH_TOKEN : "empty"

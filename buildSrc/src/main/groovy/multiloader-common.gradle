@@ -13,6 +13,54 @@ java {
     withJavadocJar()
 }
 
+repositories {
+    mavenCentral()
+    // https://docs.gradle.org/current/userguide/declaring_repositories.html#declaring_content_exclusively_found_in_one_repository
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'Sponge'
+                url = 'https://repo.spongepowered.org/repository/maven-public'
+            }
+        }
+        filter { includeGroupAndSubgroups('org.spongepowered') }
+    }
+    exclusiveContent {
+        forRepositories(
+                maven {
+                    name = 'ParchmentMC'
+                    url = 'https://maven.parchmentmc.org/'
+                },
+                maven {
+                    name = "NeoForge"
+                    url = 'https://maven.neoforged.net/releases'
+                }
+        )
+        filter { includeGroup('org.parchmentmc.data') }
+    }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+    maven {
+        name = "Shedaniel"
+        url = "https://maven.shedaniel.me/"
+    }
+}
+
+// Declare capabilities on the outgoing configurations.
+// Read more about capabilities here: https://docs.gradle.org/current/userguide/component_capabilities.html#sec:declaring-additional-capabilities-for-a-local-component
+["apiElements", "runtimeElements", "sourcesElements", "javadocElements"].each { variant ->
+    configurations."$variant".outgoing {
+        capability("$group:${base.archivesName.get()}:$version")
+        capability("$group:$mod_id-${project.name}-${minecraft_version}:$version")
+        capability("$group:$mod_id:$version")
+    }
+    publishing.publications.configureEach {
+        suppressPomMetadataWarningsFor(variant)
+    }
+}
+
 sourcesJar {
     from(rootProject.file("LICENSE")) {
         rename { "${it}_${mod_name}" }
@@ -40,19 +88,6 @@ jar {
     }
 }
 
-// Declare capabilities on the outgoing configurations.
-// Read more about capabilities here: https://docs.gradle.org/current/userguide/component_capabilities.html#sec:declaring-additional-capabilities-for-a-local-component
-["apiElements", "runtimeElements", "sourcesElements", "javadocElements"].each { variant ->
-    configurations."$variant".outgoing {
-        capability("$group:${base.archivesName.get()}:$version")
-        capability("$group:$mod_id-${project.name}-${minecraft_version}:$version")
-        capability("$group:$mod_id:$version")
-    }
-    publishing.publications.configureEach {
-        suppressPomMetadataWarningsFor(variant)
-    }
-}
-
 processResources {
     def expandProps = [
             // Mod info
@@ -69,6 +104,11 @@ processResources {
             "mod_contributors_string": mod_contributors.replace(",", ", "),
             "mod_license": mod_license,
             "mod_environment": mod_environment,
+            // Links
+            "homepage_url": homepage_url,
+            "sources_url": sources_url,
+            "issues_url": issues_url,
+            "contact_url": contact_url,
             // Java
             "java_version": java_version,
             "java_versions_fabric_list": asJsonList(java_versions_fabric),
@@ -88,11 +128,6 @@ processResources {
             "yacl_versions_fabric_list": asJsonList(yacl_versions_fabric),
             "yacl_versions_neoforge": yacl_versions_neoforge,
             "modmenu_versions_fabric_list": asJsonList(modmenu_versions),
-            // Links
-            "homepage_url": homepage_url,
-            "sources_url": sources_url,
-            "issues_url": issues_url,
-            "contact_url": contact_url
     ]
     filesMatching(["pack.mcmeta", "*.mod.json", "META-INF/*mods.toml", "*.mixins.json"]) {
         expand expandProps
