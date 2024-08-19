@@ -74,12 +74,6 @@ public class Config {
         Value3
     }
 
-    // Cleanup
-
-    private void cleanup() {
-        // Called before config is saved
-    }
-
     // Instance management
 
     private static Config instance = null;
@@ -101,6 +95,12 @@ public class Config {
         instance = new Config();
         save();
         return instance;
+    }
+
+    // Cleanup
+
+    private void cleanup() {
+        // Called before config is saved
     }
 
     // Load and save
