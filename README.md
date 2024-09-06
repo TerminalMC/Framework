@@ -67,7 +67,7 @@ guarantee of support or maintenance. If you choose to use it, you do so at your 
 #### Other Notes
 
 - The Fabric Client run configuration will crash, citing a missing library for YACL. Download and add YACL to the `mods`
-folder manually to fix.
+folder manually to fix. It may still crash after that, but usually only on the first run.
 
 #### Dependencies
 
