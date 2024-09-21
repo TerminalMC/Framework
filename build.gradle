@@ -54,8 +54,7 @@ subprojects {
             tasks.modrinthSyncBody.onlyIf { System.getenv().MODRINTH_TOKEN }
 
             task curseforge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
-                apiToken = System.getenv().CURSEFORGE_TOKEN ? System.getenv().CURSEFORGE_TOKEN : ""
-                if (apiToken.isBlank()) return
+                apiToken = System.getenv().CURSEFORGE_TOKEN ? System.getenv().CURSEFORGE_TOKEN : "empty"
 
                 disableVersionDetection()
                 String module = project.name
