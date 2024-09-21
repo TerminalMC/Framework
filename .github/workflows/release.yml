@@ -1,7 +1,8 @@
 # Builds the project and publishes the artifacts to GitHub, Modrinth and CurseForge
-# Requires GITHUB_TOKEN to have write permissions; if not, replace it with a custom token
-# Requires a Modrinth PAT MODRINTH_TOKEN
-# Requires a CurseForge API token CURSEFORGE_TOKEN
+# Modrinth publishing requires a Modrinth PAT MODRINTH_TOKEN
+#   Will skip without error if not present
+# CurseForge publishing requires a CurseForge API token CURSEFORGE_TOKEN
+#   Will skip without error if not present
 name: Release
 
 on:
