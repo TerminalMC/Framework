@@ -110,18 +110,23 @@ subprojects {
 }
 
 tasks.register("applyLicenseNotice") {
-    def licenseNotice = rootProject.file("NOTICE").text
+    def noticeFile = file("NOTICE")
+    if (!noticeFile.exists()) {
+        println("'NOTICE' file not found.")
+        return
+    }
     doLast {
+        def noticeText = noticeFile.text
         def total = 0
-        file(".").eachFileRecurse { file ->
+        project.rootDir.eachFileRecurse { file ->
             if (file.path.contains("src\\main\\java") && file.name.endsWith(".java")) {
                 def content = file.text
                 def packageIndex = content.indexOf("package ")
 
                 if (packageIndex != -1) {
                     def remainingContent = content.substring(packageIndex)
-                    def newContent = licenseNotice + '\n' + remainingContent
-                    file.withWriter('UTF-8') { writer -> writer.write(newContent) }
+                    def newContent = noticeText + "\n" + remainingContent
+                    file.withWriter("UTF-8") { writer -> writer.write(newContent) }
 
                     total++
                 } else {
@@ -130,6 +135,56 @@ tasks.register("applyLicenseNotice") {
             }
         }
         println("Applied license notice to ${total} files.")
+    }
+}
+
+tasks.register("rebrandProject") {
+    def rebrandFile = file("rebrand.properties")
+    if (!rebrandFile.exists()) {
+        println("'rebrand.properties' file not found.")
+        return
+    }
+    doLast {
+        def properties = new Properties()
+        rebrandFile.withInputStream { stream ->
+            properties.load(stream)
+        }
+
+        file(".").eachFileRecurse { file ->
+            if (file.isFile() && !file.name.startsWith(".git") && !file.name.startsWith("gradlew")
+                    && (file.relativePath(project.rootDir) == ".." || file.path.contains("src\\main"))) {
+                try {
+                    properties.each { key, value ->
+                        if (file.name.contains(key.toString())) {
+                            def newName = file.name.replace(key.toString(), value.toString())
+                            def newFile = new File(file.parentFile, newName)
+                            if (file.renameTo(newFile)) {
+                                println("Renamed '${file.name}'")
+                            } else {
+                                println("Failed to rename '${file.name}'")
+                            }
+                        }
+                    }
+                } catch (IOException ex) {
+                    println("Error renaming file '${file.path}': ${ex}")
+                }
+            }
+        }
+
+        file(".").eachFileRecurse { file ->
+            if (file.isFile() && !file.name.startsWith(".git") && !file.name.startsWith("gradlew")
+                    && (file.relativePath(project.rootDir) == ".." || file.path.contains("src\\main"))) {
+                try {
+                    def content = file.text
+                    properties.each { key, value ->
+                        content = content.replaceAll(key.toString(), value.toString())
+                    }
+                    file.withWriter("UTF-8") { writer -> writer.write(content) }
+                } catch (IOException ex) {
+                    println("Error updating contents of file '${file.path}': ${ex}")
+                }
+            }
+        }
     }
 }
 
