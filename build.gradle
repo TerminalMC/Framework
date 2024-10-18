@@ -109,6 +109,30 @@ subprojects {
     }
 }
 
+tasks.register("applyLicenseNotice") {
+    def licenseNotice = rootProject.file("NOTICE").text
+    doLast {
+        def total = 0
+        file(".").eachFileRecurse { file ->
+            if (file.path.contains("src\\main\\java") && file.name.endsWith(".java")) {
+                def content = file.text
+                def packageIndex = content.indexOf("package ")
+
+                if (packageIndex != -1) {
+                    def remainingContent = content.substring(packageIndex)
+                    def newContent = licenseNotice + '\n' + remainingContent
+                    file.withWriter('UTF-8') { writer -> writer.write(newContent) }
+
+                    total++
+                } else {
+                    println("Could not apply license to '${file.path}: No 'package' found.")
+                }
+            }
+        }
+        println("Applied license notice to ${total} files.")
+    }
+}
+
 static String capsLoader(String loader) {
     switch(loader) {
         case "fabric": return "Fabric"
