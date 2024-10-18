@@ -81,7 +81,32 @@ specified in the common `build.gradle` for usage by the common subproject.
 
 ### License
 
+The license summaries listed below are not legal advice.
+
 [CC0-1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/legalcode)
+- No restrictions.
+
+[Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0)
+- Copyright notices must be retained.
+- License file must be retained (both source and executable form).
+- Modification notices must be added to modified files.
+- Subject to previous points, combined or derivative works may be provided under a different license.
+
+[LGPL-3.0-only](https://www.gnu.org/licenses/lgpl-3.0)
+- Complicated, basically;
+- Copyright notices and license file must be retained.
+- Modification notices with modification date must be added to modified files.
+- Copies or derivative works must be distributed under the same license.
+- Source code must be provided when distributing copies or derivative works in executable form.
+
+[MIT](https://mit-license.org)
+- Copyright notices and permission notices must be retained in all copies or substantial portions.
+
+[MPL-2.0](https://mozilla.org/MPL/2.0)
+- Copyright notices must be retained.
+- Distributions of source code (complete or partial, original or modified) must remain under the same license.
+- Source code must be provided when distributing copies or combined works in executable form.
+- Subject to previous points, a combined work may be distributed under a different license.
 
 ### Contact
 
