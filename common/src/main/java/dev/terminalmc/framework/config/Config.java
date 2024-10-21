@@ -52,7 +52,7 @@ public class Config {
         public String lenientStringExample = defaultLenientStringExample;
 
         public static final List<String> strictStringExampleValues = List.of("One", "Two", "Three");
-        public static final String defaultStrictStringExample = strictStringExampleValues.getFirst();
+        public static final String defaultStrictStringExample = strictStringExampleValues.get(0);
         public String strictStringExample = defaultStrictStringExample;
 
         public static final TriState defaultEnumExample = TriState.Value1;
@@ -85,6 +85,12 @@ public class Config {
         Value3
     }
 
+    // Cleanup
+
+    private void cleanup() {
+        // Called before config is saved
+    }
+
     // Instance management
 
     private static Config instance = null;
@@ -106,12 +112,6 @@ public class Config {
         instance = new Config();
         save();
         return instance;
-    }
-
-    // Cleanup
-
-    private void cleanup() {
-        // Called before config is saved
     }
 
     // Load and save

@@ -16,7 +16,6 @@ import dev.isxander.yacl3.api.controller.*;
 import dev.isxander.yacl3.gui.YACLScreen;
 import dev.terminalmc.framework.Framework;
 import dev.terminalmc.framework.config.Config;
-import net.minecraft.ResourceLocationException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -26,6 +25,7 @@ import net.minecraft.world.item.Item;
 
 import java.awt.Color;
 import java.util.List;
+import java.util.Objects;
 
 import static dev.terminalmc.framework.util.Localization.localized;
 
@@ -328,11 +328,8 @@ public class YaclScreenProvider {
 
     // Special option utils
     private static Item asItem(String s) {
-        try {
-            return BuiltInRegistries.ITEM.get(ResourceLocation.parse(s));
-        } catch (ResourceLocationException e) {
-            return BuiltInRegistries.ITEM.get(BuiltInRegistries.ITEM.getDefaultKey());
-        }
+        return BuiltInRegistries.ITEM.get(Objects.requireNonNullElseGet(
+                ResourceLocation.tryParse(s), BuiltInRegistries.ITEM::getDefaultKey));
     }
 
     private static String asString(Item i) {

@@ -13,12 +13,14 @@ package dev.terminalmc.framework.gui.screen;
 
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.MultiLineTextWidget;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
-import net.minecraft.client.gui.screens.options.OptionsSubScreen;
+import net.minecraft.client.gui.screens.OptionsSubScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
+import org.jetbrains.annotations.NotNull;
 
 import static dev.terminalmc.framework.util.Localization.localized;
 
@@ -79,6 +81,9 @@ public class ConfigScreenProvider {
         }
 
         @Override
-        protected void addOptions() {}
+        public void render(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
+            renderDirtBackground(context);
+            super.render(context, mouseX, mouseY, delta);
+        }
     }
 }
