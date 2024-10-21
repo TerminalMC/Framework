@@ -5,6 +5,7 @@ plugins {
     id("net.darkhax.curseforgegradle") version("${curseforgegradle_version}")
     id("com.github.breadmoirai.github-release") version("${githubrelease_version}")
     id("org.ajoberstar.grgit.service") version("${grgitservice_version}")
+    id("net.neoforged.licenser") version("${licenser_version}") apply false
 }
 
 subprojects {
@@ -63,7 +64,7 @@ subprojects {
                 file.displayName = "v${mod_version}-${capsLoader(module)}-${minecraft_version}"
                 file.releaseType = release_type
                 file.changelog = rootProject.file("changelog.md").text
-                file.changelogType = 'markdown'
+                file.changelogType = "markdown"
                 project.property("release_mod_loaders_${module}").split(",").each { String id ->
                     file.addModLoader(id)
                 }
@@ -106,35 +107,6 @@ subprojects {
             tasks.githubRelease.onlyIf { System.getenv().GITHUB_TOKEN }
             tasks.githubRelease.dependsOn(build)
         }
-    }
-}
-
-tasks.register("applyLicenseNotice") {
-    def noticeFile = file("NOTICE")
-    if (!noticeFile.exists()) {
-        println("'NOTICE' file not found.")
-        return
-    }
-    doLast {
-        def noticeText = noticeFile.text
-        def total = 0
-        project.rootDir.eachFileRecurse { file ->
-            if (file.path.contains("src\\main\\java") && file.name.endsWith(".java")) {
-                def content = file.text
-                def packageIndex = content.indexOf("package ")
-
-                if (packageIndex != -1) {
-                    def remainingContent = content.substring(packageIndex)
-                    def newContent = noticeText + "\n" + remainingContent
-                    file.withWriter("UTF-8") { writer -> writer.write(newContent) }
-
-                    total++
-                } else {
-                    println("Could not apply license to '${file.path}: No 'package' found.")
-                }
-            }
-        }
-        println("Applied license notice to ${total} files.")
     }
 }
 
