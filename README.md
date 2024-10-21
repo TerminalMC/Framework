@@ -26,7 +26,7 @@ It is not better, nor necessarily worse, than the original, it just serves a dif
 
 ### Features
 
-- Configuration system using [Cloth Config](https://modrinth.com/mod/9s6osm5g) or [YACL](https://modrinth.com/mod/1eAoo2KR) 
+- Configuration UI using [Cloth Config](https://modrinth.com/mod/9s6osm5g) or [YACL](https://modrinth.com/mod/1eAoo2KR) 
 (both included, remove the one you don't want)
 - Keybind registration
 - Command registration
@@ -47,22 +47,18 @@ guarantee of support or maintenance. If you choose to use it, you do so at your 
 
 #### Changing Project Details (IntelliJ IDEA)
 
-1. Change the root directory name, then
-2. `SHIFT`+`F6` to rename packages, classes and files, then
-3. `CTRL`+`SHIFT`+`R` case-sensitive with scope `In Project` to replace (in order):
-   - `raDGbHBr` -> `Modrinth project ID`
-   - `833352` -> `CurseForge project ID`
-   - `tmc-framework` -> `CurseForge slug`
-   - `Framework` -> `Mod name`
-   - `framework` -> `Mod ID`
-     - Note: Fabric allows `-` but not `_`, NeoForge allows `_` but not `-`
-   - `https://discord.terminalmc.dev` -> `Discord invite link`
-   - `1103153365216669797` -> `Discord server ID`
-   - `NotRyken` -> `Author name`
-   - Outside of TerminalMC
-     - `https://terminalmc.dev` -> `Contact link`
-     - `TerminalMC`
-     - `terminalmc`
+1. Change the root directory name
+2. `SHIFT`+`F6` to rename the source package(s)
+3. `SHIFT`+`F6` to rename the assets directory (`common/src/main/resources/assets/framework`)
+
+
+4. Edit `rebrand.properties` with the new details
+5. Run the `rebrandProject` gradle task
+
+
+6. Replace the LICENSE and NOTICE files with your choice of license (optionally from `licenses`)
+7. Run the `updateLicenses` gradle task
+8. Update the license lines in `gradle.properties` and `README.md` accordingly
 
 #### Other Notes
 
@@ -71,15 +67,16 @@ folder manually to fix. It may still crash after that, but usually only on the f
 
 #### Dependencies
 
-- Mod dependencies must be specified in the loader-specific `build.gradle`. API mods may also be 
-specified in the common `build.gradle` for usage by the common subproject.
+- Mod dependencies must be specified in the loader-specific `build.gradle` file. APIs may be specified in the common 
+`build.gradle` for usage by the common subproject. If for any reason a mod dependency does not provide a `common` 
+version, it is usually possible to depend on the project's NeoForge version in the common `build.gradle`.
 
 - Dependency repositories must be specified in `buildSrc/main/groovy/multiloader-common.gradle`.
 
-- Dependency version and compatible version ranges must be added to `gradle.properties` and the `expandProps` map in
-- `multiloader-common.gradle`, to allow importing by `fabric.mod.json`, `neoforge.mods.toml`, and `mixin.json` files.
+- Project properties required by `resources/` files must be added to the `expandProps` map in 
+`multiloader-common.gradle`.
 
-### License
+### Licenses
 
 The license summaries listed below are not legal advice.
 
