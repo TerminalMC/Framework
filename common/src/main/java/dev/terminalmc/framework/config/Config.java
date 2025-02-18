@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.terminalmc.framework.Framework;
+import dev.terminalmc.framework.platform.Services;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Config {
-    private static final Path DIR_PATH = Path.of("config");
+    private static final Path DIR_PATH = Services.PLATFORM.getConfigDir();
     private static final String FILE_NAME = Framework.MOD_ID + ".json";
     private static final String BACKUP_FILE_NAME = Framework.MOD_ID + ".unreadable.json";
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
