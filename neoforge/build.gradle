@@ -3,44 +3,56 @@ plugins {
     id("net.neoforged.moddev")
 }
 
+// Configure NeoForge dependencies.
+// - implementation: recommended.
+// - api: transitively exposes the dependency to consumers.
+// - include: Jar-in-Jar bundles the dependency.
 dependencies {
-    // JiJ MixinExtras if required to be newer than minimum loader-provided version
+    // MixinExtras - JiJ if required to be newer than minimum loader-provided version.
+    // 20.2.84-beta->0.3.1 (initial), 20.4.114->0.3.5 (WWC v2), 21.1.22->0.4.1 (WM).
 //    implementation(jarJar("io.github.llamalad7:mixinextras-neoforge:${mixinextras_version}"))
-    
-    // Cloth Config API
-    api("me.shedaniel.cloth:cloth-config-neoforge:${clothconfig_version}")
-    
+
+    // Cloth Config
+    implementation("me.shedaniel.cloth:cloth-config-neoforge:${clothconfig_version}")
+
     // YACL
-    api("dev.isxander:yet-another-config-lib:${yacl_version}-neoforge")
+    implementation("dev.isxander:yet-another-config-lib:${yacl_version}-neoforge")
 }
 
+// Configure ModDevGradle.
 neoForge {
     version = neoforge_version
-    // Automatically enable neoforge AccessTransformers if the file exists
+    // Apply common AccessTransformer if it exists.
     def at = project(":common").file("src/main/resources/META-INF/accesstransformer.cfg")
     if (at.exists()) accessTransformers.from(at.absolutePath)
+    // Apply Parchment mappings.
     parchment {
         minecraftVersion = parchment_minecraft_version
         mappingsVersion = parchment_version
     }
+    // Configure runs.
     runs {
         configureEach {
             systemProperty("neoforge.enabledGameTestNamespaces", "${mod_id}")
-            // Unify the run config names with Fabric
+            // Unify the run config names with Fabric.
             ideName = "NeoForge ${it.name.capitalize()} (${project.path})"
         }
         client {
+            //noinspection GroovyImplicitNullArgumentCall
             client()
         }
         server {
+            //noinspection GroovyImplicitNullArgumentCall
             server()
         }
     }
     mods {
         "${mod_id}" {
-            sourceSet sourceSets.main
+            //noinspection GroovyAssignabilityCheck
+            sourceSet(sourceSets.main)
         }
     }
 }
-
-sourceSets.main.resources { srcDir "src/generated/resources" }
+sourceSets.main.resources {
+    srcDir("src/generated/resources")
+}

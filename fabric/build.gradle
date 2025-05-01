@@ -3,38 +3,51 @@ plugins {
     id("fabric-loom")
 }
 
+// Configure Fabric dependencies.
+// - modImplementation: recommended.
+// - modApi: transitively exposes the dependency to consumers.
+// - include: Jar-in-Jar bundles the dependency.
 dependencies {
+    // Minecraft
     minecraft("com.mojang:minecraft:${minecraft_version}")
-    mappings loom.layered {
+
+    // Mappings
+    mappings(loom.layered {
         officialMojangMappings()
         parchment("org.parchmentmc.data:parchment-${parchment_minecraft_version}:${parchment_version}@zip")
-    }
-    
-    // Fabric Loader and API
-    modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
+    })
 
-    // JiJ MixinExtras if required to be newer than minimum loader-provided version
+    // MixinExtras - JiJ if required to be newer than minimum loader-provided version.
+    // 0.15.0->0.3.0 (initial), 0.15.7->0.3.5 (WWC v2), 0.16.0->0.4.0 (WM).
 //    include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${mixinextras_version}")))
+
+    // Fabric Loader
+    modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
+
+    // Fabric API
+    modImplementation("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
 
     // ModMenu
     modImplementation("maven.modrinth:mOgUt4GM:${modmenu_version}")
-    
-    // Cloth Config API
-    modApi("me.shedaniel.cloth:cloth-config-fabric:${clothconfig_version}") {
+
+    // Cloth Config
+    modImplementation("me.shedaniel.cloth:cloth-config-fabric:${clothconfig_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-    
+
     // YACL
-    modApi("dev.isxander:yet-another-config-lib:${yacl_version}-fabric")
+    modImplementation("dev.isxander:yet-another-config-lib:${yacl_version}-fabric")
 }
 
+// Configure Loom.
 loom {
+    // Apply common AccessWidener if it exists.
     def aw = project(":common").file("src/main/resources/${mod_id}.accesswidener")
     if (aw.exists()) accessWidenerPath.set(aw)
     mixin {
         defaultRefmapName.set("${mod_id}.refmap.json")
     }
+    // Configure runs
     runs {
         client {
             client()

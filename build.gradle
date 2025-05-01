@@ -11,27 +11,30 @@ subprojects {
     version = mod_version
     group = mod_group
 
-    // License headers
+    // Configure license headers.
     apply(plugin: "org.cadixdev.licenser")
     String licenseDir = "src/main/resources/assets/${mod_id}/license/"
     license {
-        include("**/*.java") // Java files only
+        include("**/*.java") // Java files only.
+        // Apply main license.
         header = rootProject.project("common").file(licenseDir + "HEADER.txt")
         properties {
             project_name = mod_name
             owner_name = mod_owner
+            //noinspection UnnecessaryQualifiedReference
             year = java.time.LocalDate.now().getYear().toString()
         }
-        // Attribution license headers
-        for (String otherMod : alt_license_mods.split(",")) {
-            matching(includes: List.of(project.property("alt_license_files_${otherMod}").split(","))) {
+        // Apply attribution licenses.
+        att_license_mods.split(",").each { String otherMod ->
+            //noinspection GroovyAssignabilityCheck
+            matching(includes: List.of(project.property("att_license_files_${otherMod}").split(","))) {
                 header = rootProject.project("common").file(licenseDir + "${otherMod}/HEADER.txt")
             }
         }
     }
 
+    // Configure multi-site publishing.
     if (name != "common") {
-        // Publishing
         apply(plugin: "me.modmuss50.mod-publish-plugin")
         apply(plugin: "org.ajoberstar.grgit.service")
 
@@ -39,41 +42,43 @@ subprojects {
             publishMods {
                 file = project.name == "fabric" ? remapJar.archiveFile : jar.archiveFile
                 version = mod_version
+                //noinspection UnnecessaryQualifiedReference
                 type = me.modmuss50.mpp.ReleaseType.of(release_type)
                 displayName = "v${mod_version}-${capsLoader(project.name)}"
-                modLoaders.addAll(project.property("release_mod_loaders_${project.name}").split(","))
+                modLoaders.addAll(project.property("release_mod_loaders_${project.name}").toString().split(","))
                 maxRetries = 5
                 dryRun = providers.environmentVariable("GITHUB_TOKEN").getOrElse("").isBlank()
                         && providers.environmentVariable("MODRINTH_TOKEN").getOrElse("").isBlank()
                         && providers.environmentVariable("CURSEFORGE_TOKEN").getOrElse("").isBlank()
-
                 github {
                     parent project(":").tasks.named("publishGithub")
                     accessToken = providers.environmentVariable("GITHUB_TOKEN").getOrElse("")
-                    additionalFiles.from(sourcesJar.archiveFile)
+                    if (mod_sources == "true") additionalFiles.from(sourcesJar.archiveFile)
+                    if (mod_javadoc == "true") additionalFiles.from(javadocJar.archiveFile)
+                    return void
                 }
                 modrinth {
                     accessToken = providers.environmentVariable("MODRINTH_TOKEN").getOrElse("")
                     projectId = modrinth_id
-                    minecraftVersions.addAll(project.property("release_game_versions_${project.name}").split(","))
+                    minecraftVersions.addAll(project.property("release_game_versions_${project.name}").toString().split(","))
                     changelog = versionChangelog()
                     if (project.hasProperty("release_required_dep_ids_${project.name}_mr")) {
-                        project.property("release_required_dep_ids_${project.name}_mr").split(",").each { String mrId ->
+                        project.property("release_required_dep_ids_${project.name}_mr").toString().split(",").each { String mrId ->
                             requires { id = mrId }
                         }
                     }
                     if (project.hasProperty("release_optional_dep_ids_${project.name}_mr")) {
-                        project.property("release_optional_dep_ids_${project.name}_mr").split(",").each { String mrId ->
+                        project.property("release_optional_dep_ids_${project.name}_mr").toString().split(",").each { String mrId ->
                             optional { id = mrId }
                         }
                     }
                     if (project.hasProperty("release_incompatible_dep_ids_${project.name}_mr")) {
-                        project.property("release_incompatible_dep_ids_${project.name}_mr").split(",").each { String mrId ->
+                        project.property("release_incompatible_dep_ids_${project.name}_mr").toString().split(",").each { String mrId ->
                             incompatible { id = mrId }
                         }
                     }
                     if (project.hasProperty("release_embedded_dep_ids_${project.name}_mr")) {
-                        project.property("release_embedded_dep_ids_${project.name}_mr").split(",").each { String mrId ->
+                        project.property("release_embedded_dep_ids_${project.name}_mr").toString().split(",").each { String mrId ->
                             embeds { id = mrId }
                         }
                     }
@@ -84,28 +89,29 @@ subprojects {
                     accessToken = providers.environmentVariable("CURSEFORGE_TOKEN").getOrElse("")
                     projectId = curseforge_id
                     projectSlug = curseforge_slug
-                    minecraftVersions.addAll(project.property("release_game_versions_${project.name}").split(","))
+                    minecraftVersions.addAll(project.property("release_game_versions_${project.name}").toString().split(","))
                     changelog = versionChangelog()
                     if (project.hasProperty("release_required_dep_ids_${project.name}_cf")) {
-                        project.property("release_required_dep_ids_${project.name}_cf").split(",").each { String slug ->
+                        project.property("release_required_dep_ids_${project.name}_cf").toString().split(",").each { String slug ->
                             requires(slug)
                         }
                     }
                     if (project.hasProperty("release_optional_dep_ids_${project.name}_cf")) {
-                        project.property("release_optional_dep_ids_${project.name}_cf").split(",").each { String slug ->
+                        project.property("release_optional_dep_ids_${project.name}_cf").toString().split(",").each { String slug ->
                             optional(slug)
                         }
                     }
                     if (project.hasProperty("release_incompatible_dep_ids_${project.name}_cf")) {
-                        project.property("release_incompatible_dep_ids_${project.name}_cf").split(",").each { String slug ->
+                        project.property("release_incompatible_dep_ids_${project.name}_cf").toString().split(",").each { String slug ->
                             incompatible(slug)
                         }
                     }
                     if (project.hasProperty("release_embedded_dep_ids_${project.name}_cf")) {
-                        project.property("release_embedded_dep_ids_${project.name}_cf").split(",").each { String slug ->
+                        project.property("release_embedded_dep_ids_${project.name}_cf").toString().split(",").each { String slug ->
                             embeds(slug)
                         }
                     }
+                    return void
                 }
             }
             tasks.named("publishGithub") {
@@ -127,8 +133,10 @@ subprojects {
     }
 }
 
+// Parent task for GitHub combined release.
 publishMods {
     version = "${mod_version}+${minecraft_version}"
+    //noinspection UnnecessaryQualifiedReference
     type = me.modmuss50.mpp.ReleaseType.of(release_type)
     displayName = "v${mod_version}+${minecraft_version}"
     dryRun = providers.environmentVariable("GITHUB_TOKEN").getOrElse("").isBlank()
@@ -147,6 +155,7 @@ publishMods {
     }
 }
 
+// Loads the latest changelog from the changelog.md file.
 String versionChangelog() {
     List<String> lines = rootProject.file("changelog.md").readLines()
     StringBuilder builder = new StringBuilder()
@@ -167,6 +176,7 @@ String versionChangelog() {
     return builder.toString()
 }
 
+// Converts a lowercase loader name to its formal version.
 static String capsLoader(String loader) {
     switch(loader) {
         case "fabric": return "Fabric"
@@ -177,18 +187,23 @@ static String capsLoader(String loader) {
     }
 }
 
+// Renames files and edits contents to apply values from the rebrand.properties file.
 tasks.register("rebrandProject") {
-    def rebrandFile = file("rebrand.properties")
-    if (!rebrandFile.exists()) {
-        println("'rebrand.properties' file not found.")
+    def rebrandFile = "rebrand.properties"
+    // Check for the file.
+    if (!file(rebrandFile).exists()) {
+        println("'${rebrandFile}' file not found.")
         return
     }
+    // Perform the operation.
     doLast {
+        // Load new properties.
         def properties = new Properties()
-        rebrandFile.withInputStream { stream ->
+        file(rebrandFile).withInputStream { stream ->
             properties.load(stream)
         }
 
+        // Rename files.
         file(".").eachFileRecurse { file ->
             if (file.isFile() && !file.name.startsWith(".git") && !file.name.startsWith("gradlew")
                     && (file.relativePath(project.rootDir) == ".." || file.path.contains("src\\main"))) {
@@ -205,11 +220,12 @@ tasks.register("rebrandProject") {
                         }
                     }
                 } catch (IOException ex) {
-                    println("Error renaming file '${file.path}': ${ex}")
+                    logger.error("Error renaming file '${file.path}': ${ex}")
                 }
             }
         }
 
+        // Edit file contents.
         file(".").eachFileRecurse { file ->
             if (file.isFile() && !file.name.startsWith(".git") && !file.name.startsWith("gradlew")
                     && (file.relativePath(project.rootDir) == ".." || file.path.contains("src\\main"))) {
@@ -220,7 +236,7 @@ tasks.register("rebrandProject") {
                     }
                     file.withWriter("UTF-8") { writer -> writer.write(content) }
                 } catch (IOException ex) {
-                    println("Error updating contents of file '${file.path}': ${ex}")
+                    logger.error("Error updating contents of file '${file.path}': ${ex}")
                 }
             }
         }

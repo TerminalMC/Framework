@@ -1,13 +1,18 @@
 {
   "schemaVersion": 1,
-  "version": "${mod_version}",
   "id": "${mod_id}",
+  "version": "${mod_version}",
   "name": "${mod_name}",
   "description": "${mod_description}",
   "icon": "${mod_icon}",
   "authors": [$mod_authors_list],
   "contributors": [$mod_contributors_list],
   "license": "${mod_license}",
+  "contact": {
+    "homepage": "${homepage_url}",
+    "sources": "${sources_url}",
+    "issues": "${issues_url}"
+  },
 
   "environment": "client",
 
@@ -15,9 +20,13 @@
 
   "entrypoints": {
     "main": [],
-    "client": ["${mod_group}.${mod_id}.${mod_name}Fabric"],
+    "client": [
+      "${mod_group}.${mod_id}.${mod_name}Fabric"
+    ],
     "server": [],
-    "modmenu": ["${mod_group}.${mod_id}.gui.screen.ModMenuIntegration"]
+    "modmenu": [
+      "${mod_group}.${mod_id}.gui.screen.ModMenuIntegration"
+    ]
   },
 
   "mixins": [
@@ -46,12 +55,6 @@
 
   "breaks": {},
 
-  "contact": {
-    "homepage": "${homepage_url}",
-    "sources": "${sources_url}",
-    "issues": "${issues_url}"
-  },
-
   "custom": {
     "modmenu": {
       "links": {
@@ -61,7 +64,7 @@
     "formatSpec": {
       "links": {
         "formatSpec": "https://fabricmc.net/wiki/documentation:fabric_mod_json_spec",
-        "formatExample": "https://github.com/FabricMC/fabric-example-mod"
+        "formatExample": "https://github.com/FabricMC/fabric-example-mod/blob/HEAD/src/main/resources/fabric.mod.json"
       }
     }
   }
