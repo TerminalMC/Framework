@@ -49,16 +49,9 @@ subprojects {
                         && providers.environmentVariable("CURSEFORGE_TOKEN").getOrElse("").isBlank()
 
                 github {
+                    parent project(":").tasks.named("publishGithub")
                     accessToken = providers.environmentVariable("GITHUB_TOKEN").getOrElse("")
-                    repository = github_repo
-                    commitish = grgitService.service.get().grgit.branch.current().name
-                    tagName = "v${mod_version}-${project.name}"
                     additionalFiles.from(sourcesJar.archiveFile)
-                    String versions = "## Minecraft Versions\n"
-                    project.property("release_game_versions_${project.name}").split(",").each {
-                        versions = "${versions}\n- ${it}"
-                    }
-                    changelog = versions + "\n\n## Changelog\n\n" + versionChangelog()
                 }
                 modrinth {
                     accessToken = providers.environmentVariable("MODRINTH_TOKEN").getOrElse("")
@@ -135,6 +128,26 @@ subprojects {
     }
 }
 
+publishMods {
+    version = "${mod_version}+${minecraft_version}"
+    type = me.modmuss50.mpp.ReleaseType.of(release_type)
+    displayName = "v${mod_version}+${minecraft_version}"
+    dryRun = providers.environmentVariable("GITHUB_TOKEN").getOrElse("").isBlank()
+    github {
+        accessToken = providers.environmentVariable("GITHUB_TOKEN").getOrElse("")
+        repository = github_repo
+        commitish = grgitService.service.get().grgit.branch.current().name
+        tagName = "v${mod_version}+${minecraft_version}"
+        allowEmptyFiles = true
+        changelog = "[Changelog](./changelog.md#${mod_version.replaceAll("\\.", "")})"
+    }
+    tasks.named("publishGithub") {
+        it.onlyIf {
+            return it["dryRun"].get() || !providers.environmentVariable("GITHUB_TOKEN").getOrElse("").isBlank()
+        }
+    }
+}
+
 String versionChangelog() {
     List<String> lines = rootProject.file("changelog.md").readLines()
     StringBuilder builder = new StringBuilder()
@@ -149,9 +162,8 @@ String versionChangelog() {
             }
         }
     } else {
-        throw new IllegalArgumentException(
-                String.format("Mod version '%s' does not match changelog version '%s'",
-                        mod_version, lines.get(2).substring(3)))
+        logger.error("Mod version '${mod_version}' does not match changelog latest version '${lines.get(2).substring(3)}'")
+        throw new IllegalArgumentException()
     }
     return builder.toString()
 }
