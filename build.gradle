@@ -22,12 +22,11 @@ subprojects {
             owner_name = mod_owner
             year = java.time.LocalDate.now().getYear().toString()
         }
-        // Alternate license
-        matching(includes: [
-                "**/MixinMinecraft.java",
-                "**/MixinTitleScreen.java",
-        ]) {
-            header = rootProject.project("common").file(licenseDir + "other-mod/HEADER.txt")
+        // Attribution license headers
+        for (String otherMod : alt_license_mods.split(",")) {
+            matching(includes: List.of(project.property("alt_license_files_${otherMod}").split(","))) {
+                header = rootProject.project("common").file(licenseDir + "${otherMod}/HEADER.txt")
+            }
         }
     }
 
