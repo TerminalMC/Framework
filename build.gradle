@@ -7,7 +7,15 @@ plugins {
 }
 
 subprojects {
-    mod_version = "${mod_version}+${minecraft_version}"
+    mod_version = "${mod_version}+mc${minecraft_version}"
+    // Add dependency version extension, if configured.
+    if (project.hasProperty("mod_version_ext_${name}")) {
+        mod_version = mod_version + project.property("mod_version_ext_${name}")
+        if (project.hasProperty("mod_version_ext_ver_prop_${name}")) {
+            mod_version = mod_version + project.property(project.property("mod_version_ext_ver_prop_${name}").toString())
+                    .toString().split("\\+")[0] // Strip version meta from dependency.
+        }
+    }
     version = mod_version
     group = mod_group
 
