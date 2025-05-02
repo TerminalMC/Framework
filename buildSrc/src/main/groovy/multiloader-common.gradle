@@ -138,22 +138,24 @@ processResources {
             "fabric_api_versions_list": asJsonList(fabric_api_versions),
             // NeoForge
             "neoforge_versions": neoforge_versions,
-            // Dependencies
-            "clothconfig_versions_fabric_list": asJsonList(clothconfig_versions_fabric),
-            "clothconfig_versions_neoforge": clothconfig_versions_neoforge,
-            "yacl_versions_fabric_list": asJsonList(yacl_versions_fabric),
-            "yacl_versions_neoforge": yacl_versions_neoforge,
-            "modmenu_versions_fabric_list": asJsonList(modmenu_versions_fabric),
     ]
+    // Dependencies
+    dep_expand_props_fabric.toString().split(",").each {
+        expandProps[it + "_list"] = asJsonList(project.property(it).toString())
+    }
+    dep_expand_props_neoforge.toString().split(",").each {
+        expandProps[it] = project.property(it).toString()
+    }
+
     def jsonExpandProps = expandProps.collectEntries {
         key, value -> [(key): value instanceof String ? value.replace("\n", "\\\\n") : value]
     }
 
     filesMatching(["pack.mcmeta", "*.mod.json", "*.mixins.json"]) {
-        expand jsonExpandProps
+        expand(jsonExpandProps)
     }
     filesMatching(["META-INF/*.toml"]) {
-        expand expandProps
+        expand(expandProps)
     }
     inputs.properties(expandProps)
 }
