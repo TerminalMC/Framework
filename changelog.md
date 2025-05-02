@@ -2,9 +2,14 @@
 
 ## 2.0.0
 
-- Added something
-- Fixed something else
+- Redesigned buildscripts
 
-## 1.0.0-beta.1
+## 1.1.0
+
+- Fixed X
+- Added Y
+- Removed Z
+
+## 1.0.0
 
 - Initial beta release
