@@ -46,21 +46,17 @@ guarantee of support or maintenance. If you choose to use it, you do so at your 
 
 1. Change the root directory name.
 
-2. `SHIFT`+`F6` to rename the [source packages](./common/src/main/java/dev/terminalmc/framework).
+2. Edit [`rebrand.properties`](./rebrand.properties) with the new details.
 
-3. `SHIFT`+`F6` to rename the [assets directory](./common/src/main/resources/assets/framework).
+3. Run the `rebrandProject` gradle task.
 
-4. Edit [`rebrand.properties`](./rebrand.properties) with the new details.
-
-5. Run the `rebrandProject` gradle task.
-
-6. Replace [`LICENSE.txt`](./LICENSE.txt) and
+4. Replace [`LICENSE.txt`](./LICENSE.txt) and
 [`HEADER.txt`](./common/src/main/resources/assets/framework/license/HEADER.txt) with your choice of license and header
 (optionally from [`licenses`](./licenses)).
 
-7. Run the `updateLicenses` gradle task.
+5. Run the `updateLicenses` gradle task.
 
-8. Update the license line in [`gradle.properties`](./gradle.properties) accordingly.
+6. Update the license line in [`gradle.properties`](./gradle.properties) accordingly.
 
 ### Dependencies
 

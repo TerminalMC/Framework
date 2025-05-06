@@ -212,24 +212,42 @@ tasks.register("rebrandProject") {
             properties.load(stream)
         }
 
+        // Rename source package.
+        def pkgName = "src\\main\\java\\${mod_group}\\${mod_id}".replaceAll("\\.", "\\\\")
+        def pkgRootName = "src\\main\\java\\${mod_group}".split("\\.")[0]
+        def newPkgName = "src\\main\\java\\${properties.get(mod_group)}\\${properties.get(mod_id)}".replaceAll("\\.", "\\\\")
+        subprojects {
+            file(newPkgName).deleteDir()
+            //noinspection UnnecessaryQualifiedReference
+            java.nio.file.Files.createDirectories(file(newPkgName).toPath())
+            //noinspection UnnecessaryQualifiedReference
+            java.nio.file.Files.move(file(pkgName).toPath(), file(newPkgName).toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+            file(pkgRootName).deleteDir()
+        }
+
+        // Rename assets directory.
+        def assetsDir = "common\\src\\main\\resources\\assets\\${mod_id}"
+        def newAssetsDir = "common\\src\\main\\resources\\assets\\${properties.get(mod_id)}"
+        file(newAssetsDir).deleteDir()
+        //noinspection UnnecessaryQualifiedReference
+        java.nio.file.Files.move(file(assetsDir).toPath(), file(newAssetsDir).toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+        file(assetsDir).deleteDir()
+
         // Rename files.
-        file(".").eachFileRecurse { file ->
-            if (file.isFile() && !file.name.startsWith(".git") && !file.name.startsWith("gradlew")
-                    && (file.relativePath(project.rootDir) == ".." || file.path.contains("src\\main"))) {
-                try {
-                    properties.each { key, value ->
-                        if (file.name.contains(key.toString())) {
-                            def newName = file.name.replace(key.toString(), value.toString())
-                            def newFile = new File(file.parentFile, newName)
-                            if (file.renameTo(newFile)) {
-                                println("Renamed '${file.name}'")
-                            } else {
-                                println("Failed to rename '${file.name}'")
-                            }
+        file(".").eachFileRecurse { f ->
+            if (f.isFile() && !f.name.startsWith(".git") && !f.name.startsWith("gradlew")
+                    && (f.relativePath(project.rootDir) == ".." || f.path.contains("src\\main"))) {
+                properties.each { key, value ->
+                    if (f.name.contains(key.toString())) {
+                        def newName = f.name.replace(key.toString(), value.toString())
+                        def newFile = new File(f.parentFile, newName)
+                        try {
+                            f = file(java.nio.file.Files.move(f.toPath(), newFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING))
+                        } catch (IOException ex) {
+                            logger.error("Error renaming file '${f.path}': ${ex}")
+                            ex.printStackTrace()
                         }
                     }
-                } catch (IOException ex) {
-                    logger.error("Error renaming file '${file.path}': ${ex}")
                 }
             }
         }
