@@ -40,12 +40,13 @@ public class Framework {
     }
 
     public static void onEndTick(Minecraft mc) {
+        // Check mod keybindings
         while (EXAMPLE_KEY.consumeClick()) {
             mc.setScreen(ConfigScreenProvider.getConfigScreen(mc.screen));
         }
     }
 
     public static void onConfigSaved(Config config) {
-        // If you are maintaining caches based on config values, update them here.
+        // If you are maintaining caches based on config, update them here.
     }
 }

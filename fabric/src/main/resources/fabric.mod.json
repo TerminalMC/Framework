@@ -21,11 +21,11 @@
   "entrypoints": {
     "main": [],
     "client": [
-      "${mod_group}.${mod_id}.${mod_name}Fabric"
+      "dev.terminalmc.framework.FrameworkFabric"
     ],
     "server": [],
     "modmenu": [
-      "${mod_group}.${mod_id}.gui.screen.ModMenuIntegration"
+      "dev.terminalmc.framework.compat.modmenu.ModMenuImpl"
     ]
   },
 
