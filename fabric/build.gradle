@@ -4,9 +4,6 @@ plugins {
 }
 
 // Configure Fabric dependencies.
-// - modImplementation: recommended.
-// - modApi: transitively exposes the dependency to consumers.
-// - include: Jar-in-Jar bundles the dependency.
 dependencies {
     // Minecraft
     minecraft("com.mojang:minecraft:${minecraft_version}")
@@ -17,9 +14,10 @@ dependencies {
         parchment("org.parchmentmc.data:parchment-${parchment_minecraft_version}:${parchment_version}@zip")
     })
 
-    // MixinExtras - JiJ if required to be newer than minimum loader-provided version.
-    // 0.15.0->0.3.0 (initial), 0.15.7->0.3.5 (WWC v2), 0.16.0->0.4.0 (WM).
-//    include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${mixinextras_version}")))
+    // MixinExtras
+    if (mixinextras_jij_fabric) {
+        include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${mixinextras_version}")))
+    }
 
     // Fabric Loader
     modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
@@ -27,16 +25,34 @@ dependencies {
     // Fabric API
     modImplementation("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
 
-    // ModMenu
-    modImplementation("maven.modrinth:mOgUt4GM:${modmenu_version}")
-
-    // Cloth Config
-    modImplementation("me.shedaniel.cloth:cloth-config-fabric:${clothconfig_version}") {
-        exclude(group: "net.fabricmc.fabric-api")
+    // Apply property-defined dependencies.
+    project.property("${project.name}_deps").toString().split(",").each {
+        try {
+            def data = project.property("d_${project.name}_${it}").toString().split(",")
+            if (data[0] != "-") {
+                data = data[0].split(":")
+                def subV = ((data.length > 4 && data[4] != "-") ? project.property(data[4]) : project.property("v_${it}")).toString()
+                def ver = "${data[3]}".replace("\$v", subV)
+                def dep = "${data[1]}:${data[2]}:${ver}"
+                switch(data[0]) {
+                    case "implementation":
+                        modImplementation(dep)
+                        break
+                    case "api":
+                        modApi(dep)
+                        break
+                    case "include":
+                        include(modImplementation(dep))
+                        break
+                    default:
+                        throw new IllegalArgumentException("Unrecognized dependency type: ${data[0]}")
+                }
+            }
+        } catch (Exception ex) {
+            logger.error("Error processing Gradle dependency '${it}' for subproject '${project.name}'. Check dependency property format.")
+            throw ex
+        }
     }
-
-    // YACL
-    modImplementation("dev.isxander:yet-another-config-lib:${yacl_version}-fabric")
 }
 
 // Configure Loom.

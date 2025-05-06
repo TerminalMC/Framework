@@ -43,5 +43,6 @@ plugins {
 // Project configuration.
 rootProject.name = "${mod_name}"
 include("common")
-include("fabric")
-include("neoforge")
+mod_loaders.split(",").each {
+    include(it)
+}

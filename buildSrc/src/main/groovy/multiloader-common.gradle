@@ -32,6 +32,18 @@ repositories {
             includeGroup("org.parchmentmc.data")
         }
     }
+    exclusiveContent {
+        forRepository {
+            //noinspection ForeignDelegate
+            maven {
+                name = "Fabric"
+                url = uri("https://maven.fabricmc.net")
+            }
+        }
+        filter {
+            includeGroupAndSubgroups("net.fabricmc")
+        }
+    }
     maven {
         name = "Modrinth"
         url = uri("https://api.modrinth.com/maven")
@@ -138,14 +150,48 @@ processResources {
             "fabric_api_versions_list": asJsonList(fabric_api_versions),
             // NeoForge
             "neoforge_versions": neoforge_versions,
+            // Dependencies:
+            "fabric_depends": "",
+            "fabric_recommends": "",
+            "fabric_suggests": "",
+            "fabric_conflicts": "",
+            "fabric_breaks": "",
+            "neoforge_all_deps": "",
     ]
-    // Dependencies
-    dep_expand_props_fabric.toString().split(",").each {
-        expandProps[it + "_list"] = asJsonList(project.property(it).toString())
+    // Apply property-defined dependencies.
+    fabric_deps.split(",").each {
+        try {
+            def data = project.property("d_fabric_${it}").toString().split(",")
+            if (data[3] != "-") {
+                data = data[3].split(":")
+                def key = "fabric_${data[0]}".toString()
+                def prefix = expandProps[key] == "" ? "" : ",\n    "
+                expandProps[key] = "${expandProps[key]}${prefix}\"${data[1]}\": [${asJsonList(project.property("vr_fabric_${it}").toString())}]".toString()
+//                logger.info("Fabric metadata '${key}': ${expandProps[key]}")
+            }
+        } catch (Exception ex) {
+            logger.error("Error processing Fabric dependency metadata for '${it}'. Check dependency property format.")
+            throw ex
+        }
     }
-    dep_expand_props_neoforge.toString().split(",").each {
-        expandProps[it] = project.property(it).toString()
+    neoforge_deps.split(",").each {
+        try {
+            def data = project.property("d_neoforge_${it}").toString().split(",")
+            if (data[3] != "-") {
+                data = data[3].split(":")
+                expandProps["neoforge_all_deps"] = expandProps["neoforge_all_deps"] +
+                        "[[dependencies.${mod_id}]]\n" +
+                        "modId=\"${data[1]}\"\n" +
+                        "type=\"${data[0]}\"\n" +
+                        "versionRange=\"${project.property("vr_neoforge_${it}")}\"\n" +
+                        "side=\"CLIENT\"\n\n"
+            }
+        } catch (Exception ex) {
+            logger.error("Error processing NeoForge dependency metadata for '${it}'. Check dependency property format.")
+            throw ex
+        }
     }
+//    logger.info("NeoForge metadata 'neoforge_all_deps': ${expandProps["neoforge_all_deps"]}")
 
     def jsonExpandProps = expandProps.collectEntries {
         key, value -> [(key): value instanceof String ? value.replace("\n", "\\\\n") : value]

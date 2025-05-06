@@ -38,17 +38,7 @@ versionRange="${minecraft_versions_neoforge}" #optional:any
 modId="neoforge"
 versionRange="${neoforge_versions}"
 
-[[dependencies."${mod_id}"]]
-modId="cloth_config"
-type="optional"
-versionRange="${clothconfig_versions_neoforge}"
-side="CLIENT"
-
-[[dependencies."${mod_id}"]]
-modId="yet_another_config_lib_v3"
-type="optional"
-versionRange="${yacl_versions_neoforge}"
-side="CLIENT"
+${neoforge_all_deps}
 
 # https://docs.neoforged.net/docs/gettingstarted/modfiles/#neoforgemodstoml
 # https://docs.neoforged.net/docs/misc/updatechecker

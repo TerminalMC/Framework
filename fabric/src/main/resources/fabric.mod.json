@@ -37,6 +37,7 @@
   "accessWidener": "${mod_id}.accesswidener",
 
   "depends": {
+    ${fabric_depends}
     "java": [$java_versions_fabric_list],
     "minecraft": [$minecraft_versions_fabric_list],
     "fabricloader": [$fabric_loader_versions_list],
@@ -44,16 +45,20 @@
   },
 
   "recommends": {
-    "modmenu": [$modmenu_versions_fabric_list],
-    "cloth-config": [$clothconfig_versions_fabric_list],
-    "yet_another_config_lib_v3": [$yacl_versions_fabric_list]
+    ${fabric_recommends}
   },
 
-  "suggests": {},
+  "suggests": {
+    ${fabric_suggests}
+  },
 
-  "conflicts": {},
+  "conflicts": {
+    ${fabric_conflicts}
+  },
 
-  "breaks": {},
+  "breaks": {
+    ${fabric_breaks}
+  },
 
   "custom": {
     "modmenu": {

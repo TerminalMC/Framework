@@ -62,7 +62,7 @@ guarantee of support or maintenance. If you choose to use it, you do so at your 
 
 - Mod dependencies must be specified in the loader-specific `build.gradle` file. APIs may be specified in the [common 
 `build.gradle`](./common/build.gradle) for usage by the common subproject. If for any reason a mod dependency does not
-provide a common version, it is usually possible to depend on the project's Neo/Forge version in the common
+provide a common version, it is usually possible to depend on the project's NeoForge version in the common
 `build.gradle`.
 
 - Dependency repositories must be specified in
