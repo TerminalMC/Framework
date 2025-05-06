@@ -12,13 +12,13 @@
 package dev.terminalmc.framework.platform;
 
 import dev.terminalmc.framework.platform.services.IPlatformInfo;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.fml.loading.LoadingModList;
 
 import java.nio.file.Path;
 
-public class NeoForgePlatformInfo implements IPlatformInfo {
+public class PlatformInfoNeoForge implements IPlatformInfo {
     @Override
     public String getPlatformName() {
         return "NeoForge";
@@ -26,7 +26,7 @@ public class NeoForgePlatformInfo implements IPlatformInfo {
 
     @Override
     public boolean isModLoaded(String modId) {
-        return ModList.get().isLoaded(modId);
+        return LoadingModList.get().getModFileById(modId) != null;
     }
 
     @Override
