@@ -162,23 +162,23 @@ processResources {
     fabric_deps.split(",").each {
         try {
             def data = project.property("d_fabric_${it}").toString().split(",")
-            if (data[3] != "-") {
-                data = data[3].split(":")
+            if (data.length > 1 && data[1] != "-") {
+                data = data[1].split(":")
                 def key = "fabric_${data[0]}".toString()
                 def prefix = expandProps[key] == "" ? "" : ",\n    "
                 expandProps[key] = "${expandProps[key]}${prefix}\"${data[1]}\": [${asJsonList(project.property("vr_fabric_${it}").toString())}]".toString()
 //                logger.info("Fabric metadata '${key}': ${expandProps[key]}")
             }
         } catch (Exception ex) {
-            logger.error("Error processing Fabric dependency metadata for '${it}'. Check dependency property format.")
+            logger.error("Error processing fabric dependency metadata for '${it}'. Check dependency property format.")
             throw ex
         }
     }
     neoforge_deps.split(",").each {
         try {
             def data = project.property("d_neoforge_${it}").toString().split(",")
-            if (data[3] != "-") {
-                data = data[3].split(":")
+            if (data.length > 1 && data[1] != "-") {
+                data = data[1].split(":")
                 expandProps["neoforge_all_deps"] = expandProps["neoforge_all_deps"] +
                         "[[dependencies.${mod_id}]]\n" +
                         "modId=\"${data[1]}\"\n" +
@@ -187,20 +187,13 @@ processResources {
                         "side=\"CLIENT\"\n\n"
             }
         } catch (Exception ex) {
-            logger.error("Error processing NeoForge dependency metadata for '${it}'. Check dependency property format.")
+            logger.error("Error processing neoforge dependency metadata for '${it}'. Check dependency property format.")
             throw ex
         }
     }
 //    logger.info("NeoForge metadata 'neoforge_all_deps': ${expandProps["neoforge_all_deps"]}")
 
-    def jsonExpandProps = expandProps.collectEntries {
-        key, value -> [(key): value instanceof String ? value.replace("\n", "\\\\n") : value]
-    }
-
-    filesMatching(["pack.mcmeta", "*.mod.json", "*.mixins.json"]) {
-        expand(jsonExpandProps)
-    }
-    filesMatching(["META-INF/*.toml"]) {
+    filesMatching(["pack.mcmeta", "*.mod.json", "*.mixins.json", "META-INF/*.toml"]) {
         expand(expandProps)
     }
     inputs.properties(expandProps)
