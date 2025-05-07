@@ -11,25 +11,39 @@ dependencies {
     // MixinExtras
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixinextras_version}"))
 
+    // Applies a dependency configuration.
+    def apply = (String type, dep) -> {
+        switch(type) {
+            case "anp": //noinspection DependencyNotationArgument
+                return annotationProcessor(dep)
+                break
+            case "api": //noinspection DependencyNotationArgument
+                return api(dep)
+                break
+            case "con": //noinspection DependencyNotationArgument
+                return compileOnly(dep)
+                break
+            case "imp": //noinspection DependencyNotationArgument
+                return implementation(dep)
+                break
+            case "-": return dep
+                break
+            default: throw new IllegalArgumentException("Unrecognized dependency type: ${type}")
+        }
+    }
+
     // Apply property-defined dependencies.
     project.property("${project.name}_deps").toString().split(",").each {
         try {
             def data = project.property("d_${project.name}_${it}").toString().split(",")
             if (data[0] != "-") {
                 data = data[0].split(":")
-                def subV = ((data.length > 4 && data[4] != "-") ? project.property(data[4]) : project.property("v_${it}")).toString()
-                def ver = "${data[3]}".replace("\$v", subV)
-                def dep = "${data[1]}:${data[2]}:${ver}"
-                switch(data[0]) {
-                    case "implementation":
-                        implementation(dep)
-                        break
-                    case "api":
-                        api(dep)
-                        break
-                    default:
-                        throw new IllegalArgumentException("Unrecognized dependency type: ${data[0]}")
-                }
+                def subV = ((data.length > 6 && data[6] != "-") ? project.property(data[6]) : project.property("v_${it}")).toString()
+                def ver = "${data[5]}".replace("\$v", subV)
+                def dep = "${data[3]}:${data[4]}:${ver}"
+                dep = apply(data[2], dep)
+                dep = apply(data[1], dep)
+                apply(data[0], dep)
             }
         } catch (Exception ex) {
             logger.error("Error processing Gradle dependency '${it}' for subproject '${project.name}'. Check dependency property format.")
