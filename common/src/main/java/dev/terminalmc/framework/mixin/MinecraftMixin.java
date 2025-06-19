@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Minecraft.class)
-public class MixinMinecraft {
+public class MinecraftMixin {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void init(CallbackInfo info) {
