@@ -3,8 +3,8 @@ plugins {
     id("maven-publish")
 }
 
-// Configure project dependency repos.
-// Mod loader repos are provided by their respective plugins.
+// Configure project dependency repos, except for mod loader repos provided by
+// their respective plugins
 repositories {
     mavenCentral()
     mavenLocal()
@@ -58,22 +58,22 @@ repositories {
     }
 }
 
-// Set output file name.
+// Set output file name
 base {
     archivesName.set("${mod_id}-${project.name}")
 }
 
-// Configure Java build.
+// Configure Java build
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(java_version))
-    if (mod_sources == "true") withSourcesJar()
-    if (mod_javadoc == "true") withJavadocJar()
+    if (build_sources_jar == "true") withSourcesJar()
+    if (build_javadoc_jar == "true") withJavadocJar()
 }
 
-// Declare capabilities on the outgoing configurations.
-var capabilityVariants = ["apiElements", "runtimeElements"]
-if (mod_sources == "true") capabilityVariants.add("sourcesElements")
-if (mod_javadoc == "true") capabilityVariants.add("javadocElements")
+// Declare capabilities on the outgoing configurations
+final capabilityVariants = ["apiElements", "runtimeElements"]
+if (build_sources_jar == "true") capabilityVariants.add("sourcesElements")
+if (build_javadoc_jar == "true") capabilityVariants.add("javadocElements")
 capabilityVariants.each { variant ->
     configurations.named(variant).configure {
         outgoing {
@@ -86,7 +86,7 @@ capabilityVariants.each { variant ->
     }
 }
 
-// Configure main file.
+// Configure main file
 jar {
     from(rootProject.file("LICENSE.txt")) {
         rename { "LICENSE_${mod_id}.txt" }
@@ -108,8 +108,8 @@ jar {
     }
 }
 
-// Configure sources file.
-if (mod_sources == "true") {
+// Configure sources file
+if (build_sources_jar == "true") {
     sourcesJar {
         from(rootProject.file("LICENSE.txt")) {
             rename { "LICENSE_${mod_id}.txt" }
@@ -117,9 +117,9 @@ if (mod_sources == "true") {
     }
 }
 
-// Process Gradle property expansion for metadata files.
+// Process Gradle property expansion for metadata files
 processResources {
-    def expandProps = [
+    final expandProps = [
             // Mod
             "mod_version": mod_version,
             "mod_group": mod_group,
@@ -159,36 +159,49 @@ processResources {
             "fabric_breaks": "",
             "neoforge_all_deps": "",
     ]
-    // Apply property-defined dependencies.
-    fabric_deps.split(",").each {
+
+    // Shorthand helpers
+    final stringProp = (String propertyName) -> {
+        return project.property(propertyName).toString()
+    }
+    final listProp = (String propertyName) -> {
+        return stringProp(propertyName).split(",")
+    }
+
+    // Apply property-defined dependencies
+    fabric_deps.split(",").each { dep ->
         try {
-            def data = project.property("d_fabric_${it}").toString().split(",")
-            if (data.length > 1 && data[1] != "-") {
-                data = data[1].split(":")
-                def key = "fabric_${data[0]}".toString()
-                def prefix = expandProps[key] == "" ? "" : ",\n    "
-                expandProps[key] = "${expandProps[key]}${prefix}\"${data[1]}\": [${asJsonList(project.property("vr_fabric_${it}").toString())}]".toString()
+            final depData = listProp("d_fabric_${dep}")
+            if (depData.length > 1 && depData[1] != "-") {
+                final loaderData = depData[1].split(":")
+                final key = "fabric_${loaderData[0]}".toString()
+                final prefix = expandProps[key] == "" ? "" : ",\n    "
+                final depList = "[${asJsonList(stringProp("vr_fabric_${dep}"))}]"
+                final value = "${expandProps[key]}${prefix}\"${loaderData[1]}\": ${depList}"
+                expandProps[key] = value.toString()
 //                logger.info("Fabric metadata '${key}': ${expandProps[key]}")
             }
         } catch (Exception ex) {
-            logger.error("Error processing fabric dependency metadata for '${it}'. Check dependency property format.")
+            logger.error("Error processing Fabric dependency metadata for '${dep}'. "
+                    + "Check dependency property format.")
             throw ex
         }
     }
-    neoforge_deps.split(",").each {
+    neoforge_deps.split(",").each { dep ->
         try {
-            def data = project.property("d_neoforge_${it}").toString().split(",")
-            if (data.length > 1 && data[1] != "-") {
-                data = data[1].split(":")
+            final depData = listProp("d_neoforge_${dep}")
+            if (depData.length > 1 && depData[1] != "-") {
+                final loaderData = depData[1].split(":")
                 expandProps["neoforge_all_deps"] = expandProps["neoforge_all_deps"] +
                         "[[dependencies.${mod_id}]]\n" +
-                        "modId=\"${data[1]}\"\n" +
-                        "type=\"${data[0]}\"\n" +
-                        "versionRange=\"${project.property("vr_neoforge_${it}")}\"\n" +
+                        "modId=\"${loaderData[1]}\"\n" +
+                        "type=\"${loaderData[0]}\"\n" +
+                        "versionRange=\"${project.property("vr_neoforge_${dep}")}\"\n" +
                         "side=\"CLIENT\"\n\n"
             }
         } catch (Exception ex) {
-            logger.error("Error processing neoforge dependency metadata for '${it}'. Check dependency property format.")
+            logger.error("Error processing NeoForge dependency metadata for '${dep}'. "
+                    + "Check dependency property format.")
             throw ex
         }
     }
@@ -200,7 +213,7 @@ processResources {
     inputs.properties(expandProps)
 }
 
-// Configure publication.
+// Configure publication
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -210,7 +223,7 @@ publishing {
     }
 }
 
-// Converts a CSV list into a FMJ-usable format. 
+// Converts a CSV list into a FMJ-usable format
 static asJsonList(String versions) {
     return versions.split(",").collect { "\"$it\"" }.join(",")
 }

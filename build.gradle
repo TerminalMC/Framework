@@ -7,196 +7,237 @@ plugins {
 }
 
 subprojects {
-    mod_version = "${mod_version}+mc${minecraft_version}"
-    // Add dependency version extension, if configured.
-    if (project.hasProperty("mod_ver_ext_${name}") && project.property("mod_ver_ext_${name}") != "") {
-        def data = project.property("mod_ver_ext_${name}").toString().split(":")
-        mod_version = "${mod_version}+${data[0]}${project.property(data[1]).toString().split("\\+")[0]}"
+    // Append Minecraft version extension
+    mod_version = "${mod_version}+${minecraft_version}"
+    // Append dependency version extension, if configured
+    if (hasProp("dep_ext_${name}")) {
+        final data = project.property("dep_ext_${name}").toString().split(":")
+        final dep_abbrev = data[0]
+        // Strip meta from dependency version
+        final dep_ver = project.property(data[1]).toString().split("\\+")[0]
+        mod_version = "${mod_version}+${dep_abbrev}${dep_ver}"
     }
     version = mod_version
     group = mod_group
 
-    // Configure license headers.
+    // Configure license headers
     apply(plugin: "org.cadixdev.licenser")
-    String licenseDir = "src/main/resources/assets/${mod_id}/license/"
+    final licenseDir = "src/main/resources/assets/${mod_id}/license/"
     license {
-        include("**/*.java") // Java files only.
-        // Apply main license.
-        header = rootProject.project("common").file(licenseDir + "HEADER.txt")
+        include("**/*.java") // Java files only
+        // Apply main license header
+        header = rootProject.project("common").file("${licenseDir}HEADER.txt")
         properties {
             project_name = mod_name
             owner_name = mod_owner
             //noinspection UnnecessaryQualifiedReference
             year = java.time.LocalDate.now().getYear().toString()
         }
-        // Apply attribution licenses.
-        att_license_mods.split(",").each { String otherMod ->
-            //noinspection GroovyAssignabilityCheck
-            matching(includes: List.of(project.property("att_license_files_${otherMod}").split(","))) {
-                header = rootProject.project("common").file(licenseDir + "${otherMod}/HEADER.txt")
+        // Apply attribution license headers, if configured
+        if (att_license_mods != "") {
+            att_license_mods.split(",").each { String modId ->
+                //noinspection GroovyAssignabilityCheck
+                matching(includes: List.of(listProp("att_license_files_${modId}"))) {
+                    header = rootProject.project("common").file("${licenseDir}${modId}/HEADER.txt")
+                }
             }
         }
     }
 
-    // Configure multi-site publishing.
+    // Configure multi-site publishing
     if (name != "common") {
         apply(plugin: "me.modmuss50.mod-publish-plugin")
         apply(plugin: "org.ajoberstar.grgit.service")
 
-        afterEvaluate {
+        afterEvaluate { sp ->
             publishMods {
-                file = project.name == "fabric" ? remapJar.archiveFile : jar.archiveFile
+                // Common configuration
+                file = sp.name == "fabric" ? remapJar.archiveFile : jar.archiveFile
                 version = mod_version
                 //noinspection UnnecessaryQualifiedReference
-                type = me.modmuss50.mpp.ReleaseType.of(release_type)
-                displayName = "v${mod_version}-${capsLoader(project.name)}"
-                modLoaders.addAll(project.property("release_mod_loaders_${project.name}").toString().split(","))
+                type = me.modmuss50.mpp.ReleaseType.of(mod_version_type)
+                displayName = "v${mod_version}-${capsLoader(sp.name)}"
+                modLoaders.addAll(listProp("mod_loaders_${sp.name}"))
                 maxRetries = 5
-                dryRun = providers.environmentVariable("GITHUB_TOKEN").getOrElse("").isBlank()
-                        && providers.environmentVariable("MODRINTH_TOKEN").getOrElse("").isBlank()
-                        && providers.environmentVariable("CURSEFORGE_TOKEN").getOrElse("").isBlank()
+                dryRun = env("GITHUB_TOKEN").isBlank()
+                        && env("MODRINTH_TOKEN").isBlank()
+                        && env("CURSEFORGE_TOKEN").isBlank()
+                // GitHub configuration
                 github {
                     parent project(":").tasks.named("publishGithub")
-                    accessToken = providers.environmentVariable("GITHUB_TOKEN").getOrElse("")
-                    if (mod_sources == "true") additionalFiles.from(sourcesJar.archiveFile)
-                    if (mod_javadoc == "true") additionalFiles.from(javadocJar.archiveFile)
+                    accessToken = env("GITHUB_TOKEN")
+                    if (build_sources_jar == "true") additionalFiles.from(sourcesJar.archiveFile)
+                    if (build_javadoc_jar == "true") additionalFiles.from(javadocJar.archiveFile)
                     return void
                 }
+                // Modrinth configuration
                 modrinth {
-                    accessToken = providers.environmentVariable("MODRINTH_TOKEN").getOrElse("")
-                    projectId = modrinth_id
-                    minecraftVersions.addAll(project.property("release_game_versions_${project.name}").toString().split(","))
+                    accessToken = env("MODRINTH_TOKEN")
+                    projectId = mod_modrinth_id
+                    minecraftVersions.addAll(listProp("mc_versions_${sp.name}"))
                     changelog = versionChangelog()
-                    project.property("${project.name}_deps").toString().split(",").each {
+                    listProp("${sp.name}_deps").each { dep ->
                         try {
-                            def data = project.property("d_${project.name}_${it}").toString().split(",")
-                            if (data.length > 2 && data[2] != "-") {
-                                data = data[2].split(":")
-                                switch (data[0]) {
-                                    case "req":
-                                        requires { id = data[1] }
-                                        break
-                                    case "opt":
-                                        optional { id = data[1] }
-                                        break
-                                    case "inc":
-                                        incompatible { id = data[1] }
-                                        break
-                                    case "emb":
-                                        embeds { id = data[1] }
-                                        break
-                                    default:
-                                        throw new IllegalArgumentException("Unrecognized dependency type: ${data[0]}")
+                            final depData = listProp("d_${sp.name}_${dep}")
+                            if (depData.length > 2 && depData[2] != "-") {
+                                final mrDepData = depData[2].split(":")
+                                final type = mrDepData[0]
+                                if (type == "req") {
+                                    requires(mrDepData[1])
+                                } else if (type == "opt") {
+                                    optional(mrDepData[1])
+                                } else if (type == "inc") {
+                                    incompatible(mrDepData[1])
+                                } else if (type == "emb") {
+                                    embeds(mrDepData[1])
+                                } else {
+                                    throw new IllegalArgumentException(
+                                            "Unrecognized dependency type: ${mrDepData[0]}")
                                 }
                             }
                         } catch (Exception ex) {
-                            logger.error("Error processing Modrinth dependency '${it}' for subproject '${project.name}'. Check dependency property format.")
+                            logger.error("Error processing Modrinth dependency '${dep}' for "
+                                    + "subproject '${sp.name}'. Check dependency property format.")
                             throw ex
                         }
                     }
-                    // Sync Modrinth description with README.
-                    projectDescription = rootProject.file("README.md").text
-                            .replaceAll("src=\"\\./", "src=\"https://raw.githubusercontent.com/${github_repo}/HEAD/")
+                    // Sync Modrinth description with README
+                    projectDescription = rootProject.file("README.md").text.replaceAll(
+                            "src=\"\\./",
+                            "src=\"https://raw.githubusercontent.com/${mod_github_repo}/HEAD/"
+                    )
                 }
+                // CurseForge configuration
                 curseforge {
-                    accessToken = providers.environmentVariable("CURSEFORGE_TOKEN").getOrElse("")
-                    projectId = curseforge_id
-                    projectSlug = curseforge_slug
-                    minecraftVersions.addAll(project.property("release_game_versions_${project.name}").toString().split(","))
+                    accessToken = env("CURSEFORGE_TOKEN")
+                    projectId = mod_curseforge_id
+                    projectSlug = mod_curseforge_slug
+                    minecraftVersions.addAll(listProp("mc_versions_${sp.name}"))
                     changelog = versionChangelog()
-                    project.property("${project.name}_deps").toString().split(",").each {
+                    listProp("${sp.name}_deps").each { dep ->
                         try {
-                            def data = project.property("d_${project.name}_${it}").toString().split(",")
-                            if (data.length > 3 && data[3] != "-") {
-                                data = data[3].split(":")
-                                switch (data[0]) {
-                                    case "req":
-                                        requires(data[1])
-                                        break
-                                    case "opt":
-                                        optional(data[1])
-                                        break
-                                    case "inc":
-                                        incompatible(data[1])
-                                        break
-                                    case "emb":
-                                        embeds(data[1])
-                                        break
-                                    default:
-                                        throw new IllegalArgumentException("Unrecognized dependency type: ${data[0]}")
+                            final depData = listProp("d_${sp.name}_${dep}")
+                            if (depData.length > 3 && depData[3] != "-") {
+                                final cfDepData = depData[3].split(":")
+                                final type = cfDepData[0]
+                                if (type == "req") {
+                                    requires(cfDepData[1])
+                                } else if (type == "opt") {
+                                    optional(cfDepData[1])
+                                } else if (type == "inc") {
+                                    incompatible(cfDepData[1])
+                                } else if (type == "emb") {
+                                    embeds(cfDepData[1])
+                                } else {
+                                    throw new IllegalArgumentException(
+                                            "Unrecognized dependency type: ${cfDepData[0]}")
                                 }
                             }
                         } catch (Exception ex) {
-                            logger.error("Error processing Modrinth dependency '${it}' for subproject '${project.name}'. Check dependency property format.")
+                            logger.error("Error processing CurseForge dependency '${dep}' for "
+                                    + "subproject '${sp.name}'. Check dependency property format.")
                             throw ex
                         }
                     }
                     return void
                 }
             }
-            tasks.named("publishGithub") {
-                it.onlyIf {
-                    return it["dryRun"].get() || !providers.environmentVariable("GITHUB_TOKEN").getOrElse("").isBlank()
-                }
-            }
-            tasks.named("publishModrinth") {
-                it.onlyIf {
-                    return it["dryRun"].get() || !providers.environmentVariable("MODRINTH_TOKEN").getOrElse("").isBlank()
-                }
-            }
-            tasks.named("publishCurseforge") {
-                it.onlyIf {
-                    return it["dryRun"].get() || !providers.environmentVariable("CURSEFORGE_TOKEN").getOrElse("").isBlank()
-                }
-            }
+            tasks.named("publishGithub") { onlyIf {
+                return hasProp("mod_github_repo")
+                        && (it["dryRun"].get() || !env("GITHUB_TOKEN").isBlank())
+            }}
+            tasks.named("publishModrinth") { onlyIf {
+                return hasProp("mod_modrinth_id")
+                        && (it["dryRun"].get() || !env("MODRINTH_TOKEN").isBlank())
+            }}
+            tasks.named("publishCurseforge") { onlyIf {
+                return hasProp("mod_modrinth_id")
+                        && hasProp("mod_curseforge_slug")
+                        && (it["dryRun"].get() || !env("MODRINTH_TOKEN").isBlank())
+            }}
         }
     }
 }
 
-// Parent task for GitHub combined release.
+/**
+ * This configuration, combined with the subproject configuration above, allows
+ * multiple files to be uploaded to a single GitHub release.
+ */
 publishMods {
     version = "${mod_version}+${minecraft_version}"
-    //noinspection UnnecessaryQualifiedReference
-    type = me.modmuss50.mpp.ReleaseType.of(release_type)
     displayName = "v${mod_version}+${minecraft_version}"
+    //noinspection UnnecessaryQualifiedReference
+    type = me.modmuss50.mpp.ReleaseType.of(mod_version_type)
     dryRun = providers.environmentVariable("GITHUB_TOKEN").getOrElse("").isBlank()
     github {
         accessToken = providers.environmentVariable("GITHUB_TOKEN").getOrElse("")
-        repository = github_repo
+        repository = mod_github_repo
         commitish = grgitService.service.get().grgit.branch.current().name
         tagName = "v${mod_version}+${minecraft_version}"
         allowEmptyFiles = true
+        // Link to header in changelog file
         changelog = "[Changelog](./changelog.md#${mod_version.replaceAll("\\.", "")})"
     }
-    tasks.named("publishGithub") {
-        it.onlyIf {
-            return it["dryRun"].get() || !providers.environmentVariable("GITHUB_TOKEN").getOrElse("").isBlank()
-        }
-    }
+    tasks.named("publishGithub") { onlyIf {
+        return hasProp("mod_github_repo")
+                && (it["dryRun"].get() || !env("GITHUB_TOKEN").isBlank())
+    }}
 }
 
-// Loads the latest changelog from the changelog.md file.
+/**
+ * Loads the latest changelog from the 'changelog.md' file.
+ */
 String versionChangelog() {
-    List<String> lines = rootProject.file("changelog.md").readLines()
-    StringBuilder builder = new StringBuilder()
-    if ("${mod_version}" == lines.get(2).substring(3)) {
+    final lines = rootProject.file("changelog.md").readLines()
+    final builder = new StringBuilder()
+    // Changelog version header is on the third line of the file; check it
+    if ("${mod_version}" != lines.get(2).substring(3)) {
+        throw new IllegalArgumentException(String.format(
+                "Mod version '%s' does not match changelog version '%s'",
+                mod_version,
+                lines.get(2).substring(3)
+        ))
+    } else {
+        // Iterate over content lines
         for (int i = 4; i < lines.size(); i++) {
-            String line = lines.get(i)
+            final line = lines.get(i)
             if (line.startsWith("## ")) {
+                // Encountered next changelog header; finish
                 break
-            } else if (!line.isBlank()) {
+            } else {
+                // Append the content line, respecting blank lines
                 if (!builder.isEmpty()) builder.append("\n")
-                builder.append(line)
+                if (!line.isBlank()) builder.append(line)
             }
         }
-    } else {
-        logger.error("Mod version '${mod_version}' does not match changelog latest version '${lines.get(2).substring(3)}'")
-        throw new IllegalArgumentException()
     }
     return builder.toString()
 }
 
-// Converts a lowercase loader name to its formal version.
+/**
+ * Shorthand helper method.
+ */
+String env(String variableName) {
+    return providers.environmentVariable(variableName).getOrElse("")
+}
+
+/**
+ * Shorthand helper method.
+ */
+boolean hasProp(String propertyName) {
+    return project.hasProperty(propertyName) && project.property(propertyName) != ""
+}
+
+/**
+ * Shorthand helper method.
+ */
+String[] listProp(String propertyName) {
+    return project.property(propertyName).toString().split(",")
+}
+
+/**
+ * Converts a lowercase mod loader name into its formal version.
+ */
 static String capsLoader(String loader) {
     switch(loader) {
         case "fabric": return "Fabric"
@@ -207,76 +248,161 @@ static String capsLoader(String loader) {
     }
 }
 
-// Renames files and edits contents to apply values from the rebrand.properties file.
+/**
+ * This task applies changes defined the 'rebrand.properties' file to packages,
+ * file names and file contents. Only root files not starting with '.' and files
+ * in subproject 'src/main' directories are affected.
+ * <p>
+ * This task should be used with caution, since unexpected behavior can occur
+ * especially when running the task more than one time off the template project.
+ * Refer to the 'rebrand.properties' file for more information.
+ */
 tasks.register("rebrandProject") {
-    def rebrandFile = "rebrand.properties"
-    // Check for the file.
-    if (!file(rebrandFile).exists()) {
-        println("'${rebrandFile}' file not found.")
+    println("Starting task '${it.name}'...")
+    // Check for the properties file
+    final String propFileName = "rebrand.properties"
+    if (!file(propFileName).exists()) {
+        logger.error("Rebrand file '${propFileName}' not found.")
         return
     }
-    // Perform the operation.
+
     doLast {
-        // Load new properties.
-        def properties = new Properties()
-        file(rebrandFile).withInputStream { stream ->
-            properties.load(stream)
+        // Load new properties
+        final props = new Properties()
+        file(propFileName).withInputStream { stream ->
+            props.load(stream)
         }
+        final sep = File.separatorChar
 
-        // Rename source package.
-        def pkgName = "src\\main\\java\\${mod_group}\\${mod_id}".replaceAll("\\.", "\\\\")
-        def pkgRootName = "src\\main\\java\\${mod_group}".split("\\.")[0]
-        def newPkgName = "src\\main\\java\\${properties.get(mod_group)}\\${properties.get(mod_id)}".replaceAll("\\.", "\\\\")
-        subprojects {
-            file(newPkgName).deleteDir()
-            //noinspection UnnecessaryQualifiedReference
-            java.nio.file.Files.createDirectories(file(newPkgName).toPath())
-            //noinspection UnnecessaryQualifiedReference
-            java.nio.file.Files.move(file(pkgName).toPath(), file(newPkgName).toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING)
-            file(pkgRootName).deleteDir()
-        }
-
-        // Rename assets directory.
-        def assetsDir = "common\\src\\main\\resources\\assets\\${mod_id}"
-        def newAssetsDir = "common\\src\\main\\resources\\assets\\${properties.get(mod_id)}"
-        file(newAssetsDir).deleteDir()
-        //noinspection UnnecessaryQualifiedReference
-        java.nio.file.Files.move(file(assetsDir).toPath(), file(newAssetsDir).toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING)
-        file(assetsDir).deleteDir()
-
-        // Rename files.
-        file(".").eachFileRecurse { f ->
-            if (f.isFile() && !f.name.startsWith(".git") && !f.name.startsWith("gradlew")
-                    && (f.relativePath(project.rootDir) == ".." || f.path.contains("src\\main"))) {
-                properties.each { key, value ->
-                    if (f.name.contains(key.toString())) {
-                        def newName = f.name.replace(key.toString(), value.toString())
-                        def newFile = new File(f.parentFile, newName)
-                        try {
-                            f = file(java.nio.file.Files.move(f.toPath(), newFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING))
-                        } catch (IOException ex) {
-                            logger.error("Error renaming file '${f.path}': ${ex}")
-                            ex.printStackTrace()
-                        }
+        // Rename the source package
+        final oldSrcPkgName =
+                "src/main/java/${mod_group}/${mod_id}".replaceAll("\\.", "/")
+        final newSrcPkgName =
+                "src/main/java/${props.get(mod_group)}/${props.get(mod_id)}".replaceAll("\\.", "/")
+        if (file(oldSrcPkgName).exists()) {
+            logger.error("Old source package '${oldSrcPkgName} does not exist")
+            return
+        } else if (file(newSrcPkgName) == file(oldSrcPkgName)) {
+            println("New and old source packages are equal, skipping rename")
+        } else {
+            // Find the divergence root of new and old paths
+            final srcPkgRootSplit = new ArrayList<>()
+            final oldSrcPkgSplit = oldSrcPkgName.split("/")
+            final newSrcPkgSplit = newSrcPkgName.split("/")
+            final cap = Math.min(oldSrcPkgSplit.length, newSrcPkgSplit.length)
+            String oldSrcPkgRootName = ""
+            String newSrcPkgRootName = ""
+            for (int i = 0; i < cap; i++) {
+                // OS-independent comparison
+                if (file(newSrcPkgSplit[i]) == file(oldSrcPkgSplit[i])) {
+                    srcPkgRootSplit.add(oldSrcPkgSplit[i])
+                } else {
+                    // Divergence found, assemble old and new root paths
+                    oldSrcPkgRootName = "${srcPkgRootSplit.join("/")}/${oldSrcPkgSplit[i]}"
+                    newSrcPkgRootName = "${srcPkgRootSplit.join("/")}/${newSrcPkgSplit[i]}"
+                    break
+                }
+            }
+            if (newSrcPkgRootName == oldSrcPkgRootName) {
+                logger.error("Error searching for divergence of '${newSrcPkgName}' and "
+                        + "'${oldSrcPkgName}'")
+                return
+            } else {
+                println("Renaming source package from '${oldSrcPkgName}' to '${newSrcPkgName}'")
+                // Perform the operation
+                subprojects {
+                    // Delete the new src root, if it exists
+                    file(newSrcPkgRootName).deleteDir()
+                    // Copy the files from old to new
+                    copy {
+                        from file(oldSrcPkgName)
+                        into file(newSrcPkgName)
                     }
+                    // Delete the old src root
+                    file(oldSrcPkgRootName).deleteDir()
                 }
             }
         }
 
-        // Edit file contents.
-        file(".").eachFileRecurse { file ->
-            if (file.isFile() && !file.name.startsWith(".git") && !file.name.startsWith("gradlew")
-                    && (file.relativePath(project.rootDir) == ".." || file.path.contains("src\\main"))) {
-                try {
-                    def content = file.text
-                    properties.each { key, value ->
-                        content = content.replaceAll(key.toString(), value.toString())
+        // Rename the assets directory
+        final oldAssetsDirName = "common/src/main/resources/assets/${mod_id}"
+        final newAssetsDirName = "common/src/main/resources/assets/${props.get(mod_id)}"
+        if (file(newAssetsDirName) == file(oldAssetsDirName)) {
+            println("New and old assets directories are equal, skipping rename")
+        } else {
+            println("Renaming assets directory from '${oldAssetsDirName}' to '${newAssetsDirName}'")
+            // Delete the new assets dir, if it exists
+            file(newAssetsDirName).deleteDir()
+            // Copy the files from old to new
+            copy {
+                from file(oldAssetsDirName)
+                into file(newAssetsDirName)
+            }
+            // Delete the old assets dir
+            file(oldAssetsDirName).deleteDir()
+        }
+
+        // Rename all files
+        file(".").eachFileRecurse { f ->
+            // Filter
+            if (f.isFile()
+                    && (f.relativePath(project.rootDir) == ".." || f.path.contains("src${sep}main"))
+            ) {
+                logger.error(f.path)
+                // Iterate over all properties
+                String fileName = f.name
+                props.each { key, value ->
+                    if (file(key) != file(value) && fileName.contains(key.toString())) {
+                        fileName = fileName.replaceAll(key.toString(), value.toString())
                     }
-                    file.withWriter("UTF-8") { writer -> writer.write(content) }
+                }
+                // Rename file
+                try {
+                    println("Renaming file '${f.name}' to '${fileName}'")
+                    //noinspection UnnecessaryQualifiedReference
+                    java.nio.file.Files.move(
+                            f.toPath(),
+                            new File(f.parentFile, fileName).toPath(),
+                            java.nio.file.StandardCopyOption.REPLACE_EXISTING
+                    )
                 } catch (IOException ex) {
-                    logger.error("Error updating contents of file '${file.path}': ${ex}")
+                    logger.error("Error renaming file '${f.path}': ${ex}")
+                    ex.printStackTrace()
+                }
+            }
+        }
+
+        // Edit file contents
+        file(".").eachFileRecurse { f ->
+            // Filter
+            if (f.isFile()
+                    && (f.relativePath(project.rootDir) == ".." || f.path.contains("src${sep}main"))
+            ) {
+                try {
+                    // Iterate over all properties
+                    String contents = f.text
+                    props.each { key, value ->
+                        if (key != value) {
+                            // Replace all occurrences in the contents
+                            final matcher = java.util.regex.Pattern.compile(
+                                    java.util.regex.Pattern.quote(key.toString())
+                            ).matcher(contents)
+                            final count = matcher.count
+                            if (count > 0) {
+                                println("Replacing ${count} instance(s) of '${key}' with "
+                                        + "'${value}' in file '${f.name}'")
+                                contents = matcher.replaceAll(value.toString())
+                            }
+                        }
+                    }
+                    // Write the altered contents
+                    f.withWriter("UTF-8") { writer -> writer::write(contents) }
+                } catch (IOException ex) {
+                    logger.error("Error updating contents of file '${f.path}': ${ex}")
+                    ex.printStackTrace()
                 }
             }
         }
     }
+    println("Task '${it.name}' finished")
 }

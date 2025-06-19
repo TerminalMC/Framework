@@ -1,4 +1,4 @@
-// Configure Gradle plugin repos.
+// Configure Gradle plugin repos
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -35,14 +35,14 @@ pluginManagement {
     }
 }
 
-// Project root plugins.
+// Configure root plugins
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version("${foojay_version}")
 }
 
-// Project configuration.
+// Configure project
 rootProject.name = "${mod_name}"
 include("common")
-mod_loaders.split(",").each {
+build_subprojects.split(",").each {
     include(it)
 }
