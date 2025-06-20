@@ -23,8 +23,9 @@ A custom and relatively unstable template mod for TerminalMC projects.
 
 ### Features
 
-- Configuration UI using [Cloth Config](https://modrinth.com/mod/9s6osm5g) or [YACL](https://modrinth.com/mod/1eAoo2KR) 
-(both included, remove the one you don't want).
+- Configuration UI using [Cloth Config](https://modrinth.com/mod/9s6osm5g)
+  or [YACL](https://modrinth.com/mod/1eAoo2KR)
+  (both included, remove the one you don't want).
 - Keybind registration.
 - Command registration.
 - GitHub, Modrinth and CurseForge publishing via GitHub actions.
@@ -39,8 +40,9 @@ A custom and relatively unstable template mod for TerminalMC projects.
 
 ### Usage
 
-This project was created and is maintained for TerminalMC use, so consider it provided as-is, without any warranty or 
-guarantee of support or maintenance. If you choose to use it, you do so at your own risk.
+This project was created and is maintained for TerminalMC use, so consider it provided as-is,
+without any warranty or guarantee of support or maintenance. If you choose to use it, you do so at
+your own risk.
 
 #### Changing Project Details (IntelliJ IDEA)
 
@@ -51,8 +53,8 @@ guarantee of support or maintenance. If you choose to use it, you do so at your 
 3. Run the `rebrandProject` gradle task.
 
 4. Replace [`LICENSE.txt`](./LICENSE.txt) and
-[`HEADER.txt`](./common/src/main/resources/assets/framework/license/HEADER.txt) with your choice of license and header
-(optionally from [`licenses`](./licenses)).
+   [`HEADER.txt`](./common/src/main/resources/assets/framework/license/HEADER.txt) with your choice
+   of license and header (optionally from [`licenses`](./licenses)).
 
 5. Run the `updateLicenses` gradle task.
 
@@ -60,36 +62,42 @@ guarantee of support or maintenance. If you choose to use it, you do so at your 
 
 ### Dependencies
 
-- Mod dependencies must be specified in the loader-specific `build.gradle` file. APIs may be specified in the [common 
-`build.gradle`](./common/build.gradle) for usage by the common subproject. If for any reason a mod dependency does not
-provide a common version, it is usually possible to depend on the project's NeoForge version in the common
-`build.gradle`.
+- Mod dependencies must be specified in the loader-specific `build.gradle` file. APIs may be
+  specified in the [common `build.gradle`](./common/build.gradle) for usage by the common
+  subproject. If for any reason a mod dependency does not provide a common version, it is usually
+  possible to depend on the project's NeoForge version in the common `build.gradle`.
 
 - Dependency repositories must be specified in
-[`multiloader-common.gradle`](./buildSrc/src/main/groovy/multiloader-common.gradle).
+  [`multiloader-common.gradle`](./buildSrc/src/main/groovy/multiloader-common.gradle).
 
-- Project properties required by [`resources`](./common/src/main/resources) files must be added to the `expandProps`
-map in [`multiloader-common.gradle`](./buildSrc/src/main/groovy/multiloader-common.gradle).
+- Project properties required by [`resources`](./common/src/main/resources) files must be added to
+  the `expandProps` map in
+  [`multiloader-common.gradle`](./buildSrc/src/main/groovy/multiloader-common.gradle).
 
 ### Licenses
 
-This project is licensed [CC0-1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/legalcode), with the
-mixin classes carrying the [MPL-2.0](https://mozilla.org/MPL/2.0) header as an example of attributing a modified work
-from another mod licensed MPL-2.0.
+This project is licensed
+[CC0-1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/legalcode), with the mixin
+classes carrying the [MPL-2.0](https://mozilla.org/MPL/2.0) header as an example of attributing a
+modified work from another mod licensed MPL-2.0.
 
 <details>
 <summary><b>License summaries (not legal advice)</b></summary>
 
 [CC0-1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/legalcode)
+
 - No restrictions.
 
 [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0)
+
 - Copyright notices must be retained.
 - License file must be retained (both source and executable form).
 - Modification notices must be added to modified files.
-- Subject to previous points, combined or derivative works may be provided under a different license.
+- Subject to previous points, combined or derivative works may be provided under a different
+  license.
 
 [LGPL-3.0-only](https://www.gnu.org/licenses/lgpl-3.0)
+
 - Complicated, basically;
 - Copyright notices and license file must be retained.
 - Modification notices with modification date must be added to modified files.
@@ -97,11 +105,14 @@ from another mod licensed MPL-2.0.
 - Source code must be provided when distributing copies or derivative works in executable form.
 
 [MIT](https://mit-license.org)
+
 - Copyright notices and permission notices must be retained in all copies or substantial portions.
 
 [MPL-2.0](https://mozilla.org/MPL/2.0)
+
 - Copyright notices must be retained.
-- Distributions of source code (complete or partial, original or modified) must remain under the same license.
+- Distributions of source code (complete or partial, original or modified) must remain under the
+  same license.
 - Source code must be provided when distributing copies or combined works in executable form.
 - Subject to previous points, a combined work may be distributed under a different license.
 
@@ -109,8 +120,9 @@ from another mod licensed MPL-2.0.
 
 ### Credits
 
-Framework is based on [Jaredlll08's MultiLoader Template](https://github.com/jaredlll08/MultiLoader-Template) and
-includes code reused under license.
+Framework is based on
+[Jaredlll08's MultiLoader Template](https://github.com/jaredlll08/MultiLoader-Template) and includes
+code reused under license.
 
 ### Contact
 

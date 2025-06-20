@@ -25,63 +25,57 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.List;
 
 import static dev.terminalmc.framework.util.Localization.localized;
 
 public class YaclScreenProvider {
+
     /**
      * Builds and returns a YACL options screen.
+     * <p>
+     * All controller options are displayed, those not required are marked as {@code // op}
+     * <p>
+     * Optional always-available option-builder options are:
+     * <ul>
+     * <li>
+     * {@code flags}, which tell YACL when to start using the new value.
+     * <li>
+     * {@code addListener(s)}, to be notified immediately when the option value is changed.
+     * <li>
+     * {@code instant}, which tells YACL to apply the new value immediately, rather than waiting for
+     * save.
+     * <li>
+     * {@code available}, which tells YACL whether to allow the user to change the option value.
+     * </ul>
+     * Other notes:
+     * <ul>
+     * <li>
+     * {@link ListOption} allows creation of a dynamic list of options using any controller type,
+     * but cannot contain an {@link OptionGroup}.
+     * <li>
+     * {@link OptionGroup} allows creation of a collapsible group of options using any controller
+     * type, but cannot contain a {@link ListOption}.
+     * <li>
+     * In cases requiring configuration of a list of complex objects, one solution is to have each
+     * instance be configured by an {@link OptionGroup}, with {@link ButtonOption}s to add and
+     * remove instances.
+     * <li>
+     * If the complex object itself requires a {@link ListOption}, it should be added to the
+     * {@link ConfigCategory.Builder} immediately after the {@link OptionGroup} is added, so that it
+     * will appear to be attached.
+     * </ul>
+     *
      * @param parent the current screen.
      * @return a new options {@link Screen}.
      * @throws NoClassDefFoundError if the YACL mod is not available.
-     *
-     * <p>All controller options are displayed, those not required are marked as
-     * {@code // op}</p>
-     *
-     * <p>Optional always-available option-builder options are:</p>
-     * <ul>
-     *     <li>{@code flags}, which tell YACL when to start using the new value.
-     *     </li>
-     *     <li>{@code addListener(s)}, to be notified immediately when the 
-     *     option value is changed.
-     *     </li>
-     *     <li>{@code instant}, which tells YACL to apply the new value
-     *     immediately, rather than waiting for save.
-     *     </li>
-     *     <li>{@code available}, which tells YACL whether to allow the user to
-     *     change the option value.
-     *     </li>
-     * </ul>
-     *
-     * <p>Other notes:</p>
-     * <ul>
-     *     <li>{@link ListOption} allows creation of a dynamic list of options
-     *     using any controller type, but cannot contain an {@link OptionGroup}.
-     *     </li>
-     *     <li>{@link OptionGroup} allows creation of a collapsible group of
-     *     options using any controller type, but cannot contain a
-     *     {@link ListOption}.
-     *     </li>
-     *     <li>In cases requiring configuration of a list of complex objects,
-     *     one solution is to have each instance be configured by an
-     *     {@link OptionGroup}, with {@link ButtonOption}s to add and remove
-     *     instances.
-     *     </li>
-     *     <li>If the complex object itself requires a {@link ListOption}, it
-     *     should be added to the {@link ConfigCategory.Builder} immediately
-     *     after the {@link OptionGroup} is added, so that it will appear to be
-     *     attached.
-     *     </li>
-     * </ul>
      */
     static Screen getConfigScreen(Screen parent) {
         Config.Options options = Config.options();
 
-        YetAnotherConfigLib.Builder builder = YetAnotherConfigLib.createBuilder()
-                .title(localized("name"))
-                .save(Config::save);
+        YetAnotherConfigLib.Builder builder =
+                YetAnotherConfigLib.createBuilder().title(localized("name")).save(Config::save);
 
         // First category
         ConfigCategory.Builder firstCat = ConfigCategory.createBuilder()
@@ -91,38 +85,49 @@ public class YaclScreenProvider {
         // On/Off button
         firstCat.option(Option.<Boolean>createBuilder()
                 .name(localized("option", "cat1.booleanOption"))
-                .description(OptionDescription.of(
-                        localized("option", "cat1.booleanOption.tooltip")))
-                .binding(Config.Options.booleanOptionDefault,
+                .description(OptionDescription.of(localized(
+                        "option",
+                        "cat1.booleanOption.tooltip"
+                )))
+                .binding(
+                        Config.Options.booleanOptionDefault,
                         () -> options.booleanOption,
-                        val -> options.booleanOption = val)
+                        val -> options.booleanOption = val
+                )
                 .controller(BooleanControllerBuilder::create)
                 .build());
 
         // Colored Yes/No button
         firstCat.option(Option.<Boolean>createBuilder()
                 .name(localized("option", "cat1.booleanOption"))
-                .description(OptionDescription.of(
-                        localized("option", "cat1.booleanOption.tooltip")))
-                .binding(Config.Options.booleanOptionDefault,
+                .description(OptionDescription.of(localized(
+                        "option",
+                        "cat1.booleanOption.tooltip"
+                )))
+                .binding(
+                        Config.Options.booleanOptionDefault,
                         () -> options.booleanOption,
-                        val -> options.booleanOption = val)
-                .controller(option -> BooleanControllerBuilder.create(option)
-                        .coloured(true) // op
+                        val -> options.booleanOption = val
+                )
+                .controller(option -> BooleanControllerBuilder.create(option).coloured(true) // op
                         .yesNoFormatter()) // op
                 .build());
 
         // Colored Custom/Custom button
         firstCat.option(Option.<Boolean>createBuilder()
                 .name(localized("option", "cat1.booleanOption"))
-                .description(OptionDescription.of(
-                        localized("option", "cat1.booleanOption.tooltip")))
-                .binding(Config.Options.booleanOptionDefault,
+                .description(OptionDescription.of(localized(
+                        "option",
+                        "cat1.booleanOption.tooltip"
+                )))
+                .binding(
+                        Config.Options.booleanOptionDefault,
                         () -> options.booleanOption,
-                        val -> options.booleanOption = val)
-                .controller(option -> BooleanControllerBuilder.create(option)
-                        .coloured(true) // op
-                        .formatValue(val -> val // op
+                        val -> options.booleanOption = val
+                )
+                .controller(option -> BooleanControllerBuilder.create(option).coloured(true) // op
+                        .formatValue(val -> val
+                                // op
                                 ? localized("option", "cat1.booleanOption.true")
                                 : localized("option", "cat1.booleanOption.false")))
                 .build());
@@ -130,22 +135,27 @@ public class YaclScreenProvider {
         // Check box
         firstCat.option(Option.<Boolean>createBuilder()
                 .name(localized("option", "cat1.booleanOption"))
-                .description(OptionDescription.of(
-                        localized("option", "cat1.booleanOption.tooltip")))
-                .binding(Config.Options.booleanOptionDefault,
+                .description(OptionDescription.of(localized(
+                        "option",
+                        "cat1.booleanOption.tooltip"
+                )))
+                .binding(
+                        Config.Options.booleanOptionDefault,
                         () -> options.booleanOption,
-                        val -> options.booleanOption = val)
+                        val -> options.booleanOption = val
+                )
                 .controller(TickBoxControllerBuilder::create) // No options
                 .build());
 
         // Integer slider with value text formatting (also available for Float, Double, Long)
         firstCat.option(Option.<Integer>createBuilder()
                 .name(localized("option", "cat1.intOption"))
-                .description(OptionDescription.of(
-                        localized("option", "cat1.intOption.tooltip")))
-                .binding(Config.Options.intOptionDefault,
+                .description(OptionDescription.of(localized("option", "cat1.intOption.tooltip")))
+                .binding(
+                        Config.Options.intOptionDefault,
                         () -> options.intOption,
-                        val -> options.intOption = val)
+                        val -> options.intOption = val
+                )
                 .controller(option -> IntegerSliderControllerBuilder.create(option)
                         .range(0, 10)
                         .step(1)
@@ -156,13 +166,13 @@ public class YaclScreenProvider {
         // Double field with range (also available for Integer, Float, Long)
         firstCat.option(Option.<Double>createBuilder()
                 .name(localized("option", "cat1.doubleOption"))
-                .description(OptionDescription.of(
-                        localized("option", "cat1.doubleOption.tooltip")))
-                .binding(Config.Options.doubleOptionDefault,
+                .description(OptionDescription.of(localized("option", "cat1.doubleOption.tooltip")))
+                .binding(
+                        Config.Options.doubleOptionDefault,
                         () -> options.doubleOption,
-                        val -> options.doubleOption = val)
-                .controller(option -> DoubleFieldControllerBuilder.create(option)
-                        .min(0d) // op
+                        val -> options.doubleOption = val
+                )
+                .controller(option -> DoubleFieldControllerBuilder.create(option).min(0d) // op
                         .max(10d) // op
                         .formatValue(val -> // op
                                 localized("option", "cat1.intOption.value", val)))
@@ -171,22 +181,30 @@ public class YaclScreenProvider {
         // String field (lenient)
         firstCat.option(Option.<String>createBuilder()
                 .name(localized("option", "cat1.lenientStringOption"))
-                .description(OptionDescription.of(
-                        localized("option", "cat1.lenientStringOption.tooltip")))
-                .binding(Config.Options.lenientStringOptionDefault,
+                .description(OptionDescription.of(localized(
+                        "option",
+                        "cat1.lenientStringOption.tooltip"
+                )))
+                .binding(
+                        Config.Options.lenientStringOptionDefault,
                         () -> options.lenientStringOption,
-                        val -> options.lenientStringOption = val)
+                        val -> options.lenientStringOption = val
+                )
                 .controller(StringControllerBuilder::create) // No options
                 .build());
 
         // String field (strict) with dropdown suggestion provider
         firstCat.option(Option.<String>createBuilder()
                 .name(localized("option", "cat1.strictStringOption"))
-                .description(OptionDescription.of(
-                        localized("option", "cat1.strictStringOption.tooltip")))
-                .binding(Config.Options.strictStringOptionDefault,
+                .description(OptionDescription.of(localized(
+                        "option",
+                        "cat1.strictStringOption.tooltip"
+                )))
+                .binding(
+                        Config.Options.strictStringOptionDefault,
                         () -> options.strictStringOption,
-                        val -> options.strictStringOption = val)
+                        val -> options.strictStringOption = val
+                )
                 .controller(option -> DropdownStringControllerBuilder.create(option)
                         .values(Config.Options.strictStringOptionValues)
                         .allowAnyValue(false) // op, default false
@@ -196,22 +214,24 @@ public class YaclScreenProvider {
         // Enum dropdown
         firstCat.option(Option.<Config.TriState>createBuilder()
                 .name(localized("option", "cat1.enumOption"))
-                .description(OptionDescription.of(
-                        localized("option", "cat1.enumOption.tooltip")))
-                .binding(Config.Options.enumOptionDefault,
+                .description(OptionDescription.of(localized("option", "cat1.enumOption.tooltip")))
+                .binding(
+                        Config.Options.enumOptionDefault,
                         () -> options.enumOption,
-                        val -> options.enumOption = val)
+                        val -> options.enumOption = val
+                )
                 .controller(EnumDropdownControllerBuilder::create) // formatValue op
                 .build());
 
         // Enum cycling button
         firstCat.option(Option.<Config.TriState>createBuilder()
                 .name(localized("option", "cat1.enumOption"))
-                .description(OptionDescription.of(
-                        localized("option", "cat1.enumOption.tooltip")))
-                .binding(Config.Options.enumOptionDefault,
+                .description(OptionDescription.of(localized("option", "cat1.enumOption.tooltip")))
+                .binding(
+                        Config.Options.enumOptionDefault,
                         () -> options.enumOption,
-                        val -> options.enumOption = val)
+                        val -> options.enumOption = val
+                )
                 .controller(option -> EnumControllerBuilder.create(option)
                         .enumClass(Config.TriState.class)
                         .formatValue(val -> Component.literal(val.name()))) // op
@@ -220,11 +240,15 @@ public class YaclScreenProvider {
         // Object (in this case, string) list cycling button
         firstCat.option(Option.<String>createBuilder()
                 .name(localized("option", "cat1.strictStringOption"))
-                .description(OptionDescription.of(
-                        localized("option", "cat1.strictStringOption.tooltip")))
-                .binding(Config.Options.strictStringOptionDefault,
+                .description(OptionDescription.of(localized(
+                        "option",
+                        "cat1.strictStringOption.tooltip"
+                )))
+                .binding(
+                        Config.Options.strictStringOptionDefault,
                         () -> options.strictStringOption,
-                        val -> options.strictStringOption = val)
+                        val -> options.strictStringOption = val
+                )
                 .controller(option -> CyclingListControllerBuilder.create(option)
                         .values(Config.Options.strictStringOptionValues)
                         .formatValue(val -> Component.literal(val)))
@@ -238,11 +262,15 @@ public class YaclScreenProvider {
         // Collapsible list of options (in this case, strings)
         secondCat.group(ListOption.<String>createBuilder()
                 .name(localized("option", "cat2.stringListOption"))
-                .description(OptionDescription.of(
-                        localized("option", "cat2.stringListOption.tooltip")))
-                .binding(Config.Options.stringListOptionDefault,
+                .description(OptionDescription.of(localized(
+                        "option",
+                        "cat2.stringListOption.tooltip"
+                )))
+                .binding(
+                        Config.Options.stringListOptionDefault,
                         () -> options.stringListOption,
-                        val -> options.stringListOption = val)
+                        val -> options.stringListOption = val
+                )
                 .controller(StringControllerBuilder::create)
                 .initial(Config.Options.stringListOptionValueDefault)
                 .minimumNumberOfEntries(1) // op
@@ -264,8 +292,7 @@ public class YaclScreenProvider {
         // Action button
         thirdCat.option(ButtonOption.createBuilder()
                 .name(localized("option", "cat3.action"))
-                .description(OptionDescription.of(
-                        localized("option", "cat3.action.tooltip")))
+                .description(OptionDescription.of(localized("option", "cat3.action.tooltip")))
                 .action((screen, option) -> {
                     screen.finishOrSave();
                     screen.onClose();
@@ -277,18 +304,21 @@ public class YaclScreenProvider {
         // Collapsible group of options
         OptionGroup.Builder thirdCatFirstGroup = OptionGroup.createBuilder()
                 .name(localized("option", "cat3.group1"))
-                .description(OptionDescription.of(
-                        localized("option", "cat3.group1.tooltip")))
+                .description(OptionDescription.of(localized("option", "cat3.group1.tooltip")))
                 .collapsed(false); // op, default false
 
         // RGB hex color field with color-selection GUI
         thirdCatFirstGroup.option(Option.<Color>createBuilder()
                 .name(localized("option", "cat3.group1.rgbOption"))
-                .description(OptionDescription.of(
-                        localized("option", "cat3.group1.rgbOption.tooltip")))
-                .binding(fromRgb(Config.Options.rgbOptionDefault),
+                .description(OptionDescription.of(localized(
+                        "option",
+                        "cat3.group1.rgbOption.tooltip"
+                )))
+                .binding(
+                        fromRgb(Config.Options.rgbOptionDefault),
                         () -> fromRgb(options.rgbOption),
-                        val -> options.rgbOption = toRgb(val))
+                        val -> options.rgbOption = toRgb(val)
+                )
                 .controller(option -> ColorControllerBuilder.create(option)
                         .allowAlpha(false)) // op, default false
                 .build());
@@ -296,11 +326,15 @@ public class YaclScreenProvider {
         // ARGB hex color field with color-selection GUI
         thirdCatFirstGroup.option(Option.<Color>createBuilder()
                 .name(localized("option", "cat3.group1.argbOption"))
-                .description(OptionDescription.of(
-                        localized("option", "cat3.group1.argbOption.tooltip")))
-                .binding(fromArgb(Config.Options.argbOptionDefault),
+                .description(OptionDescription.of(localized(
+                        "option",
+                        "cat3.group1.argbOption.tooltip"
+                )))
+                .binding(
+                        fromArgb(Config.Options.argbOptionDefault),
                         () -> fromArgb(options.argbOption),
-                        val -> options.argbOption = val.getRGB())
+                        val -> options.argbOption = val.getRGB()
+                )
                 .controller(option -> ColorControllerBuilder.create(option)
                         .allowAlpha(true)) // op, default false
                 .build());
@@ -308,11 +342,15 @@ public class YaclScreenProvider {
         // Item field with dropdown
         thirdCatFirstGroup.option(Option.<Item>createBuilder()
                 .name(localized("option", "cat3.group1.itemOption"))
-                .description(OptionDescription.of(
-                        localized("option", "cat3.group1.itemOption.tooltip")))
-                .binding(asItem(Config.Options.itemOptionDefault),
+                .description(OptionDescription.of(localized(
+                        "option",
+                        "cat3.group1.itemOption.tooltip"
+                )))
+                .binding(
+                        asItem(Config.Options.itemOptionDefault),
                         () -> asItem(options.itemOption),
-                        val -> options.itemOption = asString(val))
+                        val -> options.itemOption = asString(val)
+                )
                 .controller(ItemControllerBuilder::create) // No options
                 .build());
 
@@ -322,7 +360,7 @@ public class YaclScreenProvider {
         ConfigCategory.Builder fourthCat = ConfigCategory.createBuilder()
                 .name(localized("option", "cat4"))
                 .tooltip(localized("option", "cat4.tooltip")); // op
-        
+
         int i = 0;
         for (Config.CustomObject co : options.customObjectList) {
             i++;
@@ -333,32 +371,24 @@ public class YaclScreenProvider {
             // String field (lenient)
             coGroup.option(Option.<String>createBuilder()
                     .name(localized("option", "cat4.name"))
-                    .description(OptionDescription.of(
-                            localized("option", "cat4.name.tooltip")))
-                    .binding(Config.CustomObject.nameDefault,
-                            () -> co.name,
-                            val -> co.name = val)
+                    .description(OptionDescription.of(localized("option", "cat4.name.tooltip")))
+                    .binding(Config.CustomObject.nameDefault, () -> co.name, val -> co.name = val)
                     .controller(StringControllerBuilder::create) // No options
                     .build());
 
             // Int field with range (also available for Double, Float, Long)
             coGroup.option(Option.<Integer>createBuilder()
                     .name(localized("option", "cat4.size"))
-                    .description(OptionDescription.of(
-                            localized("option", "cat4.size.tooltip")))
-                    .binding(Config.CustomObject.sizeDefault,
-                            () -> co.size,
-                            val -> co.size = val)
-                    .controller(option -> IntegerFieldControllerBuilder.create(option)
-                            .min(0) // op
+                    .description(OptionDescription.of(localized("option", "cat4.size.tooltip")))
+                    .binding(Config.CustomObject.sizeDefault, () -> co.size, val -> co.size = val)
+                    .controller(option -> IntegerFieldControllerBuilder.create(option).min(0) // op
                             .max(10) // op
                             .formatValue(val -> // op
                                     localized("option", "cat4.size.value", val)))
                     .build());
-            
+
             coGroup.option(ButtonOption.createBuilder()
-                    .name(localized("option", "cat4.delete")
-                            .withStyle(ChatFormatting.RED))
+                    .name(localized("option", "cat4.delete").withStyle(ChatFormatting.RED))
                     .action((screen, buttonOption) -> {
                         options.customObjectList.remove(co);
                         reload(screen, parent);
@@ -369,8 +399,7 @@ public class YaclScreenProvider {
         }
 
         ButtonOption.Builder addButton = ButtonOption.createBuilder();
-        addButton.name(localized("option", "cat4.add")
-                .withStyle(ChatFormatting.GREEN));
+        addButton.name(localized("option", "cat4.add").withStyle(ChatFormatting.GREEN));
         addButton.action((screen, buttonOption) -> {
             options.customObjectList.add(new Config.CustomObject());
             reload(screen, parent);
@@ -417,26 +446,31 @@ public class YaclScreenProvider {
      * Creates a new YACL screen and switches to it.
      *
      * <p>Intended for use by {@link ButtonOption} instances that modify the
-     * config display, such as by adding or removing config objects configured 
-     * by {@link OptionGroup} instances.</p>
+     * config display, such as by adding or removing config objects configured by
+     * {@link OptionGroup} instances.</p>
      *
      * @param screen the current screen.
      * @param parent the current screen's parent.
      */
     private static void reload(YACLScreen screen, Screen parent) {
         try {
-            int tab = screen.tabNavigationBar == null ? 0
+            int tab = screen.tabNavigationBar == null
+                    ? 0
                     : screen.tabNavigationBar.getTabs().indexOf(screen.tabManager.getCurrentTab());
-            if (tab == -1) tab = 0;
+            if (tab == -1)
+                tab = 0;
             screen.finishOrSave();
             screen.onClose(); // In case finishOrSave doesn't close it.
-            YACLScreen newScreen = (YACLScreen)ConfigScreenProvider.getConfigScreen(parent);
+            YACLScreen newScreen = (YACLScreen) ConfigScreenProvider.getConfigScreen(parent);
             newScreen.init(Minecraft.getInstance(), screen.width, screen.height);
             try {
                 newScreen.tabNavigationBar.selectTab(tab, false);
             } catch (IndexOutOfBoundsException e) {
-                Framework.LOG.warn("YACL reload hack attempted to select tab {} but max index was {}",
-                        tab, newScreen.tabNavigationBar.getTabs().size() - 1);
+                Framework.LOG.warn(
+                        "YACL reload hack attempted to select tab {} but max index was {}",
+                        tab,
+                        newScreen.tabNavigationBar.getTabs().size() - 1
+                );
             }
             Minecraft.getInstance().setScreen(newScreen);
         } catch (Exception e) {

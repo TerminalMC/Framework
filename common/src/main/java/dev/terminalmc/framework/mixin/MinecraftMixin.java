@@ -16,7 +16,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
 
-    @Inject(method = "<init>", at = @At("TAIL"))
+    @Inject(
+            method = "<init>",
+            at = @At("TAIL")
+    )
     private void init(CallbackInfo info) {
         Framework.LOG.info("This line is printed by an example mod common mixin!");
         Framework.LOG.info("MC Version: {}", Minecraft.getInstance().getVersionType());

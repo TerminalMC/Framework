@@ -92,7 +92,8 @@ subprojects {
                                     embeds(mrDepData[1])
                                 } else {
                                     throw new IllegalArgumentException(
-                                            "Unrecognized dependency type: ${mrDepData[0]}")
+                                            "Unrecognized dependency type: ${mrDepData[0]}"
+                                    )
                                 }
                             }
                         } catch (Exception ex) {
@@ -102,10 +103,8 @@ subprojects {
                         }
                     }
                     // Sync Modrinth description with README
-                    projectDescription = rootProject.file("README.md").text.replaceAll(
-                            "src=\"\\./",
-                            "src=\"https://raw.githubusercontent.com/${mod_github_repo}/HEAD/"
-                    )
+                    projectDescription = rootProject.file("README.md").text.replaceAll("src=\"\\./",
+                            "src=\"https://raw.githubusercontent.com/${mod_github_repo}/HEAD/")
                 }
                 // CurseForge configuration
                 curseforge {
@@ -130,7 +129,8 @@ subprojects {
                                     embeds(cfDepData[1])
                                 } else {
                                     throw new IllegalArgumentException(
-                                            "Unrecognized dependency type: ${cfDepData[0]}")
+                                            "Unrecognized dependency type: ${cfDepData[0]}"
+                                    )
                                 }
                             }
                         } catch (Exception ex) {
@@ -143,22 +143,28 @@ subprojects {
                 }
             }
             final hasSpConf = hasProp("mod_loaders_${name}") && hasProp("mc_versions_${name}")
-            tasks.named("publishGithub") { onlyIf {
-                return hasSpConf
-                        && hasProp("mod_github_repo")
-                        && (it["dryRun"].get() || !env("GITHUB_TOKEN").isBlank())
-            }}
-            tasks.named("publishModrinth") { onlyIf {
-                return hasSpConf
-                        && hasProp("mod_modrinth_id")
-                        && (it["dryRun"].get() || !env("MODRINTH_TOKEN").isBlank())
-            }}
-            tasks.named("publishCurseforge") { onlyIf {
-                return hasSpConf
-                        && hasProp("mod_curseforge_id")
-                        && hasProp("mod_curseforge_slug")
-                        && (it["dryRun"].get() || !env("MODRINTH_TOKEN").isBlank())
-            }}
+            tasks.named("publishGithub") {
+                onlyIf {
+                    return hasSpConf
+                            && hasProp("mod_github_repo")
+                            && (it["dryRun"].get() || !env("GITHUB_TOKEN").isBlank())
+                }
+            }
+            tasks.named("publishModrinth") {
+                onlyIf {
+                    return hasSpConf
+                            && hasProp("mod_modrinth_id")
+                            && (it["dryRun"].get() || !env("MODRINTH_TOKEN").isBlank())
+                }
+            }
+            tasks.named("publishCurseforge") {
+                onlyIf {
+                    return hasSpConf
+                            && hasProp("mod_curseforge_id")
+                            && hasProp("mod_curseforge_slug")
+                            && (it["dryRun"].get() || !env("MODRINTH_TOKEN").isBlank())
+                }
+            }
         }
     }
 }
@@ -182,12 +188,14 @@ publishMods {
         // Link to header in changelog file
         changelog = "[Changelog](./changelog.md#${mod_version.replaceAll("\\.", "")})"
     }
-    tasks.named("publishGithub") { onlyIf {
-        return hasProp("mod_loaders_${name}")
-                && hasProp("mc_versions_${name}")
-                && hasProp("mod_github_repo")
-                && (it["dryRun"].get() || !env("GITHUB_TOKEN").isBlank())
-    }}
+    tasks.named("publishGithub") {
+        onlyIf {
+            return hasProp("mod_loaders_${name}")
+                    && hasProp("mc_versions_${name}")
+                    && hasProp("mod_github_repo")
+                    && (it["dryRun"].get() || !env("GITHUB_TOKEN").isBlank())
+        }
+    }
 }
 
 /**
@@ -251,10 +259,10 @@ String[] listPropSafe(String propertyName) {
 }
 
 /**
- Converts a lowercase mod loader name into its formal version.
+ * Converts a lowercase mod loader name into its formal version.
  */
 static String capsLoader(String loader) {
-    switch(loader) {
+    switch (loader) {
         case "fabric": return "Fabric"
         case "quilt": return "Quilt"
         case "forge": return "Forge"

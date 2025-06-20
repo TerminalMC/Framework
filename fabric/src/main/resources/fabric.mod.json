@@ -5,8 +5,12 @@
   "name": "${mod_name}",
   "description": "${mod_description_fabric}",
   "icon": "${mod_icon}",
-  "authors": [$mod_authors_list],
-  "contributors": [$mod_contributors_list],
+  "authors": [
+    $mod_authors_list
+  ],
+  "contributors": [
+    $mod_contributors_list
+  ],
   "license": "${mod_license}",
   "contact": {
     "homepage": "${homepage_url}",

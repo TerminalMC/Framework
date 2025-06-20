@@ -15,8 +15,12 @@ jobs:
   release:
     strategy:
       matrix:
-        java: [21]
-        os: [ubuntu-latest]
+        java: [
+          21
+        ]
+        os: [
+          ubuntu-latest
+        ]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository

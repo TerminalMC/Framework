@@ -19,6 +19,7 @@ import net.neoforged.fml.loading.LoadingModList;
 import java.nio.file.Path;
 
 public class PlatformInfoNeoForge implements IPlatformInfo {
+
     @Override
     public String getPlatformName() {
         return "NeoForge";

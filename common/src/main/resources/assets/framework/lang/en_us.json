@@ -7,8 +7,7 @@
   "message.framework.viewModrinth": "View on Modrinth",
   "message.framework.installCloth": "Install Cloth Config API to access mod options",
   "message.framework.installYacl": "Install Yet Another Config Lib to access mod options",
-  
-  
+
   "option.framework.cat1": "First category",
   "option.framework.cat1.tooltip": "First category tooltip",
 
@@ -37,15 +36,13 @@
 
   "option.framework.cat1.cyclingObjectOption": "Object option",
   "option.framework.cat1.cyclingObjectOption.tooltip": "Object option tooltip",
-  
-  
+
   "option.framework.cat2": "Second category",
   "option.framework.cat2.tooltip": "Second category tooltip",
 
   "option.framework.cat2.stringListOption": "String list option",
   "option.framework.cat2.stringListOption.tooltip": "String list option tooltip",
-  
-  
+
   "option.framework.cat3": "Third category",
   "option.framework.cat3.tooltip": "Third category tooltip",
   "option.framework.cat3.message": "Third category message",
@@ -56,7 +53,7 @@
 
   "option.framework.cat3.group1": "First group",
   "option.framework.cat3.group1.tooltip": "First group tooltip",
-  
+
   "option.framework.cat3.group1.rgbOption": "RGB option",
   "option.framework.cat3.group1.rgbOption.tooltip": "RGB option tooltip",
 
@@ -70,18 +67,17 @@
   "option.framework.cat3.group1.keyOption": "Key option",
   "option.framework.cat3.group1.keyOption.tooltip": "Key option tooltip",
 
-  
   "option.framework.cat4": "Fourth category",
   "option.framework.cat4.tooltip": "Fourth category tooltip",
-  
+
   "option.framework.cat4.add": "Add",
   "option.framework.cat4.delete": "Delete",
-  
+
   "option.framework.cat4.customObjectGroup": "Object %d",
 
   "option.framework.cat4.name": "Name",
   "option.framework.cat4.name.tooltip": "Name tooltip",
-  
+
   "option.framework.cat4.size": "Size",
   "option.framework.cat4.size.tooltip": "Size tooltip",
   "option.framework.cat4.size.value": "%d m"

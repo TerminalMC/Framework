@@ -33,9 +33,10 @@ import static net.minecraft.commands.Commands.literal;
 
 @SuppressWarnings("unchecked")
 public class Commands<S> extends CommandDispatcher<S> {
+
     public void register(CommandDispatcher<S> dispatcher, CommandBuildContext buildContext) {
         Minecraft mc = Minecraft.getInstance();
-        dispatcher.register((LiteralArgumentBuilder<S>)literal(Framework.MOD_ID)
+        dispatcher.register((LiteralArgumentBuilder<S>) literal(Framework.MOD_ID)
                 .then(literal("quote")
                         .then(argument("word", StringArgumentType.word())
                                 .suggests(((ctx, builder) -> SharedSuggestionProvider.suggest(
@@ -68,10 +69,12 @@ public class Commands<S> extends CommandDispatcher<S> {
                         .then(literal("color")
                                 .then(argument("color", ColorArgument.color())
                                         .executes(ctx -> {
-                                            ChatFormatting color = ColorArgument.getColor(ctx, "color");
+                                            ChatFormatting color =
+                                                    ColorArgument.getColor(ctx, "color");
 
                                             MutableComponent msg = Framework.PREFIX.copy();
-                                            msg.append(Component.literal(color.getName()).withStyle(color));
+                                            msg.append(Component.literal(color.getName())
+                                                    .withStyle(color));
 
                                             mc.gui.getChat().addMessage(msg);
                                             return Command.SINGLE_SUCCESS;

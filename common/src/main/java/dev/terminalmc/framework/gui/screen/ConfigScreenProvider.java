@@ -21,9 +21,8 @@ import net.minecraft.network.chat.CommonComponents;
 import static dev.terminalmc.framework.util.Localization.localized;
 
 /**
- * Wraps the config screen implementation and provides a backup screen for
- * use when the config lib mod is not loaded. This allows the dependency to be
- * defined as optional.
+ * Wraps the config screen implementation and provides a backup screen for use when the config lib
+ * mod is not loaded. This allows the dependency to be defined as optional.
  */
 public class ConfigScreenProvider {
 
@@ -38,6 +37,7 @@ public class ConfigScreenProvider {
     }
 
     static class BackupScreen extends Screen {
+
         private final Screen parent;
         private final String modKey;
         private final String modUrl;
@@ -52,26 +52,31 @@ public class ConfigScreenProvider {
         @Override
         public void init() {
             MultiLineTextWidget messageWidget = new MultiLineTextWidget(
-                    width / 2 - 120, height / 2 - 40,
+                    width / 2 - 120,
+                    height / 2 - 40,
                     localized("message", modKey),
-                    minecraft.font);
+                    minecraft.font
+            );
             messageWidget.setMaxWidth(240);
             messageWidget.setCentered(true);
             addRenderableWidget(messageWidget);
 
-            Button openLinkButton = Button.builder(localized("message", "viewModrinth"),
+            Button openLinkButton = Button.builder(
+                            localized("message", "viewModrinth"),
                             (button) -> minecraft.setScreen(new ConfirmLinkScreen(
                                     (open) -> {
-                                        if (open) Util.getPlatform().openUri(modUrl);
+                                        if (open)
+                                            Util.getPlatform().openUri(modUrl);
                                         minecraft.setScreen(parent);
-                                    }, modUrl, true)))
+                                    }, modUrl, true
+                            ))
+                    )
                     .pos(width / 2 - 120, height / 2)
                     .size(115, 20)
                     .build();
             addRenderableWidget(openLinkButton);
 
-            Button exitButton = Button.builder(CommonComponents.GUI_OK,
-                            (button) -> onClose())
+            Button exitButton = Button.builder(CommonComponents.GUI_OK, (button) -> onClose())
                     .pos(width / 2 + 5, height / 2)
                     .size(115, 20)
                     .build();

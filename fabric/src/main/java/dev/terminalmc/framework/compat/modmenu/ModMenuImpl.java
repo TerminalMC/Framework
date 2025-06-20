@@ -16,6 +16,7 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 import dev.terminalmc.framework.gui.screen.ConfigScreenProvider;
 
 public class ModMenuImpl implements ModMenuApi {
+
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return ConfigScreenProvider::getConfigScreen;

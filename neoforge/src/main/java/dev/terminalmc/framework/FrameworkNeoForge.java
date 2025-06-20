@@ -25,13 +25,23 @@ import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
-@Mod(value = Framework.MOD_ID, dist = Dist.CLIENT)
-@EventBusSubscriber(modid = Framework.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@Mod(
+        value = Framework.MOD_ID,
+        dist = Dist.CLIENT
+)
+@EventBusSubscriber(
+        modid = Framework.MOD_ID,
+        bus = EventBusSubscriber.Bus.MOD,
+        value = Dist.CLIENT
+)
 public class FrameworkNeoForge {
+
     public FrameworkNeoForge() {
         // Config screen
-        ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class,
-                () -> (mc, parent) -> ConfigScreenProvider.getConfigScreen(parent));
+        ModLoadingContext.get().registerExtensionPoint(
+                IConfigScreenFactory.class,
+                () -> (mc, parent) -> ConfigScreenProvider.getConfigScreen(parent)
+        );
 
         // Main initialization
         Framework.init();
@@ -43,13 +53,19 @@ public class FrameworkNeoForge {
         event.register(Framework.EXAMPLE_KEY);
     }
 
-    @EventBusSubscriber(modid = Framework.MOD_ID, value = Dist.CLIENT)
+    @EventBusSubscriber(
+            modid = Framework.MOD_ID,
+            value = Dist.CLIENT
+    )
     static class ClientEventHandler {
+
         // Commands
         @SubscribeEvent
         static void registerClientCommands(RegisterClientCommandsEvent event) {
             new Commands<CommandSourceStack>().register(
-                    event.getDispatcher(), event.getBuildContext());
+                    event.getDispatcher(),
+                    event.getBuildContext()
+            );
         }
 
         // Tick events

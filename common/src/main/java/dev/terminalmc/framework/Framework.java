@@ -23,6 +23,7 @@ import net.minecraft.network.chat.Component;
 import static dev.terminalmc.framework.util.Localization.translationKey;
 
 public class Framework {
+
     public static final String MOD_ID = "framework";
     public static final String MOD_NAME = "Framework";
     public static final ModLogger LOG = new ModLogger(MOD_NAME);
@@ -32,8 +33,11 @@ public class Framework {
             .append(Component.literal("] ").withStyle(ChatFormatting.DARK_GRAY))
             .withStyle(ChatFormatting.GRAY);
     public static final KeyMapping EXAMPLE_KEY = new KeyMapping(
-            translationKey("key", "group.example"), InputConstants.Type.KEYSYM,
-            InputConstants.UNKNOWN.getValue(), translationKey("key", "group"));
+            translationKey("key", "group.example"),
+            InputConstants.Type.KEYSYM,
+            InputConstants.UNKNOWN.getValue(),
+            translationKey("key", "group")
+    );
 
     public static void init() {
         Config.getAndSave();

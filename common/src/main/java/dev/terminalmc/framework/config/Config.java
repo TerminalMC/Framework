@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Config {
+
     private static final Path DIR_PATH = Services.PLATFORM.getConfigDir();
     private static final String FILE_NAME = Framework.MOD_ID + ".json";
     private static final String BACKUP_FILE_NAME = Framework.MOD_ID + ".unreadable.json";
@@ -44,9 +45,9 @@ public class Config {
     }
 
     public static class Options {
-        
+
         // First category
-        
+
         public static final boolean booleanOptionDefault = true;
         public boolean booleanOption = booleanOptionDefault;
 
@@ -67,13 +68,13 @@ public class Config {
         public TriState enumOption = enumOptionDefault;
 
         // Second category
-        
+
         public static final List<String> stringListOptionDefault = List.of("One");
         public static final String stringListOptionValueDefault = "One";
         public List<String> stringListOption = stringListOptionDefault;
 
         // Third Category
-        
+
         public static final int rgbOptionDefault = 16777215;
         public int rgbOption = rgbOptionDefault;
 
@@ -81,20 +82,19 @@ public class Config {
         public int argbOption = argbOptionDefault;
 
         // Cloth Config only
-        
+
         public static final int keyExampleDefault = InputConstants.KEY_J;
         public int keyOption = keyExampleDefault;
 
         // YACL only
         // Fourth category
-        
-        public static final String itemOptionDefault = BuiltInRegistries.ITEM.getKey(Items.STONE).toString();
+
+        public static final String itemOptionDefault =
+                BuiltInRegistries.ITEM.getKey(Items.STONE).toString();
         public String itemOption = itemOptionDefault;
-        
-        public static final List<CustomObject> customObjectListDefault = new ArrayList<>(List.of(
-                new CustomObject("one", 1),
-                new CustomObject("two", 2)
-        ));
+
+        public static final List<CustomObject> customObjectListDefault =
+                new ArrayList<>(List.of(new CustomObject("one", 1), new CustomObject("two", 2)));
         public List<CustomObject> customObjectList = customObjectListDefault;
     }
 
@@ -103,11 +103,12 @@ public class Config {
         Value2,
         Value3
     }
-    
+
     public static class CustomObject {
+
         public static final String nameDefault = "";
         public String name = nameDefault;
-        
+
         public static final int sizeDefault = 0;
         public int size = sizeDefault;
 
@@ -165,8 +166,12 @@ public class Config {
     }
 
     private static @Nullable Config load(Path file, Gson gson) {
-        try (InputStreamReader reader = new InputStreamReader(
-                new FileInputStream(file.toFile()), StandardCharsets.UTF_8)) {
+        try (
+                InputStreamReader reader = new InputStreamReader(
+                        new FileInputStream(file.toFile()),
+                        StandardCharsets.UTF_8
+                )
+        ) {
             return gson.fromJson(reader, Config.class);
         } catch (Exception e) {
             // Catch Exception as errors in deserialization may not fall under
@@ -175,35 +180,50 @@ public class Config {
             return null;
         }
     }
-    
+
     private static void backup() {
         try {
             Framework.LOG.warn("Copying {} to {}", FILE_NAME, BACKUP_FILE_NAME);
-            if (!Files.isDirectory(DIR_PATH)) Files.createDirectories(DIR_PATH);
+            if (!Files.isDirectory(DIR_PATH))
+                Files.createDirectories(DIR_PATH);
             Path file = DIR_PATH.resolve(FILE_NAME);
             Path backupFile = file.resolveSibling(BACKUP_FILE_NAME);
-            Files.move(file, backupFile, StandardCopyOption.ATOMIC_MOVE, 
-                    StandardCopyOption.REPLACE_EXISTING);
+            Files.move(
+                    file,
+                    backupFile,
+                    StandardCopyOption.ATOMIC_MOVE,
+                    StandardCopyOption.REPLACE_EXISTING
+            );
         } catch (IOException e) {
             Framework.LOG.error("Unable to copy config file", e);
         }
     }
 
     public static void save() {
-        if (instance == null) return;
+        if (instance == null)
+            return;
         instance.cleanup();
         try {
-            if (!Files.isDirectory(DIR_PATH)) Files.createDirectories(DIR_PATH);
+            if (!Files.isDirectory(DIR_PATH))
+                Files.createDirectories(DIR_PATH);
             Path file = DIR_PATH.resolve(FILE_NAME);
             Path tempFile = file.resolveSibling(file.getFileName() + ".tmp");
-            try (OutputStreamWriter writer = new OutputStreamWriter(
-                    new FileOutputStream(tempFile.toFile()), StandardCharsets.UTF_8)) {
+            try (
+                    OutputStreamWriter writer = new OutputStreamWriter(
+                            new FileOutputStream(tempFile.toFile()),
+                            StandardCharsets.UTF_8
+                    )
+            ) {
                 writer.write(GSON.toJson(instance));
             } catch (IOException e) {
                 throw new IOException(e);
             }
-            Files.move(tempFile, file, StandardCopyOption.ATOMIC_MOVE,
-                    StandardCopyOption.REPLACE_EXISTING);
+            Files.move(
+                    tempFile,
+                    file,
+                    StandardCopyOption.ATOMIC_MOVE,
+                    StandardCopyOption.REPLACE_EXISTING
+            );
             Framework.onConfigSaved(instance);
         } catch (IOException e) {
             Framework.LOG.error("Unable to save config", e);

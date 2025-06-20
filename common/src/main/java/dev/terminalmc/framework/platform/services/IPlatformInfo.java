@@ -14,6 +14,7 @@ package dev.terminalmc.framework.platform.services;
 import java.nio.file.Path;
 
 public interface IPlatformInfo {
+
     /**
      * @return the name of the current platform.
      */

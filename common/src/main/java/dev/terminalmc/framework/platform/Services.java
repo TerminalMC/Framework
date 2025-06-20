@@ -17,12 +17,14 @@ import dev.terminalmc.framework.platform.services.IPlatformInfo;
 import java.util.ServiceLoader;
 
 public class Services {
+
     public static final IPlatformInfo PLATFORM = load(IPlatformInfo.class);
 
     public static <T> T load(Class<T> clazz) {
         final T loadedService = ServiceLoader.load(clazz)
                 .findFirst()
-                .orElseThrow(() -> new NullPointerException("Failed to load service for " + clazz.getName()));
+                .orElseThrow(() -> new NullPointerException(
+                        "Failed to load service for " + clazz.getName()));
         Framework.LOG.debug("Loaded {} for service {}", loadedService, clazz);
         return loadedService;
     }
