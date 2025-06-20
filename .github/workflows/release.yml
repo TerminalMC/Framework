@@ -34,28 +34,7 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: Build
-        # Common release configurations are listed below: uncomment the one you want to use.
-        # Within run commands, release tasks are grouped by loader and ordered by
-          # approximate failure probability, highest to lowest.
-
-        # GitHub
-          # Fabric
-#        run: ./gradlew build fabric:publishGithub --stacktrace
-          # Fabric & NeoForge
-#        run: ./gradlew build neoforge:publishGithub fabric:publishGithub --stacktrace
-
-        # GitHub & Modrinth
-          # Fabric
-#        run: ./gradlew build fabric:publishModrinth fabric:publishGithub --stacktrace
-          # Fabric & NeoForge
-#        run: ./gradlew build neoforge:publishModrinth neoforge:publishGithub fabric:publishModrinth fabric:publishGithub --stacktrace
-
-        # GitHub & Modrinth & CurseForge
-          # Fabric
-#        run: ./gradlew build fabric:publishModrinth fabric:publishCurseforge fabric:publishGithub --stacktrace
-          # Fabric & NeoForge
         run: ./gradlew build neoforge:publishModrinth neoforge:publishCurseforge neoforge:publishGithub fabric:publishModrinth fabric:publishCurseforge fabric:publishGithub --stacktrace
-
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}

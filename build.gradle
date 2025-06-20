@@ -57,7 +57,7 @@ subprojects {
                 //noinspection UnnecessaryQualifiedReference
                 type = me.modmuss50.mpp.ReleaseType.of(mod_version_type)
                 displayName = "v${mod_version}-${capsLoader(sp.name)}"
-                modLoaders.addAll(listProp("mod_loaders_${sp.name}"))
+                modLoaders.addAll(listPropSafe("mod_loaders_${sp.name}"))
                 maxRetries = 5
                 dryRun = env("GITHUB_TOKEN").isBlank()
                         && env("MODRINTH_TOKEN").isBlank()
@@ -74,7 +74,7 @@ subprojects {
                 modrinth {
                     accessToken = env("MODRINTH_TOKEN")
                     projectId = mod_modrinth_id
-                    minecraftVersions.addAll(listProp("mc_versions_${sp.name}"))
+                    minecraftVersions.addAll(listPropSafe("mc_versions_${sp.name}"))
                     changelog = versionChangelog()
                     listProp("${sp.name}_deps").each { dep ->
                         try {
@@ -112,7 +112,7 @@ subprojects {
                     accessToken = env("CURSEFORGE_TOKEN")
                     projectId = mod_curseforge_id
                     projectSlug = mod_curseforge_slug
-                    minecraftVersions.addAll(listProp("mc_versions_${sp.name}"))
+                    minecraftVersions.addAll(listPropSafe("mc_versions_${sp.name}"))
                     changelog = versionChangelog()
                     listProp("${sp.name}_deps").each { dep ->
                         try {
@@ -142,16 +142,20 @@ subprojects {
                     return void
                 }
             }
+            final hasSpConf = hasProp("mod_loaders_${name}") && hasProp("mc_versions_${name}")
             tasks.named("publishGithub") { onlyIf {
-                return hasProp("mod_github_repo")
+                return hasSpConf
+                        && hasProp("mod_github_repo")
                         && (it["dryRun"].get() || !env("GITHUB_TOKEN").isBlank())
             }}
             tasks.named("publishModrinth") { onlyIf {
-                return hasProp("mod_modrinth_id")
+                return hasSpConf
+                        && hasProp("mod_modrinth_id")
                         && (it["dryRun"].get() || !env("MODRINTH_TOKEN").isBlank())
             }}
             tasks.named("publishCurseforge") { onlyIf {
-                return hasProp("mod_modrinth_id")
+                return hasSpConf
+                        && hasProp("mod_curseforge_id")
                         && hasProp("mod_curseforge_slug")
                         && (it["dryRun"].get() || !env("MODRINTH_TOKEN").isBlank())
             }}
@@ -159,9 +163,9 @@ subprojects {
     }
 }
 
-/**
- * This configuration, combined with the subproject configuration above, allows
- * multiple files to be uploaded to a single GitHub release.
+/*
+ This configuration, combined with the subproject configuration above, allows
+ multiple files to be uploaded to a single GitHub release.
  */
 publishMods {
     version = "${mod_version}+${minecraft_version}"
@@ -179,13 +183,15 @@ publishMods {
         changelog = "[Changelog](./changelog.md#${mod_version.replaceAll("\\.", "")})"
     }
     tasks.named("publishGithub") { onlyIf {
-        return hasProp("mod_github_repo")
+        return hasProp("mod_loaders_${name}")
+                && hasProp("mc_versions_${name}")
+                && hasProp("mod_github_repo")
                 && (it["dryRun"].get() || !env("GITHUB_TOKEN").isBlank())
     }}
 }
 
 /**
- * Loads the latest changelog from the 'changelog.md' file.
+ @returns the latest changelog from the 'changelog.md' file.
  */
 String versionChangelog() {
     final lines = rootProject.file("changelog.md").readLines()
@@ -215,28 +221,37 @@ String versionChangelog() {
 }
 
 /**
- * Shorthand helper method.
+ @returns the value of the environment variable if it is set, an empty string
+  otherwise.
  */
 String env(String variableName) {
     return providers.environmentVariable(variableName).getOrElse("")
 }
 
 /**
- * Shorthand helper method.
+ @returns {@code true} if the property exists and its value is not empty.
  */
 boolean hasProp(String propertyName) {
     return project.hasProperty(propertyName) && project.property(propertyName) != ""
 }
 
 /**
- * Shorthand helper method.
+ @returns the value of the property, CSV-split.
  */
 String[] listProp(String propertyName) {
     return project.property(propertyName).toString().split(",")
 }
 
 /**
- * Converts a lowercase mod loader name into its formal version.
+ @returns the value of the property CSV-split if the property exists, an empty
+  array otherwise.
+ */
+String[] listPropSafe(String propertyName) {
+    return hasProp(propertyName) ? listProp(propertyName) : []
+}
+
+/**
+ Converts a lowercase mod loader name into its formal version.
  */
 static String capsLoader(String loader) {
     switch(loader) {
@@ -248,14 +263,14 @@ static String capsLoader(String loader) {
     }
 }
 
-/**
- * This task applies changes defined the 'rebrand.properties' file to packages,
- * file names and file contents. Only root files not starting with '.' and files
- * in subproject 'src/main' directories are affected.
- * <p>
- * This task should be used with caution, since unexpected behavior can occur
- * especially when running the task more than one time off the template project.
- * Refer to the 'rebrand.properties' file for more information.
+/*
+ This task applies changes defined the 'rebrand.properties' file to packages,
+ file names and file contents. Only root files not starting with '.' and files
+ in subproject 'src/main' directories are affected.
+ <p>
+ This task should be used with caution, since unexpected behavior can occur
+ especially when running the task more than one time off the template project.
+ Refer to the 'rebrand.properties' file for more information.
  */
 tasks.register("rebrandProject") {
     println("Starting task '${it.name}'...")
