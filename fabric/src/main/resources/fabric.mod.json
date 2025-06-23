@@ -29,7 +29,7 @@
     ],
     "server": [],
     "modmenu": [
-      "dev.terminalmc.framework.compat.modmenu.ModMenuImpl"
+      ${fabric_modmenu_entrypoint}
     ]
   },
 

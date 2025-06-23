@@ -149,6 +149,7 @@ processResources {
             // Fabric
             "fabric_loader_versions_list": asJsonList(fabric_loader_versions),
             "fabric_api_versions_list": asJsonList(fabric_api_versions),
+            "fabric_modmenu_entrypoint": "",
             // NeoForge
             "neoforge_versions"      : neoforge_versions,
             // Dependencies:
@@ -177,6 +178,9 @@ processResources {
             logger.error("Error processing Fabric dependency metadata for '${dep}'. "
                     + "Check dependency property format.")
             throw ex
+        }
+        if (dep == "modmenu") {
+            expandProps["fabric_modmenu_entrypoint"] = "dev.terminalmc.framework.compat.modmenu.ModMenuImpl"
         }
     }
     safePropList("neoforge_deps").each { dep ->
