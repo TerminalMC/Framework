@@ -160,23 +160,15 @@ processResources {
             "neoforge_all_deps"      : ""
     ]
 
-    // Shorthand helpers
-    final stringProp = (String propertyName) -> {
-        return project.property(propertyName).toString()
-    }
-    final listProp = (String propertyName) -> {
-        return stringProp(propertyName).split(",")
-    }
-
     // Apply property-defined dependencies
-    fabric_deps.split(",").each { dep ->
+    safePropList("fabric_deps").each { dep ->
         try {
-            final depData = listProp("d_fabric_${dep}")
+            final depData = propList("d_fabric_${dep}")
             if (depData.length > 1 && depData[1] != "-") {
                 final loaderData = depData[1].split(":")
                 final key = "fabric_${loaderData[0]}".toString()
                 final prefix = expandProps[key] == "" ? "" : ",\n    "
-                final depList = "[${asJsonList(stringProp("vr_fabric_${dep}"))}]"
+                final depList = "[${asJsonList(project.property("vr_fabric_${dep}").toString())}]"
                 final value = "${expandProps[key]}${prefix}\"${loaderData[1]}\": ${depList}"
                 expandProps[key] = value.toString()
 //                logger.info("Fabric metadata '${key}': ${expandProps[key]}")
@@ -187,9 +179,9 @@ processResources {
             throw ex
         }
     }
-    neoforge_deps.split(",").each { dep ->
+    safePropList("neoforge_deps").each { dep ->
         try {
-            final depData = listProp("d_neoforge_${dep}")
+            final depData = propList("d_neoforge_${dep}")
             if (depData.length > 1 && depData[1] != "-") {
                 final loaderData = depData[1].split(":")
                 expandProps["neoforge_all_deps"] = expandProps["neoforge_all_deps"] +
@@ -224,13 +216,35 @@ publishing {
 }
 
 /**
- * Converts a CSV list into an FMJ-usable format.*/
+ * Converts a CSV list into an FMJ-usable format.
+ */
 static asJsonList(String csvString) {
     return csvString.split(",").collect { "\"$it\"" }.join(",")
 }
 
 /**
- * Converts a CSV list into an NMT-usable format.*/
+ * Converts a CSV list into an NMT-usable format.
+ */
 static asTomlList(String csvString) {
     return csvString.split(",").join(", ")
+}
+
+/**
+ @return the value of the property, CSV-split.
+ */
+String[] propList(String propertyName) {
+    final list = project.property(propertyName).toString().split(",")
+    for (int i = 0; i < list.length; i++) {
+        list[i] = list[i].strip()
+    }
+    return list
+}
+
+/**
+ @return the value of the property CSV-split if it is set, an empty array otherwise.
+ */
+String[] safePropList(String propertyName) {
+    return project.hasProperty(propertyName) && !project.property(propertyName).toString().isBlank()
+            ? propList(propertyName)
+            : []
 }

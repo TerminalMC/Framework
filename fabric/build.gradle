@@ -1,3 +1,5 @@
+import util.PropUtil
+
 plugins {
     id("multiloader-loader")
     id("fabric-loom")
@@ -25,8 +27,8 @@ dependencies {
     // Fabric API
     modImplementation("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
 
-    // Applies a dependency configuration
-    def apply = (String type, dep) -> {
+    // Apply property-defined dependencies
+    final selector = (String type, dep) -> {
         switch (type) {
             case "anp": //noinspection DependencyNotationArgument
                 return annotationProcessor(dep)
@@ -50,35 +52,7 @@ dependencies {
                 throw new IllegalArgumentException("Unrecognized dependency type: ${type}")
         }
     }
-
-    // Shorthand helper
-    final listProp = (String propertyName) -> {
-        return project.property(propertyName).toString().split(",")
-    }
-
-    // Apply property-defined dependencies
-    listProp("${project.name}_deps").each { dep ->
-        try {
-            final depData = listProp("d_${project.name}_${dep}")
-            if (depData[0] != "-") {
-                final mavenData = depData[0].split(":")
-                final mavenGroup = mavenData[3]
-                final mavenProject = mavenData[4]
-                final subVersion = ((mavenData.length > 6 && mavenData[6] != "-")
-                        ? project.property(mavenData[6])
-                        : project.property("v_${dep}")).toString()
-                final mavenVersion = "${mavenData[5]}".replace("\$v", subVersion)
-                def gradleDep = "${mavenGroup}:${mavenProject}:${mavenVersion}"
-                for (int i = 2; i >= 0; i--) {
-                    gradleDep = apply(mavenData[i], gradleDep)
-                }
-            }
-        } catch (Exception ex) {
-            logger.error("Error processing Gradle dependency '${dep}' for subproject "
-                    + "'${project.name}'. Check dependency property format.")
-            throw ex
-        }
-    }
+    new PropUtil(project).applyDependencies(project.name, selector)
 }
 
 // Configure Loom

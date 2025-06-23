@@ -1,3 +1,12 @@
+import me.modmuss50.mpp.ReleaseType
+import util.EnvUtil
+import util.PropUtil
+import util.StaticUtil
+
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+import java.time.LocalDate
+
 plugins {
     id("fabric-loom") version("${loom_version}") apply(false)
     id("net.neoforged.moddev") version("${moddev_version}") apply(false)
@@ -7,14 +16,18 @@ plugins {
 }
 
 subprojects {
+    final env = new EnvUtil(providers)
+    final prop = new PropUtil(project)
+    final cLog = StaticUtil.versionChangelog(rootProject.file("changelog.md"), mod_version)
+
     // Append Minecraft version extension
     mod_version = "${mod_version}+${minecraft_version}"
     // Append dependency version extension, if configured
-    if (hasProp("dep_ext_${name}")) {
-        final data = project.property("dep_ext_${name}").toString().split(":")
+    if (prop.has("dep_ext_${name}")) {
+        final data = prop.get("dep_ext_${name}").split(":")
         final dep_abbrev = data[0]
         // Strip meta from dependency version
-        final dep_ver = project.property(data[1]).toString().split("\\+")[0]
+        final dep_ver = prop.get(data[1]).split("\\+")[0]
         mod_version = "${mod_version}+${dep_abbrev}${dep_ver}"
     }
     version = mod_version
@@ -30,14 +43,13 @@ subprojects {
         properties {
             project_name = mod_name
             owner_name = mod_owner
-            //noinspection UnnecessaryQualifiedReference
-            year = java.time.LocalDate.now().getYear().toString()
+            year = LocalDate.now().getYear().toString()
         }
         // Apply attribution license headers, if configured
         if (att_license_mods != "") {
             att_license_mods.split(",").each { String modId ->
                 //noinspection GroovyAssignabilityCheck
-                matching(includes: List.of(listProp("att_license_files_${modId}"))) {
+                matching(includes: List.of(prop.list("att_license_files_${modId}"))) {
                     header = rootProject.project("common").file("${licenseDir}${modId}/HEADER.txt")
                 }
             }
@@ -54,31 +66,30 @@ subprojects {
                 // Common configuration
                 file = sp.name == "fabric" ? remapJar.archiveFile : jar.archiveFile
                 version = mod_version
-                //noinspection UnnecessaryQualifiedReference
-                type = me.modmuss50.mpp.ReleaseType.of(mod_version_type)
-                displayName = "v${mod_version}-${capsLoader(sp.name)}"
-                modLoaders.addAll(listPropSafe("mod_loaders_${sp.name}"))
+                type = ReleaseType.of(mod_version_type)
+                displayName = "v${mod_version}-${StaticUtil.capsLoader(sp.name)}"
+                modLoaders.addAll(prop.safeList("mod_loaders_${sp.name}"))
                 maxRetries = 5
-                dryRun = env("GITHUB_TOKEN").isBlank()
-                        && env("MODRINTH_TOKEN").isBlank()
-                        && env("CURSEFORGE_TOKEN").isBlank()
+                dryRun = !env.has("GITHUB_TOKEN")
+                        && !env.has("MODRINTH_TOKEN")
+                        && !env.has("CURSEFORGE_TOKEN")
                 // GitHub configuration
                 github {
                     parent project(":").tasks.named("publishGithub")
-                    accessToken = env("GITHUB_TOKEN")
+                    accessToken = env.safe("GITHUB_TOKEN")
                     if (build_sources_jar == "true") additionalFiles.from(sourcesJar.archiveFile)
                     if (build_javadoc_jar == "true") additionalFiles.from(javadocJar.archiveFile)
                     return void
                 }
                 // Modrinth configuration
                 modrinth {
-                    accessToken = env("MODRINTH_TOKEN")
-                    projectId = mod_modrinth_id
-                    minecraftVersions.addAll(listPropSafe("mc_versions_${sp.name}"))
-                    changelog = versionChangelog()
-                    listProp("${sp.name}_deps").each { dep ->
+                    accessToken = env.safe("MODRINTH_TOKEN")
+                    projectId = prop.safe("mod_modrinth_id")
+                    minecraftVersions.addAll(prop.safeList("mc_versions_${sp.name}"))
+                    changelog = cLog
+                    prop.safeList("${sp.name}_deps").each { dep ->
                         try {
-                            final depData = listProp("d_${sp.name}_${dep}")
+                            final depData = prop.list("d_${sp.name}_${dep}")
                             if (depData.length > 2 && depData[2] != "-") {
                                 final mrDepData = depData[2].split(":")
                                 final type = mrDepData[0]
@@ -108,14 +119,14 @@ subprojects {
                 }
                 // CurseForge configuration
                 curseforge {
-                    accessToken = env("CURSEFORGE_TOKEN")
-                    projectId = mod_curseforge_id
-                    projectSlug = mod_curseforge_slug
-                    minecraftVersions.addAll(listPropSafe("mc_versions_${sp.name}"))
-                    changelog = versionChangelog()
-                    listProp("${sp.name}_deps").each { dep ->
+                    accessToken = env.safe("CURSEFORGE_TOKEN")
+                    projectId = prop.safe("mod_curseforge_id")
+                    projectSlug = prop.safe("mod_curseforge_slug")
+                    minecraftVersions.addAll(prop.safeList("mc_versions_${sp.name}"))
+                    changelog = cLog
+                    prop.safeList("${sp.name}_deps").each { dep ->
                         try {
-                            final depData = listProp("d_${sp.name}_${dep}")
+                            final depData = prop.list("d_${sp.name}_${dep}")
                             if (depData.length > 3 && depData[3] != "-") {
                                 final cfDepData = depData[3].split(":")
                                 final type = cfDepData[0]
@@ -142,27 +153,27 @@ subprojects {
                     return void
                 }
             }
-            final hasSpConf = hasProp("mod_loaders_${name}") && hasProp("mc_versions_${name}")
+            final hasSpConf = prop.has("mod_loaders_${name}") && prop.has("mc_versions_${name}")
             tasks.named("publishGithub") {
                 onlyIf {
                     return hasSpConf
-                            && hasProp("mod_github_repo")
-                            && (it["dryRun"].get() || !env("GITHUB_TOKEN").isBlank())
+                            && prop.has("mod_github_repo")
+                            && (it["dryRun"].get() || !env.has("GITHUB_TOKEN"))
                 }
             }
             tasks.named("publishModrinth") {
                 onlyIf {
                     return hasSpConf
-                            && hasProp("mod_modrinth_id")
-                            && (it["dryRun"].get() || !env("MODRINTH_TOKEN").isBlank())
+                            && prop.has("mod_modrinth_id")
+                            && (it["dryRun"].get() || !env.has("MODRINTH_TOKEN"))
                 }
             }
             tasks.named("publishCurseforge") {
                 onlyIf {
                     return hasSpConf
-                            && hasProp("mod_curseforge_id")
-                            && hasProp("mod_curseforge_slug")
-                            && (it["dryRun"].get() || !env("MODRINTH_TOKEN").isBlank())
+                            && prop.has("mod_curseforge_id")
+                            && prop.has("mod_curseforge_slug")
+                            && (it["dryRun"].get() || !env.has("MODRINTH_TOKEN"))
                 }
             }
         }
@@ -174,14 +185,15 @@ subprojects {
  multiple files to be uploaded to a single GitHub release.
  */
 publishMods {
+    final env = new EnvUtil(providers)
+    final prop = new PropUtil(project)
     version = "${mod_version}+${minecraft_version}"
     displayName = "v${mod_version}+${minecraft_version}"
-    //noinspection UnnecessaryQualifiedReference
-    type = me.modmuss50.mpp.ReleaseType.of(mod_version_type)
-    dryRun = providers.environmentVariable("GITHUB_TOKEN").getOrElse("").isBlank()
+    type = ReleaseType.of(mod_version_type)
+    dryRun = !env.has("GITHUB_TOKEN")
     github {
-        accessToken = providers.environmentVariable("GITHUB_TOKEN").getOrElse("")
-        repository = mod_github_repo
+        accessToken = env.safe("GITHUB_TOKEN")
+        repository = prop.safe("mod_github_repo")
         commitish = grgitService.service.get().grgit.branch.current().name
         tagName = "v${mod_version}+${minecraft_version}"
         allowEmptyFiles = true
@@ -190,84 +202,9 @@ publishMods {
     }
     tasks.named("publishGithub") {
         onlyIf {
-            return hasProp("mod_loaders_${name}")
-                    && hasProp("mc_versions_${name}")
-                    && hasProp("mod_github_repo")
-                    && (it["dryRun"].get() || !env("GITHUB_TOKEN").isBlank())
+            return prop.has("mod_github_repo")
+                    && (it["dryRun"].get() || !env.has("GITHUB_TOKEN"))
         }
-    }
-}
-
-/**
- @returns the latest changelog from the 'changelog.md' file.
- */
-String versionChangelog() {
-    final lines = rootProject.file("changelog.md").readLines()
-    final builder = new StringBuilder()
-    // Changelog version header is on the third line of the file; check it
-    if ("${mod_version}" != lines.get(2).substring(3)) {
-        throw new IllegalArgumentException(String.format(
-                "Mod version '%s' does not match changelog version '%s'",
-                mod_version,
-                lines.get(2).substring(3)
-        ))
-    } else {
-        // Iterate over content lines
-        for (int i = 4; i < lines.size(); i++) {
-            final line = lines.get(i)
-            if (line.startsWith("## ")) {
-                // Encountered next changelog header; finish
-                break
-            } else {
-                // Append the content line, respecting blank lines
-                if (!builder.isEmpty()) builder.append("\n")
-                if (!line.isBlank()) builder.append(line)
-            }
-        }
-    }
-    return builder.toString()
-}
-
-/**
- @returns the value of the environment variable if it is set, an empty string
-  otherwise.
- */
-String env(String variableName) {
-    return providers.environmentVariable(variableName).getOrElse("")
-}
-
-/**
- @returns {@code true} if the property exists and its value is not empty.
- */
-boolean hasProp(String propertyName) {
-    return project.hasProperty(propertyName) && project.property(propertyName) != ""
-}
-
-/**
- @returns the value of the property, CSV-split.
- */
-String[] listProp(String propertyName) {
-    return project.property(propertyName).toString().split(",")
-}
-
-/**
- @returns the value of the property CSV-split if the property exists, an empty
-  array otherwise.
- */
-String[] listPropSafe(String propertyName) {
-    return hasProp(propertyName) ? listProp(propertyName) : []
-}
-
-/**
- * Converts a lowercase mod loader name into its formal version.
- */
-static String capsLoader(String loader) {
-    switch (loader) {
-        case "fabric": return "Fabric"
-        case "quilt": return "Quilt"
-        case "forge": return "Forge"
-        case "neoforge": return "NeoForge"
-        default: return loader
     }
 }
 
@@ -382,11 +319,10 @@ tasks.register("rebrandProject") {
                 // Rename file
                 try {
                     println("Renaming file '${f.name}' to '${fileName}'")
-                    //noinspection UnnecessaryQualifiedReference
-                    java.nio.file.Files.move(
+                    Files.move(
                             f.toPath(),
                             new File(f.parentFile, fileName).toPath(),
-                            java.nio.file.StandardCopyOption.REPLACE_EXISTING
+                            StandardCopyOption.REPLACE_EXISTING
                     )
                 } catch (IOException ex) {
                     logger.error("Error renaming file '${f.path}': ${ex}")
