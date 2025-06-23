@@ -13,7 +13,7 @@ package dev.terminalmc.framework.platform.services;
 
 import java.nio.file.Path;
 
-public interface IPlatformInfo {
+public interface IPlatformServices {
 
     /**
      * @return the name of the current platform.
@@ -21,7 +21,7 @@ public interface IPlatformInfo {
     String getPlatformName();
 
     /**
-     * @return true if the mod is loaded, false otherwise.
+     * @return {@code true} if the mod is loaded.
      */
     boolean isModLoaded(String modId);
 
@@ -36,7 +36,7 @@ public interface IPlatformInfo {
     Path getConfigDir();
 
     /**
-     * @return true if in a development environment, false otherwise.
+     * @return {@code true} if in a development environment.
      */
     boolean isDevEnv();
 

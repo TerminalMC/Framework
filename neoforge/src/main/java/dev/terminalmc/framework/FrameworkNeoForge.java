@@ -37,20 +37,22 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 public class FrameworkNeoForge {
 
     public FrameworkNeoForge() {
-        // Config screen
+        // Register config screen
         ModLoadingContext.get().registerExtensionPoint(
                 IConfigScreenFactory.class,
                 () -> (mc, parent) -> ConfigScreenProvider.getConfigScreen(parent)
         );
 
-        // Main initialization
+        // Initialize client
         Framework.init();
     }
 
-    // Keybindings
+    /**
+     * Registers all keybinds.
+     */
     @SubscribeEvent
-    static void registerKeyMappingsEvent(RegisterKeyMappingsEvent event) {
-        event.register(Framework.EXAMPLE_KEY);
+    static void registerKeyMappings(RegisterKeyMappingsEvent event) {
+        Framework.KEYBINDS.forEach(event::register);
     }
 
     @EventBusSubscriber(
@@ -59,7 +61,9 @@ public class FrameworkNeoForge {
     )
     static class ClientEventHandler {
 
-        // Commands
+        /**
+         * Registers all client-side commands.
+         */
         @SubscribeEvent
         static void registerClientCommands(RegisterClientCommandsEvent event) {
             new Commands<CommandSourceStack>().register(
@@ -68,10 +72,12 @@ public class FrameworkNeoForge {
             );
         }
 
-        // Tick events
+        /**
+         * Registers client after-tick event.
+         */
         @SubscribeEvent
-        public static void clientTickEvent(ClientTickEvent.Post event) {
-            Framework.onEndTick(Minecraft.getInstance());
+        public static void registerAfterClientTick(ClientTickEvent.Post event) {
+            Framework.afterClientTick(Minecraft.getInstance());
         }
     }
 }

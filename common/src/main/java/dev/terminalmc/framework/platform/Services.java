@@ -12,13 +12,13 @@
 package dev.terminalmc.framework.platform;
 
 import dev.terminalmc.framework.Framework;
-import dev.terminalmc.framework.platform.services.IPlatformInfo;
+import dev.terminalmc.framework.platform.services.IPlatformServices;
 
 import java.util.ServiceLoader;
 
 public class Services {
 
-    public static final IPlatformInfo PLATFORM = load(IPlatformInfo.class);
+    public static final IPlatformServices PLATFORM = load(IPlatformServices.class);
 
     public static <T> T load(Class<T> clazz) {
         final T loadedService = ServiceLoader.load(clazz)

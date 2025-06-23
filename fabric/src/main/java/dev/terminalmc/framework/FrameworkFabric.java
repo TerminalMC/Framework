@@ -22,20 +22,20 @@ public class FrameworkFabric implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        // Keybindings
-        KeyBindingHelper.registerKeyBinding(Framework.EXAMPLE_KEY);
+        // Register keybinds
+        Framework.KEYBINDS.forEach(KeyBindingHelper::registerKeyBinding);
 
-        // Commands
+        // Register client commands
         ClientCommandRegistrationCallback.EVENT.register(((dispatcher, buildContext) ->
                 new Commands<FabricClientCommandSource>().register(
                         dispatcher,
                         buildContext
                 )));
 
-        // Tick events
-        ClientTickEvents.END_CLIENT_TICK.register(Framework::onEndTick);
+        // Register client after-tick event
+        ClientTickEvents.END_CLIENT_TICK.register(Framework::afterClientTick);
 
-        // Main initialization
+        // Initialize client
         Framework.init();
     }
 }

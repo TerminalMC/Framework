@@ -20,6 +20,8 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 
+import java.util.List;
+
 import static dev.terminalmc.framework.util.Localization.translationKey;
 
 public class Framework {
@@ -38,12 +40,15 @@ public class Framework {
             InputConstants.UNKNOWN.getValue(),
             translationKey("key", "group")
     );
+    public static final List<KeyMapping> KEYBINDS = List.of(
+            EXAMPLE_KEY
+    );
 
     public static void init() {
         Config.getAndSave();
     }
 
-    public static void onEndTick(Minecraft mc) {
+    public static void afterClientTick(Minecraft mc) {
         // Check mod keybindings
         while (EXAMPLE_KEY.consumeClick()) {
             mc.setScreen(ConfigScreenProvider.getConfigScreen(mc.screen));
