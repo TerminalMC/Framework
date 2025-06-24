@@ -12,7 +12,7 @@ class EnvUtil {
     /**
      @return {@code true} if the environment variable is set.
      */
-    String has(String variableName) {
+    boolean has(String variableName) {
         return !safe(variableName).isBlank()
     }
 
