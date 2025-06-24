@@ -158,14 +158,14 @@ subprojects {
                 onlyIf {
                     return hasSpConf
                             && prop.has("mod_github_repo")
-                            && (it["dryRun"].get() || !env.has("GITHUB_TOKEN"))
+                            && (it["dryRun"].get() || env.has("GITHUB_TOKEN"))
                 }
             }
             tasks.named("publishModrinth") {
                 onlyIf {
                     return hasSpConf
                             && prop.has("mod_modrinth_id")
-                            && (it["dryRun"].get() || !env.has("MODRINTH_TOKEN"))
+                            && (it["dryRun"].get() || env.has("MODRINTH_TOKEN"))
                 }
             }
             tasks.named("publishCurseforge") {
@@ -173,7 +173,7 @@ subprojects {
                     return hasSpConf
                             && prop.has("mod_curseforge_id")
                             && prop.has("mod_curseforge_slug")
-                            && (it["dryRun"].get() || !env.has("MODRINTH_TOKEN"))
+                            && (it["dryRun"].get() || env.has("MODRINTH_TOKEN"))
                 }
             }
         }
@@ -203,7 +203,7 @@ publishMods {
     tasks.named("publishGithub") {
         onlyIf {
             return prop.has("mod_github_repo")
-                    && (it["dryRun"].get() || !env.has("GITHUB_TOKEN"))
+                    && (it["dryRun"].get() || env.has("GITHUB_TOKEN"))
         }
     }
 }
