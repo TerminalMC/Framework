@@ -183,6 +183,9 @@ processResources {
             expandProps["fabric_modmenu_entrypoint"] = "dev.terminalmc.framework.compat.modmenu.ModMenuImpl"
         }
     }
+    if (!expandProps["fabric_depends"].isBlank()) {
+        expandProps["fabric_depends"] = "${expandProps["fabric_depends"]},".toString()
+    }
     safePropList("neoforge_deps").each { dep ->
         try {
             final depData = propList("d_neoforge_${dep}")
