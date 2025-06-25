@@ -173,7 +173,7 @@ subprojects {
                     return hasSpConf
                             && prop.has("mod_curseforge_id")
                             && prop.has("mod_curseforge_slug")
-                            && (it["dryRun"].get() || env.has("MODRINTH_TOKEN"))
+                            && (it["dryRun"].get() || env.has("CURSEFORGE_TOKEN"))
                 }
             }
         }
