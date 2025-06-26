@@ -1,5 +1,5 @@
-# A CurseForge-only version of the normal release workflow.
-name: Release-CurseForge
+# A Fabric-only version of the normal release workflow.
+name: Release-Subproject-Fabric
 
 on:
   workflow_dispatch:
@@ -34,8 +34,10 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: Build
-        run: ./gradlew build neoforge:publishCurseforge fabric:publishCurseforge --stacktrace
+        run: ./gradlew build fabric:publishModrinth fabric:publishCurseforge fabric:publishGithub --stacktrace
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
       - name: Capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '21' }}

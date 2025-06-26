@@ -1,5 +1,5 @@
 # A Modrinth-only version of the normal release workflow.
-name: Release-Modrinth
+name: Release-Platform-Modrinth
 
 on:
   workflow_dispatch:
