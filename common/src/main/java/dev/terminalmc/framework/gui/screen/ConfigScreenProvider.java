@@ -12,6 +12,7 @@
 package dev.terminalmc.framework.gui.screen;
 
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.MultiLineTextWidget;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
@@ -55,7 +56,7 @@ public class ConfigScreenProvider {
                     width / 2 - 120,
                     height / 2 - 40,
                     localized("message", modKey),
-                    minecraft.font
+                    Minecraft.getInstance().font
             );
             messageWidget.setMaxWidth(240);
             messageWidget.setCentered(true);
@@ -63,11 +64,11 @@ public class ConfigScreenProvider {
 
             Button openLinkButton = Button.builder(
                             localized("message", "viewModrinth"),
-                            (button) -> minecraft.setScreen(new ConfirmLinkScreen(
+                            (button) -> Minecraft.getInstance().setScreen(new ConfirmLinkScreen(
                                     (open) -> {
                                         if (open)
                                             Util.getPlatform().openUri(modUrl);
-                                        minecraft.setScreen(parent);
+                                        Minecraft.getInstance().setScreen(parent);
                                     }, modUrl, true
                             ))
                     )
