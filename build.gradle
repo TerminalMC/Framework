@@ -367,6 +367,19 @@ tasks.register("rebrandProject") {
                 }
             }
         }
+
+        // Delete template-only files
+        final deleteFiles = [
+                "template-changelog.md"
+        ]
+        deleteFiles.each {
+            try {
+                file(it).delete()
+            } catch (IOException ex) {
+                logger.error("Error deleting '${it}': ${ex}")
+                ex.printStackTrace()
+            }
+        }
     }
     println("Task '${it.name}' finished")
 }
