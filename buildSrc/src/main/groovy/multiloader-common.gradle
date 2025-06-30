@@ -226,14 +226,20 @@ publishing {
  * Converts a CSV list into an FMJ-usable format.
  */
 static asJsonList(String csvString) {
-    return csvString.split(",").collect { "\"$it\"" }.join(",")
+    return csvString.split(",")
+            .findAll { !it.isBlank() }
+            .collect { "\"${it.strip()}\"" }
+            .join(",")
 }
 
 /**
  * Converts a CSV list into an NMT-usable format.
  */
 static asTomlList(String csvString) {
-    return csvString.split(",").join(", ")
+    return csvString.split(",")
+            .findAll { !it.isBlank() }
+            .collect { it.strip() }
+            .join(", ")
 }
 
 /**
