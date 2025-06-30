@@ -1,15 +1,15 @@
 # Changelog
 
-## 2.0.0
+## 0.1.0
 
-- Redesigned buildscripts
+- Initial beta release
 
-## 1.1.0
+## 0.0.2
 
 - Fixed X
 - Added Y
 - Removed Z
 
-## 1.0.0
+## 0.0.1
 
-- Initial release
+- Initial alpha release
