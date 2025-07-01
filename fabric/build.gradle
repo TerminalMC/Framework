@@ -17,7 +17,7 @@ dependencies {
     })
 
     // MixinExtras
-    if (mixinextras_jij_fabric) {
+    if (mixinextras_jij_fabric == "true") {
         include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${mixinextras_version}")))
     }
 
