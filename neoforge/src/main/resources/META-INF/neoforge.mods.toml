@@ -19,7 +19,7 @@ features = { java_version = "${java_versions_neoforge}" } #optional:none
 #modproperties = {} #optional:none
 credits = "${mod_contributors_string}" #optional:none
 authors = "${mod_authors_string}" #optional:none
-displayURL = "${homepage_url}" #optional: none
+displayURL = "${homepage_url}" #optional:none
 
 [[mixins]]
 config = "${mod_id}.mixins.json"
