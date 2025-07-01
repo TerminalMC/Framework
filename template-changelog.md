@@ -9,6 +9,10 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 
 - Fixed always JiJ-ing MixinExtras on Fabric
 
+Affected files:
+
+- `fabric/build.gradle`
+
 ## 1
 
 - Initialized template versioning
