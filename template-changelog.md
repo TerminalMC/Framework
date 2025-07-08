@@ -5,6 +5,14 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 3
+
+- Fixed editor config for Java record component wrapping
+
+Affected files:
+
+- `.editorconfig`
+
 ## 2
 
 - Fixed always JiJ-ing MixinExtras on Fabric
