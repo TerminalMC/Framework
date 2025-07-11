@@ -13,17 +13,23 @@ package dev.terminalmc.framework.platform.services;
 
 import java.nio.file.Path;
 
+@SuppressWarnings("unused")
 public interface IPlatformServices {
 
     /**
-     * @return the name of the current platform.
+     * @return {@code true} if in a development environment.
      */
-    String getPlatformName();
+    boolean isDevEnv();
 
     /**
      * @return {@code true} if the mod is loaded.
      */
     boolean isModLoaded(String modId);
+
+    /**
+     * @return the name of the current platform.
+     */
+    String getPlatformName();
 
     /**
      * @return the game directory of the instance.
@@ -34,11 +40,6 @@ public interface IPlatformServices {
      * @return the configuration directory of the instance.
      */
     Path getConfigDir();
-
-    /**
-     * @return {@code true} if in a development environment.
-     */
-    boolean isDevEnv();
 
     /**
      * @return the name of the environment type.

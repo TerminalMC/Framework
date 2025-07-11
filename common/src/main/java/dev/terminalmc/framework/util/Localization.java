@@ -15,6 +15,7 @@ import dev.terminalmc.framework.Framework;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
+@SuppressWarnings("unused")
 public final class Localization {
 
     public static String translationKey(String path) {

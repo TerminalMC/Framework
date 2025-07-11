@@ -44,10 +44,16 @@ public class Framework {
             EXAMPLE_KEY
     );
 
+    /**
+     * Client initialization.
+     */
     public static void init() {
         Config.getAndSave();
     }
 
+    /**
+     * Client after-tick event listener.
+     */
     public static void afterClientTick(Minecraft mc) {
         // Check mod keybindings
         while (EXAMPLE_KEY.consumeClick()) {
@@ -55,6 +61,9 @@ public class Framework {
         }
     }
 
+    /**
+     * Config save listener.
+     */
     public static void onConfigSaved(Config config) {
         // If you are maintaining caches based on config, update them here.
     }

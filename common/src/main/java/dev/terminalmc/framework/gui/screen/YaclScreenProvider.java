@@ -251,7 +251,7 @@ public class YaclScreenProvider {
                 )
                 .controller(option -> CyclingListControllerBuilder.create(option)
                         .values(Config.Options.strictStringOptionValues)
-                        .formatValue(val -> Component.literal(val)))
+                        .formatValue(Component::literal))
                 .build());
 
         // Second category

@@ -132,29 +132,40 @@ public class Config {
         return instance;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public static Config getAndSave() {
         get();
         save();
         return instance;
     }
 
+    @SuppressWarnings("unused")
+    public static Config reloadAndSave() {
+        instance = Config.load();
+        save();
+        return instance;
+    }
+
+    @SuppressWarnings("unused")
     public static Config resetAndSave() {
         instance = new Config();
         save();
         return instance;
     }
 
-    // Cleanup
+    // Validation
 
-    private void cleanup() {
-        // Called before config is saved
+    /**
+     * Cleanup and validation method, called after config is loaded and before it is saved.
+     */
+    private void validate() {
     }
 
     // Load and save
 
     public static @NotNull Config load() {
         Path file = DIR_PATH.resolve(FILE_NAME);
-        Config config = null;
+        @Nullable Config config = null;
         if (Files.exists(file)) {
             config = load(file, GSON);
             if (config == null) {
@@ -162,9 +173,13 @@ public class Config {
                 Framework.LOG.warn("Resetting config");
             }
         }
-        return config != null ? config : new Config();
+        if (config == null)
+            config = new Config();
+        config.validate();
+        return config;
     }
 
+    @SuppressWarnings("SameParameterValue")
     private static @Nullable Config load(Path file, Gson gson) {
         try (
                 InputStreamReader reader = new InputStreamReader(
@@ -202,7 +217,7 @@ public class Config {
     public static void save() {
         if (instance == null)
             return;
-        instance.cleanup();
+        instance.validate();
         try {
             if (!Files.isDirectory(DIR_PATH))
                 Files.createDirectories(DIR_PATH);
