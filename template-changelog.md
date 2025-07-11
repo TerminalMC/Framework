@@ -9,11 +9,13 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 
 - Now, versioned properties are grouped together in gradle.properties
 - Now, release workflows do not refer to subprojects or subtasks unnecessarily
+- Now, Fabric entrypoint properties do not include the source package unnecessarily
 
 Affected files:
 
 - `gradle.properties`
 - `.github/workflows/release-**.yml`
+- `buildSrc/src/main/groovy/multiloader-common.gradle`
 
 ## 3
 
