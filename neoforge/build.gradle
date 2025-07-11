@@ -66,6 +66,8 @@ neoForge {
         server {
             //noinspection GroovyImplicitNullArgumentCall
             server()
+            //noinspection GroovyAssignabilityCheck
+            programArgument("--nogui")
         }
     }
     mods {

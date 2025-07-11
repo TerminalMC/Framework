@@ -13,6 +13,7 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 - Now, neoforge.mods.toml is editorconfig-compliant
 - Updated dependencies
 - Enabled automatic AW and AT validation
+- Disabled NeoForge server GUI
 
 Affected files:
 
