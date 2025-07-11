@@ -5,6 +5,14 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 4
+
+- Now, versioned properties are grouped together in gradle.properties
+
+Affected files:
+
+- `gradle.properties`
+
 ## 3
 
 - Fixed editor config for Java record component wrapping
