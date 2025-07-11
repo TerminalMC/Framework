@@ -12,6 +12,7 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 - Now, Fabric entrypoint properties do not include the source package unnecessarily
 - Now, neoforge.mods.toml is editorconfig-compliant
 - Updated dependencies
+- Enabled automatic AW and AT validation
 
 Affected files:
 
@@ -19,6 +20,9 @@ Affected files:
 - `.github/workflows/release-**.yml`
 - `buildSrc/src/main/groovy/multiloader-common.gradle`
 - `neoforge/src/main/resources/META-INF/neoforge.mods.toml`
+- `common/build.gradle`
+- `fabric/build.gradle`
+- `neoforge/build.gradle`
 
 ## 3
 
