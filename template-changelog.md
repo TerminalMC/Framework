@@ -11,6 +11,7 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 - Now, release workflows do not refer to subprojects or subtasks unnecessarily
 - Now, Fabric entrypoint properties do not include the source package unnecessarily
 - Now, neoforge.mods.toml is editorconfig-compliant
+- Updated dependencies
 
 Affected files:
 
