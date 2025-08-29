@@ -5,6 +5,16 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 5
+
+- Fixed Modrinth links
+
+Affected files:
+
+- `common/src/main/java/dev/terminalmc/framework/gui/screen/ConfigScreenProvider.java`
+- `gradle.properties`
+- `README.md`
+
 ## 4
 
 - Now, versioned properties are grouped together in gradle.properties
