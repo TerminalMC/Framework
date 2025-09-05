@@ -5,6 +5,14 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 6
+
+- Removed `windows-latest` from `check-build` workflow matrix
+
+Affected files:
+
+- `.github/workflows/check-build.yml`
+
 ## 5
 
 - Fixed Modrinth links
