@@ -8,12 +8,14 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 ## 7
 
 - Reordered publishing tasks to mitigate Modrinth errors
+- Updated dependencies
 
 Affected files:
 
 - `.github/workflows/release.yml`
 - `.github/workflows/release-subproject-fabric.yml`
 - `.github/workflows/release-subproject-neoforge.yml`
+- `gradle.properties`
 
 ## 6
 
