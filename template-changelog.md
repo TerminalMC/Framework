@@ -5,6 +5,16 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 7
+
+- Reordered publishing tasks to mitigate Modrinth errors
+
+Affected files:
+
+- `.github/workflows/release.yml`
+- `.github/workflows/release-subproject-fabric.yml`
+- `.github/workflows/release-subproject-neoforge.yml`
+
 ## 6
 
 - Removed `windows-latest` from `check-build` workflow matrix
