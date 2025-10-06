@@ -15,6 +15,8 @@ Affected files:
 - `.github/workflows/release.yml`
 - `.github/workflows/release-subproject-fabric.yml`
 - `.github/workflows/release-subproject-neoforge.yml`
+- `gradle/wrapper/gradle-wrapper.properties`
+- `build.gradle`
 - `gradle.properties`
 
 ## 6
