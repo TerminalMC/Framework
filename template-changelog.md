@@ -5,6 +5,14 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 8
+
+- Fixed placeholder screen close behavior
+
+Affected files:
+
+- `common/src/main/java/dev/terminalmc/framework/gui/screen/ConfigScreenProvider.java`
+
 ## 7
 
 - Reordered publishing tasks to mitigate Modrinth errors

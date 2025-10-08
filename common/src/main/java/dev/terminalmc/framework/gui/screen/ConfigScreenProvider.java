@@ -68,7 +68,7 @@ public class ConfigScreenProvider {
                                     (open) -> {
                                         if (open)
                                             Util.getPlatform().openUri(modUrl);
-                                        Minecraft.getInstance().setScreen(parent);
+                                        onClose();
                                     }, modUrl, true
                             ))
                     )
@@ -82,6 +82,11 @@ public class ConfigScreenProvider {
                     .size(115, 20)
                     .build();
             addRenderableWidget(exitButton);
+        }
+
+        @Override
+        public void onClose() {
+            Minecraft.getInstance().setScreen(parent);
         }
     }
 }
