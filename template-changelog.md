@@ -5,6 +5,14 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 9
+
+- Fixed service loader potentially using the wrong classloader
+
+Affected files:
+
+- `common/src/main/java/dev/terminalmc/framework/platform/Services.java`
+
 ## 8
 
 - Fixed placeholder screen close behavior
