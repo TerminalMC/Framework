@@ -5,6 +5,14 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 10
+
+- Updated GitHub actions
+
+Affected files:
+
+- `.github/workflows/**`
+
 ## 9
 
 - Fixed service loader potentially using the wrong classloader
