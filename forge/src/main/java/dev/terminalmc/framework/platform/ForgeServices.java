@@ -12,13 +12,13 @@
 package dev.terminalmc.framework.platform;
 
 import dev.terminalmc.framework.platform.services.PlatformServices;
-import net.neoforged.fml.loading.FMLLoader;
-import net.neoforged.fml.loading.FMLPaths;
-import net.neoforged.fml.loading.LoadingModList;
+import net.minecraftforge.fml.loading.FMLLoader;
+import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.fml.loading.LoadingModList;
 
 import java.nio.file.Path;
 
-public class NeoForgeServices implements PlatformServices {
+public class ForgeServices implements PlatformServices {
 
     @Override
     public boolean isDevEnv() {
@@ -32,7 +32,7 @@ public class NeoForgeServices implements PlatformServices {
 
     @Override
     public String getPlatformName() {
-        return "NeoForge";
+        return "Forge";
     }
 
     @Override

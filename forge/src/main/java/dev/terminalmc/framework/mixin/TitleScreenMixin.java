@@ -22,7 +22,7 @@ public class TitleScreenMixin {
             at = @At("HEAD")
     )
     private void init(CallbackInfo info) {
-        Framework.LOG.info("This line is printed by an example mod mixin from NeoForge!");
+        Framework.LOG.info("This line is printed by an example mod mixin from Forge!");
         Framework.LOG.info("MC Version: {}", Minecraft.getInstance().getVersionType());
     }
 }

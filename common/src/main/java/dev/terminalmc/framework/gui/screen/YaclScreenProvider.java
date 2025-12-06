@@ -419,7 +419,7 @@ public class YaclScreenProvider {
     // Special option utils
     private static Item asItem(String s) {
         try {
-            return BuiltInRegistries.ITEM.get(ResourceLocation.parse(s));
+            return BuiltInRegistries.ITEM.get(new ResourceLocation(s));
         } catch (ResourceLocationException e) {
             return BuiltInRegistries.ITEM.get(BuiltInRegistries.ITEM.getDefaultKey());
         }

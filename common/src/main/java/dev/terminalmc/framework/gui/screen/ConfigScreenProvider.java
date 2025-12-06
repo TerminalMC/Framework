@@ -13,11 +13,13 @@ package dev.terminalmc.framework.gui.screen;
 
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.MultiLineTextWidget;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
+import org.jetbrains.annotations.NotNull;
 
 import static dev.terminalmc.framework.util.Localization.localized;
 
@@ -82,6 +84,17 @@ public class ConfigScreenProvider {
                     .size(115, 20)
                     .build();
             addRenderableWidget(exitButton);
+        }
+
+        @Override
+        public void render(
+                @NotNull GuiGraphics graphics,
+                int mouseX,
+                int mouseY,
+                float partialTick
+        ) {
+            renderDirtBackground(graphics);
+            super.render(graphics, mouseX, mouseY, partialTick);
         }
 
         @Override
