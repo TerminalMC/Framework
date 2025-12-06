@@ -5,6 +5,22 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 11
+
+- Updated service loader
+
+Affected files:
+
+- `common/src/main/java/dev/terminalmc/framework/config/Config.java`
+- `common/src/main/java/dev/terminalmc/framework/platform/services/PlatformServices.java`
+- `common/src/main/java/dev/terminalmc/framework/platform/Services.java`
+- `fabric/src/main/java/dev/terminalmc/framework/platform/FabricServices.java`
+-
+`fabric/src/main/resources/META-INF/services/dev.terminalmc.framework.platform.services.PlatformServices`
+- `neoforge/src/main/java/dev/terminalmc/framework/platform/NeoForgeServices.java`
+-
+`neoforge/src/main/resources/META-INF/services/dev.terminalmc.framework.platform.services.PlatformServices`
+
 ## 10
 
 - Updated GitHub actions

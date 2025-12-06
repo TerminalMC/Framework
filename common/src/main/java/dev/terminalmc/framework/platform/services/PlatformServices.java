@@ -11,10 +11,18 @@
 
 package dev.terminalmc.framework.platform.services;
 
+import dev.terminalmc.framework.platform.Services;
+
 import java.nio.file.Path;
 
 @SuppressWarnings("unused")
-public interface IPlatformServices {
+public interface PlatformServices {
+
+    PlatformServices INSTANCE = Services.load(PlatformServices.class);
+
+    static PlatformServices getInstance() {
+        return INSTANCE;
+    }
 
     /**
      * @return {@code true} if in a development environment.

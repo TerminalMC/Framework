@@ -11,14 +11,14 @@
 
 package dev.terminalmc.framework.platform;
 
-import dev.terminalmc.framework.platform.services.IPlatformServices;
+import dev.terminalmc.framework.platform.services.PlatformServices;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.fml.loading.LoadingModList;
 
 import java.nio.file.Path;
 
-public class NeoForgeServices implements IPlatformServices {
+public class NeoForgeServices implements PlatformServices {
 
     @Override
     public boolean isDevEnv() {

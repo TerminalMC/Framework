@@ -11,12 +11,12 @@
 
 package dev.terminalmc.framework.platform;
 
-import dev.terminalmc.framework.platform.services.IPlatformServices;
+import dev.terminalmc.framework.platform.services.PlatformServices;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.nio.file.Path;
 
-public class FabricServices implements IPlatformServices {
+public class FabricServices implements PlatformServices {
 
     @Override
     public boolean isDevEnv() {
