@@ -20,6 +20,7 @@ import me.shedaniel.clothconfig2.gui.entries.StringListListEntry;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -246,13 +247,11 @@ public class ClothScreenProvider {
 
         thirdCatFirstGroup.add(eb.startKeyCodeField(
                         localized("option", "cat3.group1.keyOption"),
-                        InputConstants.getKey(options.keyOption, options.keyOption)
+                        InputConstants.getKey(new KeyEvent(options.keyOption, 0, 0))
                 )
                 .setTooltip(localized("option", "cat3.group1.keyOption.tooltip"))
                 .setDefaultValue(InputConstants.getKey(
-                        Config.Options.keyExampleDefault,
-                        Config.Options.keyExampleDefault
-                ))
+                        new KeyEvent(Config.Options.keyExampleDefault, 0, 0)))
                 .setKeySaveConsumer(val -> options.keyOption = val.getValue())
                 .setAllowKey(true) // op, default true
                 .setAllowMouse(true) // op, default true
