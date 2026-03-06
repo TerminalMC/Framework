@@ -5,6 +5,14 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 12
+
+- Moved editor config comments to separate lines
+
+Affected files:
+
+- `.editorconfig`
+
 ## 11
 
 - Updated service loader
