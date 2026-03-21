@@ -47,7 +47,7 @@ public class Commands<S> extends CommandDispatcher<S> {
                                     MutableComponent msg = Framework.PREFIX.copy();
                                     msg.append(word);
 
-                                    mc.gui.getChat().addMessage(msg);
+                                    mc.gui.getChat().addClientSystemMessage(msg);
                                     return Command.SINGLE_SUCCESS;
                                 })
                         )
@@ -56,12 +56,14 @@ public class Commands<S> extends CommandDispatcher<S> {
                         .then(literal("item")
                                 .then(argument("item", ItemArgument.item(buildContext))
                                         .executes(ctx -> {
-                                            Item item = ItemArgument.getItem(ctx, "item").getItem();
+                                            Item item = ItemArgument.getItem(ctx, "item")
+                                                    .item()
+                                                    .value();
 
                                             MutableComponent msg = Framework.PREFIX.copy();
-                                            msg.append(item.getName());
+                                            msg.append(item.getName(item.getDefaultInstance()));
 
-                                            mc.gui.getChat().addMessage(msg);
+                                            mc.gui.getChat().addClientSystemMessage(msg);
                                             return Command.SINGLE_SUCCESS;
                                         })
                                 )
@@ -76,7 +78,7 @@ public class Commands<S> extends CommandDispatcher<S> {
                                             msg.append(Component.literal(color.getName())
                                                     .withStyle(color));
 
-                                            mc.gui.getChat().addMessage(msg);
+                                            mc.gui.getChat().addClientSystemMessage(msg);
                                             return Command.SINGLE_SUCCESS;
                                         })
                                 )
