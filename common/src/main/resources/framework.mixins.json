@@ -7,6 +7,8 @@
   "mixins": [
   ],
   "client": [
+    "ChannelMixin",
+    "ListenerMixin",
     "MinecraftMixin"
   ],
   "server": [

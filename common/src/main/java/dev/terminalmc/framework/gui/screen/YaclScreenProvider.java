@@ -23,7 +23,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Holder.Reference;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
@@ -422,7 +422,7 @@ public class YaclScreenProvider {
     // Special option utils
     private static Item asItem(String s) {
         Optional<Reference<Item>> item =
-                BuiltInRegistries.ITEM.get(ResourceLocation.parse(s));
+                BuiltInRegistries.ITEM.get(Identifier.parse(s));
         return item.map(Holder.Reference::value).orElse(Items.AIR);
     }
 
@@ -463,7 +463,7 @@ public class YaclScreenProvider {
             screen.finishOrSave();
             screen.onClose(); // In case finishOrSave doesn't close it.
             YACLScreen newScreen = (YACLScreen) ConfigScreenProvider.getConfigScreen(parent);
-            newScreen.init(Minecraft.getInstance(), screen.width, screen.height);
+            newScreen.init(screen.width, screen.height);
             try {
                 newScreen.tabNavigationBar.selectTab(tab, false);
             } catch (IndexOutOfBoundsException e) {

@@ -19,7 +19,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import org.joml.Vector3f;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class Framework {
             .append(Component.literal("] ").withStyle(ChatFormatting.DARK_GRAY))
             .withStyle(ChatFormatting.GRAY);
     public static final KeyMapping.Category KEY_CATEGORY =
-            KeyMapping.Category.register(ResourceLocation.fromNamespaceAndPath(MOD_ID, "group"));
+            KeyMapping.Category.register(Identifier.fromNamespaceAndPath(MOD_ID, "group"));
     public static final KeyMapping EXAMPLE_KEY = new KeyMapping(
             translationKey("key", "group.example"),
             InputConstants.Type.KEYSYM,
@@ -46,6 +47,8 @@ public class Framework {
     public static final List<KeyMapping> KEYBINDS = List.of(
             EXAMPLE_KEY
     );
+
+    public static Vector3f listener = new Vector3f();
 
     /**
      * Client initialization.

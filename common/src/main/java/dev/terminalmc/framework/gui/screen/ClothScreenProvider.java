@@ -23,7 +23,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.HashSet;
 import java.util.List;
@@ -261,7 +261,7 @@ public class ClothScreenProvider {
         // Cloth Config does not have a dedicated item option like YACL
         Set<String> items = new HashSet<>(BuiltInRegistries.ITEM.keySet()
                 .stream()
-                .map(ResourceLocation::toString)
+                .map(Identifier::toString)
                 .toList());
         thirdCatFirstGroup.add(eb.startStringDropdownMenu(
                         localized("option", "cat3.group1.itemOption"),
