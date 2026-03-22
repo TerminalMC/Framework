@@ -4,6 +4,9 @@
   "package": "dev.terminalmc.framework.mixin",
   "refmap": "${mod_id}.refmap.json",
   "compatibilityLevel": "JAVA_${java_version}",
+  "mixinextras": {
+    "minVersion": "${mixinextras_version_min}"
+  },
   "mixins": [
   ],
   "client": [

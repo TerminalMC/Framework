@@ -5,6 +5,18 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 14
+
+- Added MixinExtras min version property
+
+Affected files:
+
+- `buildSrc/src/main/groovy/multiloader-common.gradle`
+- `common/src/main/resources/framework.mixins.json`
+- `fabric/src/main/resources/framework.fabric.mixins.json`
+- `neoforge/src/main/resources/framework.neoforge.mixins.json`
+- `gradle.properties`
+
 ## 13
 
 - Added a workaround for snapshot versioning on CurseForge
