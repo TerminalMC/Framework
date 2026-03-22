@@ -9,6 +9,7 @@
   "message.framework.viewModrinth": "View on Modrinth",
   "message.framework.installCloth": "Install Cloth Config API to access mod options",
   "message.framework.installYacl": "Install Yet Another Config Lib to access mod options",
+  "message.framework.configScreenDisabled": "Config screen is not available on this version.",
 
   "option.framework.cat1": "First category",
   "option.framework.cat1.tooltip": "First category tooltip",

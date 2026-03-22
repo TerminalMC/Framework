@@ -8,6 +8,12 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 ## 13
 
 - Added a workaround for snapshot versioning on CurseForge
+- Added a 'disabled' fallback screen
+
+Affected files:
+
+- `common/src/main/java/dev/terminalmc/framework/gui/screen/ConfigScreenProvider.java`
+- `build.gradle`
 
 ## 12
 
