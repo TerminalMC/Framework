@@ -4,6 +4,7 @@
   "package": "dev.terminalmc.framework.mixin",
   "refmap": "${mod_id}.refmap.json",
   "compatibilityLevel": "JAVA_${java_version}",
+  "plugin": "dev.terminalmc.framework.util.MixinConfigPlugin",
   "mixinextras": {
     "minVersion": "${mixinextras_version_min}"
   },

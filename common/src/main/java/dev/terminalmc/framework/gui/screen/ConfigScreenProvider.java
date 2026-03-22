@@ -30,8 +30,8 @@ public class ConfigScreenProvider {
     public static Screen getConfigScreen(Screen parent) {
         try {
 //            return ClothScreenProvider.getConfigScreen(parent);
-            return YaclScreenProvider.getConfigScreen(parent);
-//            return new DisabledScreen(parent);
+//            return YaclScreenProvider.getConfigScreen(parent);
+            return new DisabledScreen(parent);
         } catch (NoClassDefFoundError ignored) {
 //            return new BackupScreen(parent, "installCloth", "https://modrinth.com/project/9s6osm5g");
             return new BackupScreen(parent, "installYacl", "https://modrinth.com/project/1eAoo2KR");

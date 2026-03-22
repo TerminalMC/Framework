@@ -12,7 +12,9 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 Affected files:
 
 - `buildSrc/src/main/groovy/multiloader-common.gradle`
+- `common/src/main/java/dev/terminalmc/framework/util/MixinConfigPlugin.java`
 - `common/src/main/resources/framework.mixins.json`
+- `common/build.gradle`
 - `fabric/src/main/resources/framework.fabric.mixins.json`
 - `neoforge/src/main/resources/framework.neoforge.mixins.json`
 - `gradle.properties`
