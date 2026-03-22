@@ -5,6 +5,10 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 13
+
+- Added a workaround for snapshot versioning on CurseForge
+
 ## 12
 
 - Moved editor config comments to separate lines
