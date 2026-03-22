@@ -8,6 +8,8 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 ## 14
 
 - Added MixinExtras min version property
+- Added Mixin config plugin
+- Updated rebrand task
 
 Affected files:
 
@@ -17,7 +19,10 @@ Affected files:
 - `common/build.gradle`
 - `fabric/src/main/resources/framework.fabric.mixins.json`
 - `neoforge/src/main/resources/framework.neoforge.mixins.json`
+- `build.gradle`
 - `gradle.properties`
+- `rebrand.gradle`
+- `rebrand.properties`
 
 ## 13
 
