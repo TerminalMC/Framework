@@ -91,6 +91,7 @@ public class ConfigScreenProvider {
         }
     }
 
+    @SuppressWarnings("unused")
     private static class DisabledScreen extends Screen {
 
         private final Screen parent;
