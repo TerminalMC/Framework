@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ServiceLoader;
 import java.util.function.Supplier;
 
+@SuppressWarnings("unused")
 public class Services {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("Framework (Service)");

@@ -293,16 +293,16 @@ public class YaclScreenProvider {
                 .build());
 
         // Action button
-//        thirdCat.option(ButtonOption.createBuilder()
-//                .name(localized("option", "cat3.action"))
-//                .description(OptionDescription.of(localized("option", "cat3.action.tooltip")))
-//                .action((screen, option) -> {
-//                    screen.finishOrSave();
-//                    screen.onClose();
-//                    Minecraft.getInstance().setScreen(ClothScreenProvider.getConfigScreen(parent));
-//                })
-//                .text(localized("option", "cat3.action.text")) // op
-//                .build());
+        thirdCat.option(ButtonOption.createBuilder()
+                .name(localized("option", "cat3.action"))
+                .description(OptionDescription.of(localized("option", "cat3.action.tooltip")))
+                .action((screen, option) -> {
+                    screen.finishOrSave();
+                    screen.onClose();
+                    Minecraft.getInstance().setScreen(ClothScreenProvider.getConfigScreen(parent));
+                })
+                .text(localized("option", "cat3.action.text")) // op
+                .build());
 
         // Collapsible group of options
         OptionGroup.Builder thirdCatFirstGroup = OptionGroup.createBuilder()
