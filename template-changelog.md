@@ -7,12 +7,13 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 
 ## 16
 
-- Replaced configured release workflows with a single configurable workflow
 - Updated workflows
+- Removed loom.mixin configuration from Fabric build.gradle
 
 Affected files:
 
 - `.github/workflows/**`
+- `fabric/build.gradle`
 
 ## 15
 
