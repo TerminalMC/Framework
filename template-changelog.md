@@ -5,6 +5,15 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 16
+
+- Replaced configured release workflows with a single configurable workflow
+- Updated workflows
+
+Affected files:
+
+- `.github/workflows/**`
+
 ## 15
 
 - Switched to Fabric Mixin
