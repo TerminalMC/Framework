@@ -8,12 +8,19 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 ## 17
 
 - Removed mixin refmap configuration
+- Added FMJ environment to properties
+- Added extra maven repos to properties
 
 Affected files:
 
+- `buildSrc/src/main/groovy/util/PropUtil.groovy`
+- `buildSrc/src/main/groovy/multiloader-common.gradle`
 - `common/src/main/resources/framework.mixins.json`
 - `fabric/src/main/resources/framework.fabric.mixins.json`
+- `fabric/src/main/resources/fabric.mod.json`
 - `neoforge/src/main/resources/framework.neoforge.mixins.json`
+- `gradle.properties`
+- `settings.gradle`
 
 ## 16
 

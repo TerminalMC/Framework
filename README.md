@@ -62,17 +62,11 @@ your own risk.
 
 ### Dependencies
 
-- Mod dependencies must be specified in the loader-specific `build.gradle` file. APIs may be
-  specified in the [common `build.gradle`](./common/build.gradle) for usage by the common
-  subproject. If for any reason a mod dependency does not provide a common version, it is usually
-  possible to depend on the project's NeoForge version in the common `build.gradle`.
-
-- Dependency repositories must be specified in
-  [`multiloader-common.gradle`](./buildSrc/src/main/groovy/multiloader-common.gradle).
-
-- Project properties required by [`resources`](./common/src/main/resources) files must be added to
-  the `expandProps` map in
-  [`multiloader-common.gradle`](./buildSrc/src/main/groovy/multiloader-common.gradle).
+- In an attempt to remove the need to edit `build.gradle` files, this project uses a custom
+  dependency configuration syntax in `gradle.properties` to define dependencies. For more
+  information, refer to the comments in `gradle.properties`.
+- If necessary, dependencies can still be specified normally in
+  `[common|fabric|neoforge]/build.gradle`.
 
 ### Licenses
 
