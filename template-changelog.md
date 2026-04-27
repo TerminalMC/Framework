@@ -5,6 +5,16 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 17
+
+- Removed mixin refmap configuration
+
+Affected files:
+
+- `common/src/main/resources/framework.mixins.json`
+- `fabric/src/main/resources/framework.fabric.mixins.json`
+- `neoforge/src/main/resources/framework.neoforge.mixins.json`
+
 ## 16
 
 - Updated workflows
