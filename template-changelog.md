@@ -7,12 +7,15 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 
 ## 17
 
-- Removed mixin refmap configuration
+- Added schedule for check-build workflow
 - Added FMJ environment to properties
 - Added extra maven repos to properties
+- Removed mixin refmap configuration
 
 Affected files:
 
+- `.github/workflows/check-build.yml`
+- `.github/workflows/sync-labels.yml`
 - `buildSrc/src/main/groovy/util/PropUtil.groovy`
 - `buildSrc/src/main/groovy/multiloader-common.gradle`
 - `common/src/main/resources/framework.mixins.json`
