@@ -5,6 +5,14 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 18
+
+- Split GitHub releases by subproject
+
+Affected files:
+
+- `build.gradle`
+
 ## 17
 
 - Added schedule for check-build workflow
