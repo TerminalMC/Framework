@@ -8,9 +8,12 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 ## 18
 
 - Split GitHub releases by subproject
+- Add tag cleanup workflow
 
 Affected files:
 
+- `.github/workflows/scripts/**`
+- `.github/workflows/cleanup-tags.yml`
 - `build.gradle`
 
 ## 17
