@@ -12,8 +12,7 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 
 Affected files:
 
-- `.github/workflows/scripts/**`
-- `.github/workflows/cleanup-tags.yml`
+- `.github/workflows/**`
 - `build.gradle`
 
 ## 17
