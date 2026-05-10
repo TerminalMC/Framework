@@ -45,7 +45,9 @@ jobs:
       - name: Convert to JSON
         run: yq -o=json ./labels.yml > ./labels.json
 
-      - name: Sync labels
+      # Run the JS script.
+      # https://github.com/actions/github-script
+      - name: Run script sync-labels
         uses: actions/github-script@v9
         env:
           ALLOW_CUSTOM: ${{ github.event.inputs.allow_custom || 'true' }}
