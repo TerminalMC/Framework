@@ -8,7 +8,8 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 ## 18
 
 - Split GitHub releases by subproject
-- Add tag cleanup workflow
+- Added tag cleanup workflow
+- Added PR release notification workflow
 
 Affected files:
 

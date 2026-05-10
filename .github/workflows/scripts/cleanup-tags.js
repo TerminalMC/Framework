@@ -1,6 +1,15 @@
+/*
+If there are no other releases associated with the tag of the deleted release, deletes the tag.
+
+This is intended to be run by a workflow triggered on release deleted.
+ */
 module.exports = async ({github, context, core}) => {
     const {owner, repo} = context.repo;
-    core.info(`Running script in ${owner}/${repo}`);
+
+    if (!context.payload || !context.payload.release) {
+        console.warn("Release context not found");
+        return;
+    }
 
     const releaseTag = context.payload.release.tag_name;
 
@@ -23,8 +32,8 @@ module.exports = async ({github, context, core}) => {
         return;
     }
 
+    // No releases; delete the tag
     console.log(`No releases found. Deleting tag...`);
-
     try {
         await github.rest.git.deleteRef({
             owner,

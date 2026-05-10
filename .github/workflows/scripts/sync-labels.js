@@ -1,8 +1,11 @@
+/*
+Synchronizes the repo's labels with a definition file.
+
+This is intended to be run by workflow triggered manually or on a schedule.
+ */
 module.exports = async ({github, context, core}) => {
     const fs = require('fs');
-
     const {owner, repo} = context.repo;
-    core.info(`Running script in ${owner}/${repo}`);
 
     // Parse the standard labels
     const standardLabels = JSON.parse(fs.readFileSync('./labels.json', 'utf8'));

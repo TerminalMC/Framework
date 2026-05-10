@@ -1,5 +1,5 @@
-# When a release is created, adds a comment to each included PR.
-name: Z | Notify PRs on Release
+# When a release is created, adds a comment to each PR with commits first included in the release.
+name: Notify PRs
 permissions:
   contents: read
   pull-requests: write
@@ -20,13 +20,13 @@ jobs:
 
       # Run the JS script.
       # https://github.com/actions/github-script
-      - name: Run script notify-release
+      - name: Run script notify-prs
         uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const path = require('path')
             const script = require(
-              path.join(process.env.GITHUB_WORKSPACE, '.github/workflows/scripts/notify-release.js')
+              path.join(process.env.GITHUB_WORKSPACE, '.github/workflows/scripts/notify-prs.js')
             )
             await script({ github, context, core })

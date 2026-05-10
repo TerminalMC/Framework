@@ -1,5 +1,5 @@
-# Synchronizes the repo's labels with a centralized `labels.yml` file.
-name: X | Sync Labels
+# Synchronizes the repo's labels with a local or centralized `labels.yml` file.
+name: Sync Labels
 permissions:
   issues: write
   pull-requests: write

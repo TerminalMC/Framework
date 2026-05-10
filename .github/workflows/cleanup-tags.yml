@@ -1,5 +1,5 @@
 # When a release is deleted, deletes the associated tag if it no longer has any associated releases.
-name: Z | Cleanup Tags
+name: Cleanup Tags
 permissions:
   contents: write
 
