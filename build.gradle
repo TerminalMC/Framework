@@ -118,7 +118,7 @@ subprojects {
                         }
                     }
                     // Sync Modrinth description with README
-                    if (prop.has("mod_github_repo")) {
+                    if (prop.has("mod_github_repo") && env.safe("SYNC_DESC_MODRINTH") == "true") {
                         projectDescription = rootProject.file("README.md").text.replaceAll(
                                 "src=\"\\./",
                                 "src=\"https://raw.githubusercontent.com/${prop.get("mod_github_repo")}/HEAD/"

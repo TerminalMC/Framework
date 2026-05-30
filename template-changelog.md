@@ -8,6 +8,7 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 ## 19
 
 - Updated to mod-publish-plugin v2
+- Made Modrinth description sync optional
 
 Affected files:
 

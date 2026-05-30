@@ -56,7 +56,12 @@ on:
         default: 'ubuntu-latest'
       notify-prs:
         type: boolean
-        description: Notify PRs
+        description: Notify Included PRs
+        required: true
+        default: true
+      sync-desc-modrinth:
+        type: boolean
+        description: Sync Modrinth Description
         required: true
         default: true
 
@@ -153,6 +158,7 @@ jobs:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           FABRIC_TASK: ${{ inputs.fabric && 'fabric:publishModrinth' || '' }}
           NEOFORGE_TASK: ${{ inputs.neoforge && 'neoforge:publishModrinth' || '' }}
+          SYNC_DESC_MODRINTH: ${{ github.event.inputs.sync-desc-modrinth }}
         run: ./gradlew $FABRIC_TASK $NEOFORGE_TASK --stacktrace
 
       - name: CurseForge
