@@ -131,7 +131,6 @@ subprojects {
                 curseforge {
                     accessToken = env.safe("CURSEFORGE_TOKEN")
                     projectId = prop.safe("mod_curseforge_id")
-                    projectSlug = prop.safe("mod_curseforge_slug")
                     minecraftVersions.addAll(prop.safeList("mc_versions_${sp.name}").collect { ver ->
                         final hyphenIdx = ver.indexOf("-")
                         if (hyphenIdx != -1) {
@@ -140,6 +139,8 @@ subprojects {
                             return ver
                         }
                     })
+                    client = prop.list("curseforge_environments").contains("client")
+                    server = prop.list("curseforge_environments").contains("server")
                     changelog = cLog
                     prop.safeList("${sp.name}_deps").each { dep ->
                         try {
@@ -189,7 +190,6 @@ subprojects {
                 onlyIf {
                     return hasSpConf
                             && prop.has("mod_curseforge_id")
-                            && prop.has("mod_curseforge_slug")
                             && (it["dryRun"].get() || env.has("CURSEFORGE_TOKEN"))
                 }
             }

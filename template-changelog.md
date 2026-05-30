@@ -5,6 +5,16 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 19
+
+- Updated to mod-publish-plugin v2
+
+Affected files:
+
+- `gradle/gradle-wrapper.properties`
+- `build.gradle`
+- `gradle.properties`
+
 ## 18
 
 - Split GitHub releases by subproject
