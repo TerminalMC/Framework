@@ -5,6 +5,31 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 19
+
+- Sync with dev
+
+Affected files:
+
+- `.github/workflows/**`
+- `buildSrc/src/main/groovy/multiloader-common.gradle`
+- `buildSrc/src/main/groovy/util/PropUtil.groovy`
+- `common/build.gradle`
+- `common/src/main/java/dev/terminalmc/framework/gui/screen/ConfigScreenProvider.java`
+- `common/src/main/java/dev/terminalmc/framework/util/MixinConfigPlugin.java`
+- `common/src/main/resources/assets/framework/lang/en_us.json`
+- `common/src/main/resources/assets/framework/license/**`
+- `common/src/main/resources/framework.mixins.json`
+- `fabric/src/main/java/dev/terminalmc/framework/platform/FabricServices.java`
+- `fabric/src/main/resources/fabric.mod.json`
+- `fabric/src/main/resources/framework.fabric.mixins.json`
+- `forge/src/main/java/dev/terminalmc/framework/platform/ForgeServices.java`
+- `forge/src/main/resources/framework.forge.mixins.json`
+- `gradle/wrapper/gradle-wrapper.properties`
+- `build.gradle`
+- `gradle.properties`
+- `settings.gradle`
+
 ## 12
 
 - Moved editor config comments to separate lines
@@ -23,11 +48,9 @@ Affected files:
 - `common/src/main/java/dev/terminalmc/framework/platform/services/PlatformServices.java`
 - `common/src/main/java/dev/terminalmc/framework/platform/Services.java`
 - `fabric/src/main/java/dev/terminalmc/framework/platform/FabricServices.java`
--
-`fabric/src/main/resources/META-INF/services/dev.terminalmc.framework.platform.services.PlatformServices`
+- `fabric/src/main/resources/META-INF/services/dev.terminalmc.framework.platform.services.PlatformServices`
 - `neoforge/src/main/java/dev/terminalmc/framework/platform/NeoForgeServices.java`
--
-`neoforge/src/main/resources/META-INF/services/dev.terminalmc.framework.platform.services.PlatformServices`
+- `neoforge/src/main/resources/META-INF/services/dev.terminalmc.framework.platform.services.PlatformServices`
 
 ## 10
 
