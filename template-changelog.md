@@ -12,7 +12,7 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 
 Affected files:
 
-- `gradle/gradle-wrapper.properties`
+- `gradle/wrapper/gradle-wrapper.properties`
 - `build.gradle`
 - `gradle.properties`
 
