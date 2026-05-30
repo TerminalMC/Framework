@@ -2,7 +2,7 @@ import util.PropUtil
 
 plugins {
     id("multiloader-loader")
-    id("fabric-loom")
+    id("net.fabricmc.fabric-loom-remap")
 }
 
 // Configure Fabric dependencies
@@ -65,9 +65,6 @@ loom {
         afterEvaluate {
             validateAccessWidener.run()
         }
-    }
-    mixin {
-        defaultRefmapName.set("${mod_id}.refmap.json")
     }
     // Configure runs
     runs {
