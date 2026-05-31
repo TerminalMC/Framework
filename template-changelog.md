@@ -5,6 +5,14 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 20
+
+- Made Modrinth description sync off-by-default
+
+Affected files:
+
+- `.github/workflows/release.yml`
+
 ## 19
 
 - Updated to mod-publish-plugin v2
