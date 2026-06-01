@@ -10,6 +10,7 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 - Updated command registration
 - Added private failing constructors
 - Added platform service for mod version
+- Removed logger wrapper and made name conditional
 
 Affected files:
 
@@ -20,6 +21,7 @@ Affected files:
 - `common/src/main/java/dev/terminalmc/framework/platform/services/PlatformServices.java`
 - `common/src/main/java/dev/terminalmc/framework/platform/Services.java`
 - `common/src/main/java/dev/terminalmc/framework/util/Localization.java`
+- `common/src/main/java/dev/terminalmc/framework/util/Logging.java`
 - `common/src/main/java/dev/terminalmc/framework/Framework.java`
 - `fabric/src/main/java/dev/terminalmc/framework/platform/FabricServices.java`
 - `fabric/src/main/java/dev/terminalmc/framework/FrameworkFabric.java`

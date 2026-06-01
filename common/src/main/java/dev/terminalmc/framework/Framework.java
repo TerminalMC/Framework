@@ -14,12 +14,13 @@ package dev.terminalmc.framework;
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.terminalmc.framework.config.Config;
 import dev.terminalmc.framework.gui.screen.ConfigScreenProvider;
-import dev.terminalmc.framework.util.ModLogger;
+import dev.terminalmc.framework.util.Logging;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class Framework {
 
     public static final String MOD_ID = "framework";
     public static final String MOD_NAME = "Framework";
-    public static final ModLogger LOG = new ModLogger(MOD_NAME);
+    public static final Logger LOG = Logging.getLogger(MOD_ID);
     public static final Component PREFIX = Component.empty()
             .append(Component.literal("[").withStyle(ChatFormatting.DARK_GRAY))
             .append(Component.literal(MOD_NAME).withStyle(ChatFormatting.GOLD))

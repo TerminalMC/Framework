@@ -38,6 +38,11 @@ public class NeoForgeServices implements PlatformServices {
     }
 
     @Override
+    public boolean isNamedLogging() {
+        return true;
+    }
+
+    @Override
     public boolean isModLoaded(String modId) {
         return FMLLoader.getCurrent().getLoadingModList().getModFileById(modId) != null;
     }
