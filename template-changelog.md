@@ -5,6 +5,15 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 22
+
+- Fixed publishing property handling
+
+Affected files:
+
+- `build.gradle`
+- `gradle.properties`
+
 ## 21
 
 - Updated command registration
