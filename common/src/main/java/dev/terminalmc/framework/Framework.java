@@ -47,6 +47,10 @@ public class Framework {
             EXAMPLE_KEY
     );
 
+    private Framework() {
+        throw new UnsupportedOperationException("This class cannot be instantiated.");
+    }
+
     /**
      * Client initialization.
      */

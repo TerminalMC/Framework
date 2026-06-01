@@ -34,6 +34,10 @@ import static net.minecraft.commands.Commands.literal;
 
 public class Commands<S> extends CommandDispatcher<S> {
 
+    private Commands() {
+        throw new UnsupportedOperationException("This class cannot be instantiated.");
+    }
+
     public static <S> void register(CommandDispatcher<S> dispatcher, CommandBuildContext buildCtx) {
         Minecraft mc = Minecraft.getInstance();
         //noinspection unchecked

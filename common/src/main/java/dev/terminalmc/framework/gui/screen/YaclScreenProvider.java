@@ -35,6 +35,10 @@ import static dev.terminalmc.framework.util.Localization.localized;
 
 public class YaclScreenProvider {
 
+    private YaclScreenProvider() {
+        throw new UnsupportedOperationException("This class cannot be instantiated.");
+    }
+
     /**
      * Builds and returns a YACL options screen.
      * <p>

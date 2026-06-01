@@ -18,6 +18,10 @@ import net.minecraft.network.chat.MutableComponent;
 @SuppressWarnings("unused")
 public final class Localization {
 
+    private Localization() {
+        throw new UnsupportedOperationException("This class cannot be instantiated.");
+    }
+
     public static String translationKey(String path) {
         return Framework.MOD_ID + "." + path;
     }

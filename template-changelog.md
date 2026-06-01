@@ -5,6 +5,23 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 21
+
+- Updated command registration
+- Added private failing constructors
+
+Affected files:
+
+- `common/src/main/java/dev/terminalmc/framework/command/Commands.java`
+- `common/src/main/java/dev/terminalmc/framework/gui/screen/ClothScreenProvider.java`
+- `common/src/main/java/dev/terminalmc/framework/gui/screen/ConfigScreenProvider.java`
+- `common/src/main/java/dev/terminalmc/framework/gui/screen/YaclScreenProvider.java`
+- `common/src/main/java/dev/terminalmc/framework/platform/Services.java`
+- `common/src/main/java/dev/terminalmc/framework/util/Localization.java`
+- `common/src/main/java/dev/terminalmc/framework/Framework.java`
+- `fabric/src/main/java/dev/terminalmc/framework/FrameworkFabric.java`
+- `neoforge/src/main/java/dev/terminalmc/framework/FrameworkNeoForge.java`
+
 ## 20
 
 - Made Modrinth description sync off-by-default
