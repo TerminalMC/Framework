@@ -32,7 +32,7 @@ import java.util.List;
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
 
-public class Commands<S> extends CommandDispatcher<S> {
+public class Commands {
 
     private Commands() {
         throw new UnsupportedOperationException("This class cannot be instantiated.");

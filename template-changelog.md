@@ -8,6 +8,7 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 ## 22
 
 - Fixed publishing property handling
+- Removed extension from `Commands` class
 
 Affected files:
 
