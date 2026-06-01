@@ -15,6 +15,7 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 Affected files:
 
 - `common/src/main/java/dev/terminalmc/framework/command/Commands.java`
+- `common/src/main/java/dev/terminalmc/framework/config/Config.java`
 - `common/src/main/java/dev/terminalmc/framework/gui/screen/ClothScreenProvider.java`
 - `common/src/main/java/dev/terminalmc/framework/gui/screen/ConfigScreenProvider.java`
 - `common/src/main/java/dev/terminalmc/framework/gui/screen/YaclScreenProvider.java`
