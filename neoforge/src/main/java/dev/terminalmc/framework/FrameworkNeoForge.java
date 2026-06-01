@@ -14,7 +14,6 @@ package dev.terminalmc.framework;
 import dev.terminalmc.framework.command.Commands;
 import dev.terminalmc.framework.gui.screen.ConfigScreenProvider;
 import net.minecraft.client.Minecraft;
-import net.minecraft.commands.CommandSourceStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModLoadingContext;
@@ -65,10 +64,7 @@ public class FrameworkNeoForge {
          */
         @SubscribeEvent
         static void registerClientCommands(RegisterClientCommandsEvent event) {
-            new Commands<CommandSourceStack>().register(
-                    event.getDispatcher(),
-                    event.getBuildContext()
-            );
+            Commands.register(event.getDispatcher(), event.getBuildContext());
         }
 
         /**

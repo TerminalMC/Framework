@@ -20,7 +20,6 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import org.joml.Vector3f;
 
 import java.util.List;
 
@@ -47,8 +46,6 @@ public class Framework {
     public static final List<KeyMapping> KEYBINDS = List.of(
             EXAMPLE_KEY
     );
-
-    public static Vector3f listener = new Vector3f();
 
     /**
      * Client initialization.

@@ -16,6 +16,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.terminalmc.framework.Framework;
+import dev.terminalmc.framework.gui.screen.ConfigScreenProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandBuildContext;
@@ -31,12 +32,16 @@ import java.util.List;
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
 
-@SuppressWarnings("unchecked")
 public class Commands<S> extends CommandDispatcher<S> {
 
-    public void register(CommandDispatcher<S> dispatcher, CommandBuildContext buildContext) {
+    public static <S> void register(CommandDispatcher<S> dispatcher, CommandBuildContext buildCtx) {
         Minecraft mc = Minecraft.getInstance();
+        //noinspection unchecked
         dispatcher.register((LiteralArgumentBuilder<S>) literal(Framework.MOD_ID)
+                .executes((ctx) -> {
+                    mc.schedule(() -> mc.setScreen(ConfigScreenProvider.getConfigScreen(null)));
+                    return Command.SINGLE_SUCCESS;
+                })
                 .then(literal("quote")
                         .then(argument("word", StringArgumentType.word())
                                 .suggests(((ctx, builder) -> SharedSuggestionProvider.suggest(
@@ -54,7 +59,7 @@ public class Commands<S> extends CommandDispatcher<S> {
                 )
                 .then(literal("name")
                         .then(literal("item")
-                                .then(argument("item", ItemArgument.item(buildContext))
+                                .then(argument("item", ItemArgument.item(buildCtx))
                                         .executes(ctx -> {
                                             Item item = ItemArgument.getItem(ctx, "item")
                                                     .item()
