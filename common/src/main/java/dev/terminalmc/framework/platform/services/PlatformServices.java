@@ -31,14 +31,14 @@ public interface PlatformServices {
     boolean isDevEnv();
 
     /**
-     * @return {@code true} if the platform uses a mod-named logger in production environments.
-     */
-    boolean isNamedLogging();
-
-    /**
      * @return {@code true} if the mod is loaded.
      */
     boolean isModLoaded(String modId);
+
+    /**
+     * @return {@code true} if the platform uses a mod-named logger in production environments.
+     */
+    boolean hasNamedLogger();
 
     /**
      * @return the version of the mod if it is loaded, {@code null} otherwise.

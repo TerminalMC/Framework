@@ -20,13 +20,13 @@ public class FabricServices implements PlatformServices {
     }
 
     @Override
-    public boolean isNamedLogging() {
-        return false;
+    public boolean isModLoaded(String modId) {
+        return FabricLoader.getInstance().isModLoaded(modId);
     }
 
     @Override
-    public boolean isModLoaded(String modId) {
-        return FabricLoader.getInstance().isModLoaded(modId);
+    public boolean hasNamedLogger() {
+        return false;
     }
 
     @Override

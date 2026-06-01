@@ -28,7 +28,7 @@ public class Logging {
 
     public static Logger getLogger(String name) {
         if (PlatformServices.getInstance().isDevEnv()
-                || PlatformServices.getInstance().isNamedLogging()) {
+                || PlatformServices.getInstance().hasNamedLogger()) {
             return LogManager.getLogger(name);
         } else {
             return LogManager.getLogger(name, new PrefixingMessageFactory("[" + name + "/]: "));
