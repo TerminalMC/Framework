@@ -9,6 +9,7 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 
 - Fixed publishing property handling
 - Removed extension from `Commands` class
+- Fixed handling of non-release MC versions on CF
 
 Affected files:
 

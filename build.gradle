@@ -131,13 +131,8 @@ subprojects {
                 curseforge {
                     accessToken = env.safe("CURSEFORGE_TOKEN")
                     projectId = prop.safe("mod_curseforge_id")
-                    minecraftVersions.addAll(prop.safeList("mc_versions_${sp.name}").collect { ver ->
-                        final hyphenIdx = ver.indexOf("-")
-                        if (hyphenIdx != -1) {
-                            return ver.substring(0, hyphenIdx) + "-snapshot"
-                        } else {
-                            return ver
-                        }
+                    minecraftVersions.addAll(prop.safeList("mc_versions_${sp.name}").findAll {
+                        !it.contains("-")
                     })
                     client = prop.safeList("curseforge_environments").contains("client")
                     server = prop.safeList("curseforge_environments").contains("server")
@@ -185,6 +180,7 @@ subprojects {
             tasks.named("publishCurseforge") {
                 onlyIf {
                     return hasSpConf && (it["dryRun"].get() || env.has("CURSEFORGE_TOKEN"))
+                            && prop.safeList("mc_versions_${sp.name}").any { !it.contains("-") }
                 }
             }
         }
