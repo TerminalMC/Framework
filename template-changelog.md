@@ -5,6 +5,15 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 23
+
+- Split workflow artifacts and added basic attestation
+
+- Affected files:
+
+- `.github/workflows/check-build.yml`
+- `.github/workflows/release.yml`
+
 ## 22
 
 - Fixed publishing property handling
