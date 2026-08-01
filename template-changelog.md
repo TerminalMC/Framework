@@ -8,11 +8,13 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 ## 23
 
 - Split workflow artifacts and added basic attestation
+- Improved CF environment property checks
 
 - Affected files:
 
 - `.github/workflows/check-build.yml`
 - `.github/workflows/release.yml`
+- `build.gradle`
 
 ## 22
 
