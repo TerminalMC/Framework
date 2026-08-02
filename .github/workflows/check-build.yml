@@ -92,7 +92,7 @@ jobs:
 
       # Attest artifacts
       # https://github.com/actions/attest
-      - name: Generate artifact attestation 1
+      - name: Generate artifact attestation
         uses: actions/attest@v4
         with:
           subject-path: |

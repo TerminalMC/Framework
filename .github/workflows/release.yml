@@ -156,7 +156,7 @@ jobs:
 
       # Attest artifacts
       # https://github.com/actions/attest
-      - name: Generate artifact attestation 1
+      - name: Generate artifact attestation
         uses: actions/attest@v4
         with:
           subject-path: |
@@ -185,7 +185,7 @@ jobs:
           script: |
             const path = require('path')
             const script = require(
-              path.join(process.env.GITHUB_WORKSPACE, '.github/workflows/scripts/notify-prs.js')
+              path.join(process.env.GITHUB_WORKSPACE, '.github/workflows/scripts/src/notify-prs.js')
             )
             await script({ github, context, core })
 
