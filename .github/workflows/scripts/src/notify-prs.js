@@ -151,51 +151,54 @@ module.exports = async ({github, context, core}) => {
     const allTags = await getAllTags();
     console.log(`Found ${allTags.length} total tags`);
 
-    let releaseTagName = '';
+    const releaseTagNames = [];
     if (context.payload && context.payload.release) {
         // release context; use the release tag
         console.log(`Found release context: ${context.payload.release}`);
-        releaseTagName = context.payload.release.tag_name;
+        releaseTagNames.push(context.payload.release.tag_name);
     } else {
         // other context; iterate all tags with matching SHA
         console.log(`No release context; searching tags`)
         for (const tag of allTags) {
             if (tag.commit.sha === process.env.GITHUB_SHA) {
                 console.log(`Found tag with matching SHA: ${tag.name}`);
-                releaseTagName = tag.name;
-                break;
+                releaseTagNames.push(tag.name);
             }
         }
     }
 
-    if (!releaseTagName) {
+    if (releaseTagNames.length === 0) {
         console.error(`Failed to find a release tag name`);
         return;
     }
-    console.log(`Found release tag name: ${releaseTagName}`);
 
-    const loaderName = getLoaderName(releaseTagName);
-    console.log(`Extracted loader name: ${loaderName}`);
+    for (const releaseTagName of releaseTagNames) {
+        console.log(`Found release tag name: ${releaseTagName}`);
 
-    /** @type {Set<number>} */
-    let pullNumbers;
+        const loaderName = getLoaderName(releaseTagName);
+        console.log(`Extracted loader name: ${loaderName}`);
 
-    const previousTag = await getPreviousTag(allTags, loaderName, releaseTagName);
-    if (previousTag) {
-        console.log(`Found previous tag: ${previousTag.name}`);
+        /** @type {Set<number>} */
+        let pullNumbers;
 
-        const comparison = await getComparison(previousTag, releaseTagName);
-        console.log(`Found ${comparison.commits.length} commits between tag ${previousTag.name} and ${releaseTagName}`);
+        const previousTag = await getPreviousTag(allTags, loaderName, releaseTagName);
+        if (previousTag) {
+            console.log(`Found previous tag: ${previousTag.name}`);
 
-        pullNumbers = getPullNumbers(comparison);
-        console.log(`Found ${pullNumbers.size} PRs from merge commit messages: ${[...pullNumbers]}`);
-    } else {
-        console.log(`Could not find a previous tag for loader ${loaderName} and release tag name ${releaseTagName}`);
+            const comparison = await getComparison(previousTag, releaseTagName);
+            console.log(`Found ${comparison.commits.length} commits between tag ${previousTag.name} and ${releaseTagName}`);
 
-        pullNumbers = getAllClosedPullNumbers();
-        console.log(`Found ${pullNumbers.size} closed PRs: ${[...pullNumbers]}`);
+            pullNumbers = getPullNumbers(comparison);
+            console.log(`Found ${pullNumbers.size} PRs from merge commit messages: ${[...pullNumbers]}`);
+        } else {
+            console.log(`Could not find a previous tag for loader ${loaderName} and release tag name ${releaseTagName}`);
+
+            pullNumbers = getAllClosedPullNumbers();
+            console.log(`Found ${pullNumbers.size} closed PRs: ${[...pullNumbers]}`);
+        }
+
+        await commentOnPulls(pullNumbers, releaseTagName);
     }
 
-    await commentOnPulls(pullNumbers, releaseTagName);
     console.log(`Finished`);
 }
