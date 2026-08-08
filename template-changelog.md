@@ -8,13 +8,20 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 ## 23
 
 - Updated workflow scripts
+- Updated build scripts
 - Improved CF environment property checks
 - Split workflow artifacts and added basic attestation
 
 Affected files:
 
 - `.github/workflows/**`
+- `buildSrc/src/main/**`
+- `common/build.gradle`
+- `fabric/build.gradle`
+- `gradle/wrapper/gradle-wrapper.properties`
+- `neoforge/build.gradle`
 - `build.gradle`
+- `CHANGELOG.md`
 
 ## 22
 
