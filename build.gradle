@@ -86,8 +86,6 @@ subprojects { Project $subproject ->
             // GitHub configuration
             //noinspection GroovyAssignabilityCheck
             github {
-                final String $tag = "v${$mod_version}-${$subproject.name}"
-                final String $urlTag = URLEncoder.encode($tag, StandardCharsets.UTF_8)
                 final String $urlHeader = URLEncoder.encode(
                         "${mod_version}-[${$date}]".replaceAll("\\.", ""),
                         StandardCharsets.UTF_8
@@ -95,8 +93,8 @@ subprojects { Project $subproject ->
                 accessToken = $env.safe("GITHUB_TOKEN")
                 repository = $prop.safe("mod_github_repo")
                 commitish = grgitService.service.get().grgit.branch.current().name
-                tagName = $tag
-                changelog = "[Changelog](https://github.com/${mod_github_repo}/blob/${$urlTag}/CHANGELOG.md#${$urlHeader})"
+                tagName = "v${$mod_version}-${$subproject.name}"
+                changelog = "[Changelog](./CHANGELOG.md#${$urlHeader})"
                 if (build_sources_jar == "true")
                     additionalFiles.from(provider { sourcesJar.archiveFile })
                 if (build_javadoc_jar == "true")
