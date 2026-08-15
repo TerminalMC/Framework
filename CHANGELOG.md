@@ -56,7 +56,7 @@ ___
   - `setAltitudeAGL` and `setAltitudeASL` should now be used.
 - Removed the air temperature indicator from the HUD.
 - Fixed an issue causing collision avoidance to erroneously detect certain entities.
-- Updated German translation (jemand513) (#28)
+- Updated German translation (jemand513) (#28).
 
 ## 1.102.0 [2026-04-09]
 
