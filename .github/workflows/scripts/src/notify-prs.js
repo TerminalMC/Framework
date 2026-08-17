@@ -184,12 +184,15 @@ module.exports = async ({github, context, core}) => {
     console.log(`Found ${allTags.length} total tags`);
 
     const cutoff = new Date(new Date().setMonth(new Date().getMonth() - scanMonths));
+    const currentBranch = process.env.GITHUB_REF_NAME;
 
     const recentReleases = new Map(allReleases
-            .filter((release) => release.published_at && new Date(release.published_at).getTime() >= cutoff)
+            .filter((release) => release.published_at
+                    && new Date(release.published_at).getTime() >= cutoff
+                    && release.target_commitish === currentBranch)
             .map((release) => [release.tag_name, release])
     );
-    console.log(`Filtered ${recentReleases.size} recent releases from the last ${scanMonths} months`);
+    console.log(`Filtered ${recentReleases.size} recent releases from the last ${scanMonths} months on the current branch ${currentBranch}`);
     if (recentReleases.length > 0) {
         console.log(`Oldest recent release tag is ${recentReleases[recentReleases.length - 1].tag_name}`);
     }
@@ -202,7 +205,7 @@ module.exports = async ({github, context, core}) => {
                 const releaseB = recentReleases.get(b.name);
                 return (new Date(releaseB.published_at).getTime() - new Date(releaseA.published_at).getTime());
             });
-    console.log(`Filtered ${recentTags.length} recent tags`);
+    console.log(`Filtered ${recentTags.length} recent tags matching a filtered release`);
     if (recentTags.length > 0) {
         console.log(`Newest recent tag is ${recentTags[0].name}`);
         console.log(`Oldest recent tag is ${recentTags[recentTags.length - 1].name}`);
@@ -223,16 +226,15 @@ module.exports = async ({github, context, core}) => {
             }
         }
     }
-    recentTags = recentTags.filter((tag) => !releaseTagNames.includes(tag.name));
-    console.log(`Refined ${recentTags.length} recent tags`);
-    if (recentTags.length > 0) {
-        console.log(`Newest recent tag is ${recentTags[0].name}`);
-        console.log(`Oldest recent tag is ${recentTags[recentTags.length - 1].name}`);
-    }
-
     if (releaseTagNames.length === 0) {
         console.error(`Failed to find a release tag name`);
         return;
+    }
+    recentTags = recentTags.filter((tag) => !releaseTagNames.includes(tag.name));
+    console.log(`Refined ${recentTags.length} recent tags not matching a context tag`);
+    if (recentTags.length > 0) {
+        console.log(`Newest recent tag is ${recentTags[0].name}`);
+        console.log(`Oldest recent tag is ${recentTags[recentTags.length - 1].name}`);
     }
 
     /** @type {Map<number,Set<string>>} */
