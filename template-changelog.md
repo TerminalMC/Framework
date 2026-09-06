@@ -5,6 +5,19 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 24
+
+- Updated dependencies
+- Improved dependency repository resolution
+
+Affected files:
+
+- `buildSrc/src/main/groovy/multiloader-common.gradle`
+- `fabric/build.gradle`
+- `gradle/wrapper/gradle-wrapper.properties`
+- `gradle.properties`
+- `settings.gradle`
+
 ## 23
 
 - Updated workflow scripts
