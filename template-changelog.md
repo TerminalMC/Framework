@@ -5,6 +5,16 @@ from the template.
 
 If not deleted manually, this file will be deleted when running the `rebrandProject` Gradle task.
 
+## 25
+
+- Added supported for automatically determining release type
+
+Affected files:
+
+- `neoforge/build.gradle`
+- `build.gradle`
+- `gradle.properties`
+
 ## 24
 
 - Updated dependencies

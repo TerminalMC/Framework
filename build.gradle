@@ -75,7 +75,19 @@ subprojects { Project $subproject ->
             // common configuration
             file = jar.archiveFile
             version = $mod_version
-            type = ReleaseType.valueOf(mod_version_type)
+            type = {
+                if (mod_version_type == "AUTO") {
+                    if (mod_version.matches("\\d+\\.\\d+\\.\\d+"))
+                        ReleaseType.STABLE
+                    else if (mod_version.matches("\\d+\\.\\d+\\.\\d+-alpha\\.\\d+"))
+                        ReleaseType.ALPHA
+                    else
+                        ReleaseType.BETA
+                } else {
+                    //noinspection GroovyAssignabilityCheck
+                    ReleaseType.valueOf(mod_version_type)
+                }
+            }()
             displayName = "v${$mod_version}-${StaticUtil.capsLoader($subproject.name)}"
             modLoaders.addAll($prop.safeList("mod_loaders_${$subproject.name}"))
             maxRetries = 5
@@ -209,6 +221,8 @@ subprojects { Project $subproject ->
         tasks.named("publishCurseforge") { Task $task ->
             onlyIf {
                 return $hasReleaseProps && ($task["dryRun"].get() || $env.has("CURSEFORGE_TOKEN"))
+                        // CF does not support non-release MC versions, so only release if we're
+                        // targeting at least one version without a hyphen.
                         && $prop.safeList("mc_versions_${$subproject.name}").any { !it.contains("-") }
             }
             doFirst {
