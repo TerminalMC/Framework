@@ -40,16 +40,16 @@ dependencies {
     new PropUtil(project).applyDependencies(project.name, selector)
 }
 
-// Configure ModDevGradle
+// configure ModDevGradle
 neoForge {
     version = neoforge_version
-    // Apply common AccessTransformer if it exists
+    // apply common AccessTransformer if it exists
     final File $at = project(":common").file("src/main/resources/META-INF/accesstransformer.cfg")
     if ($at.exists()) {
         accessTransformers.from($at.absolutePath)
     }
     validateAccessTransformers = true
-    // Configure runs
+    // configure runs
     runs {
         configureEach {
             systemProperty("neoforge.enabledGameTestNamespaces", "${mod_id}")
@@ -57,6 +57,9 @@ neoForge {
         client {
             //noinspection GroovyImplicitNullArgumentCall
             client()
+            // required on 26.3
+            //noinspection GroovyAssignabilityCheck
+            jvmArgument("-XX:StackShadowPages=32")
         }
         server {
             //noinspection GroovyImplicitNullArgumentCall
