@@ -9,12 +9,14 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 
 - Added supported for automatically determining release type
 - Removed PR notification workflow
+- Fixed a wording error in changelog notes
 
 Affected files:
 
 - `.github/workflows/**`
 - `neoforge/build.gradle`
 - `build.gradle`
+- `CHANGELOG.md`
 - `gradle.properties`
 
 ## 24

@@ -10,8 +10,8 @@ according to the following rules:
 - `minor` is initialized to `0` on the first release for any Minecraft version, is reset to `0` when
   `major` is incremented, and is incremented by `1` on any other change.
 - `-<alpha|beta>.build` is used to indicate that a version should be considered less stable and less
-  well-tested than normal. `build` is reset to `0` when changing from `alpha` to `beta` and is
-  incremented by `1` on each release.
+  well-tested than normal. `build` is initialized to `1`, is reset when changing from `alpha` to
+  `beta`, and is incremented by `1` on each release.
 
 Unreleased changes should be listed in the "Unreleased" changelog entry. Immediately prior to a
 release, the "Unreleased" header should be replaced with the release version and the release date
