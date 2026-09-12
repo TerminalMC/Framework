@@ -8,9 +8,11 @@ If not deleted manually, this file will be deleted when running the `rebrandProj
 ## 25
 
 - Added supported for automatically determining release type
+- Removed PR notification workflow
 
 Affected files:
 
+- `.github/workflows/**`
 - `neoforge/build.gradle`
 - `build.gradle`
 - `gradle.properties`

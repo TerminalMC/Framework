@@ -56,11 +56,6 @@ on:
           - 'ubuntu-latest'
           - 'windows-latest'
         default: 'ubuntu-latest'
-      notify-pr-months:
-        type: number
-        description: Notify PRs (Months)
-        required: true
-        default: 2
       sync-desc-modrinth:
         type: boolean
         description: Sync Modrinth Description
@@ -198,25 +193,6 @@ jobs:
           FABRIC_TASK: ${{ inputs.fabric && 'fabric:publishCurseforge' || '' }}
           NEOFORGE_TASK: ${{ inputs.neoforge && 'neoforge:publishCurseforge' || '' }}
         run: ./gradlew $FABRIC_TASK $NEOFORGE_TASK --stacktrace
-
-      # Wait a few seconds to make sure the tag(s) are available.
-      - name: Wait 7 seconds
-        run: sleep 7
-
-      - name: Notify PRs
-        uses: actions/github-script@v9
-        if: inputs.notify-pr-months > 0 && steps.github.outcome == 'success'
-        continue-on-error: true
-        env:
-          SCAN_MONTHS: ${{ github.event.inputs.notify-pr-months }}
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const path = require('path')
-            const script = require(
-              path.join(process.env.GITHUB_WORKSPACE, '.github/workflows/scripts/src/notify-prs.js')
-            )
-            await script({ github, context, core })
 
       # Finally, check for publishing errors and fail the task if one was found.
       - name: Check publishing errors
